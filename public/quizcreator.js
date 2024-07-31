@@ -31,7 +31,7 @@ function addQuestion() {
     <input type="checkbox" class="autograding" onchange="toggleAutograding(this)">
     <div class="options-input" style="display: none">
         <label>Number of Options:</label>
-        <input type="number" class="num-of-options" min="1">
+        <input type="number" class="num-of-options" min="1" onchange="updateOptions(this)">
         <div class="options-container"></div>
     </div>
     <div class="answers-input" style="display: none">
@@ -54,4 +54,19 @@ function handleQuestionTypeChange(selected) {
 function toggleAutograding(checkbox) {
     const answersContainer = checkbox.closest('.question').querySelector('.answers-input')
     answersContainer.style.display = checkbox.checked ? '' : 'none'
+}
+
+function updateOptions(input) {
+    const numberOfOptions = input.value
+    const optionsContainer = input.closest('.options-input').querySelector('.options-container')
+    optionsContainer.innerHTML = ''
+    for (let i = 0; i < numberOfOptions; i++) {
+        const option = document.createElement('div')
+        option.innerHTML = `
+            <label>Option ${i + 1}:</label>
+            <input type="text" class="option">
+            <br>
+        `
+        optionsContainer.appendChild(option)
+    }
 }
