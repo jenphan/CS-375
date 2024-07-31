@@ -38,6 +38,8 @@ function addQuestion() {
         <label class="correct-answer-label">Correct Answer:</label>
         <input type="text" class="correct-answer">
         <div class="answer-checkboxes" style="display: none"></div>
+        <div class="answer-radios" style="display: none"></div>
+        <div class="answer-dropdown" style="display: none"><select></select></div>
     </div>
     <br><br>
     `
@@ -49,6 +51,8 @@ function handleQuestionTypeChange(selected) {
     const questionElement = selected.closest('.question')
     const optionsContainer = questionElement.querySelector('.options-input')
     const answerCheckboxes = questionElement.querySelector('.answer-checkboxes')
+    const answerRadios = questionElement.querySelector('.answer-radios')
+    const answerDropdown = questionElement.querySelector('.answer-dropdown')
     const correctAnswerLabel = questionElement.querySelector('.correct-answer-label')
     const correctAnswerInput = questionElement.querySelector('.correct-answer')
     const autogradingLabel = questionElement.querySelector('.autograding-label')
@@ -57,8 +61,10 @@ function handleQuestionTypeChange(selected) {
     const multipleOptions = ['multiple-choice', 'checkboxes', 'dropdown']
     optionsContainer.style.display = multipleOptions.includes(selected.value) ? '' : 'none'
     answerCheckboxes.style.display = selected.value == 'checkboxes' ? '' : 'none'
+    answerRadios.style.display = selected.value == 'multiple-choice' ? '' : 'none'
+    answerDropdown.style.display = selected.value == 'dropdown' ? '' : 'none'
     
-    if (selected.value == 'checkboxes') {
+    if (multipleOptions.includes(selected.value)) {
         correctAnswerLabel.style.display = ''
         correctAnswerInput.style.display = 'none'
         autogradingLabel.style.display = ''
@@ -86,8 +92,12 @@ function updateOptions(input) {
     const numberOfOptions = input.value
     const optionsContainer = input.closest('.options-input').querySelector('.options-container')
     const answerCheckboxes = input.closest('.question').querySelector('.answer-checkboxes')
+    const answerRadios = input.closest('.question').querySelector('.answer-radios')
+    const answerDropdown = input.closest('.question').querySelector('.answer-dropdown select')
     optionsContainer.innerHTML = ''
     answerCheckboxes.innerHTML = ''
+    answerRadios.innerHTML = ''
+    answerDropdown.innerHTML = ''
 
     for (let i = 0; i < numberOfOptions; i++) {
         const option = document.createElement('div')
@@ -105,5 +115,18 @@ function updateOptions(input) {
             <br>
         `
         answerCheckboxes.appendChild(answerCheckbox)
+
+        const answerRadio = document.createElement('div')
+        answerRadio.innerHTML = `
+            <label>Option ${i + 1}:</label>
+            <input type="radio" name="correct-answer-${questionCount}" class="answer-radio" value=${i + 1}>
+            <br>
+        `
+        answerRadios.appendChild(answerRadio)
+
+        const answerDropdownOption = document.createElement('option')
+        answerDropdownOption.value = i + 1
+        answerDropdownOption.text = `Option ${i + 1}`
+        answerDropdown.appendChild(answerDropdownOption)
     }
 }
