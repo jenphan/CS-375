@@ -29,6 +29,15 @@ function addQuestion() {
     <br>
     <label>Automatic Grading?</label>
     <input type="checkbox" class="autograding">
+    <div class="options-input" style="display: none">
+        <label>Number of Options:</label>
+        <input type="number" class="num-of-options" min="1">
+        <div class="options-container"></div>
+    </div>
+    <div class="answers-input" style="display: none">
+        <label>Correct Answer:</label>
+        <input type="text" class="correct-answer">
+    </div>
     <br><br>
     `
 
