@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BlueBoard</title>
+    <title>Login</title>
     <link href="/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -15,10 +15,15 @@
         <a href="/tutorial.html"> Where to start</a>
         <b> Welcome to BlueBoard </b>
     </div>
-    <h1>BlueBoard</h1>
-    <p>Content goes here...</p>
-    <button onclick="location.href='login.html'">Login</button>
-    <button onclick="location.href='register.html'">Register</button>
-    <script src="app.js"></script>
+    <h1>Login</h1>
+    <form id="login-form" action="/auth/login" method="post">
+        <label for="login-username">Username:</label>
+        <input type="text" id="login-username" name="username" required>
+        <br>
+        <label for="login-password">Password:</label>
+        <input type="password" id="login-password" name="password" required>
+        <br>
+        <button type="submit">Login</button>
+    </form>
 </body>
 </html>

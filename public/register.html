@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link href="/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div class="navbar">
+        <a href="/"> Home </a>
+        <a href="/credits.html"> About Us </a>
+        <a href="/faqs.html"> FAQs </a>
+        <a href="/tutorial.html"> Where to start</a>
+        <b> Welcome to BlueBoard </b>
+    </div>
+    <h1>Register</h1>
+    <form id="register-form" action="/auth/register" method="post">
+        <label for="register-username">Username:</label>
+        <input type="text" id="register-username" name="username" required>
+        <br>
+        <label for="register-password">Password:</label>
+        <input type="password" id="register-password" name="password" required>
+        <br>
+        <label for="register-role">Role:</label>
+        <select id="register-role" name="role" required>
+            <option value="student">Student</option>
+            <option value="professor">Professor</option>
+        </select>
+        <br>
+        <button type="submit">Register</button>
+    </form>
+</body>
+</html>
