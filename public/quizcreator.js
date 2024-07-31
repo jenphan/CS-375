@@ -21,15 +21,16 @@ function addQuestion() {
         <option value="dropdown">Dropdown</option>
         <option value="file-upload">File Upload</option>
     </select>
-    <br>
-    <label>Question:</label>
-    <input type="text" class="question-content">
-    <br>
-    <label>Points:</label>
-    <input type="number" class="question-points">
-    <br>
-    <label class="autograding-label">Automatic Grading?</label>
-    <input type="checkbox" class="autograding" onchange="toggleAutograding(this)">
+    <div>
+        <label>Question:</label>
+        <input type="text" class="question-content">
+        <br>
+        <label>Points:</label>
+        <input type="number" class="question-points">
+        <br>
+        <label class="autograding-label">Automatic Grading?</label>
+        <input type="checkbox" class="autograding" onchange="toggleAutograding(this)">
+    </div>
     <div class="options-input" style="display: none">
         <label>Number of Options:</label>
         <input type="number" class="num-of-options" min="1" onchange="updateOptions(this)">
@@ -42,7 +43,6 @@ function addQuestion() {
         <div class="answer-radios" style="display: none"></div>
         <div class="answer-dropdown" style="display: none"><select></select></div>
     </div>
-    <br><br>
     `
 
     questionContainer.appendChild(questionElement)
@@ -94,7 +94,6 @@ function updateOptions(input) {
         option.innerHTML = `
             <label>Option ${i + 1}:</label>
             <input type="text" class="option">
-            <br>
         `
         optionsContainer.appendChild(option)
 
@@ -102,7 +101,6 @@ function updateOptions(input) {
         answerCheckbox.innerHTML = `
             <label>Option ${i + 1}:</label>
             <input type="checkbox" class="answer-checkbox" value=${i + 1}>
-            <br>
         `
         answerCheckboxes.appendChild(answerCheckbox)
 
@@ -110,7 +108,6 @@ function updateOptions(input) {
         answerRadio.innerHTML = `
             <label>Option ${i + 1}:</label>
             <input type="radio" name="correct-answer-${questionCount}" class="answer-radio" value=${i + 1}>
-            <br>
         `
         answerRadios.appendChild(answerRadio)
 
