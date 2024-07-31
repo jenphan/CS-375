@@ -40,6 +40,10 @@ footer {
   bottom:0;
 }
 
+body {
+  font-weight: 600;
+}
+
 h1 {
   margin-top: 20px;
   margin-left: 20px;
@@ -53,15 +57,12 @@ h1 {
   margin-left: 20px;
 }
 
-#quizForm div {
-  margin-bottom: 40px;
+#quizTitle {
+  margin-bottom: 10px;
 }
 
-#quizForm .options-container > div,
-#quizForm .answer-checkboxes > div,
-#quizForm .answer-radios > div,
-#quizForm .answer-dropdown > select > option {
-  margin-bottom: 0px;
+#quizForm div .questionSection {
+  margin-bottom: 40px;
 }
 
 #quizForm input[type="text"],

@@ -13,35 +13,37 @@ function addQuestion() {
     questionElement.className = 'question'
 
     questionElement.innerHTML = `
-    <label>Question ${questionCount}:</label>
-    <select class="question-type" onchange="handleQuestionTypeChange(this)">
-        <option value="short-answer">Short Answer</option>
-        <option value="multiple-choice">Multiple Choice</option>
-        <option value="checkboxes">Checkboxes</option>
-        <option value="dropdown">Dropdown</option>
-        <option value="file-upload">File Upload</option>
-    </select>
-    <div>
-        <label>Question:</label>
-        <input type="text" class="question-content">
-        <br>
-        <label>Points:</label>
-        <input type="number" class="question-points">
-        <br>
-        <label class="autograding-label">Automatic Grading?</label>
-        <input type="checkbox" class="autograding" onchange="toggleAutograding(this)">
-    </div>
-    <div class="options-input" style="display: none">
-        <label>Number of Options:</label>
-        <input type="number" class="num-of-options" min="1" onchange="updateOptions(this)">
-        <div class="options-container"></div>
-    </div>
-    <div class="answer-input" style="display: none">
-        <label class="correct-answer-label">Correct Answer:</label>
-        <input type="text" class="correct-answer">
-        <div class="answer-checkboxes" style="display: none"></div>
-        <div class="answer-radios" style="display: none"></div>
-        <div class="answer-dropdown" style="display: none"><select></select></div>
+    <div class="questionSection">
+        <label>Question ${questionCount}:</label>
+        <select class="question-type" onchange="handleQuestionTypeChange(this)">
+            <option value="short-answer">Short Answer</option>
+            <option value="multiple-choice">Multiple Choice</option>
+            <option value="checkboxes">Checkboxes</option>
+            <option value="dropdown">Dropdown</option>
+            <option value="file-upload">File Upload</option>
+        </select>
+        <div>
+            <label>Question:</label>
+            <input type="text" class="question-content">
+            <br>
+            <label>Points:</label>
+            <input type="number" class="question-points">
+            <br>
+            <label class="autograding-label">Automatic Grading?</label>
+            <input type="checkbox" class="autograding" onchange="toggleAutograding(this)">
+        </div>
+        <div class="options-input" style="display: none">
+            <label>Number of Options:</label>
+            <input type="number" class="num-of-options" min="1" onchange="updateOptions(this)">
+            <div class="options-container"></div>
+        </div>
+        <div class="answer-input" style="display: none">
+            <label class="correct-answer-label">Correct Answer:</label>
+            <input type="text" class="correct-answer">
+            <div class="answer-checkboxes" style="display: none"></div>
+            <div class="answer-radios" style="display: none"></div>
+            <div class="answer-dropdown" style="display: none"><select></select></div>
+        </div>
     </div>
     `
 
