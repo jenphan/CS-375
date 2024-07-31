@@ -22,7 +22,7 @@ function addQuestion() {
     </select>
     <br>
     <label>Question:</label>
-    <input type="text" class="question-content>
+    <input type="text" class="question-content">
     <br>
     <label>Points:</label>
     <input type="number" class="question-points">
@@ -34,9 +34,10 @@ function addQuestion() {
         <input type="number" class="num-of-options" min="1" onchange="updateOptions(this)">
         <div class="options-container"></div>
     </div>
-    <div class="answers-input" style="display: none">
+    <div class="answer-input" style="display: none">
         <label>Correct Answer:</label>
         <input type="text" class="correct-answer">
+        <div class="answer-checkboxes" style="display: none"></div>
     </div>
     <br><br>
     `
@@ -47,19 +48,28 @@ function addQuestion() {
 function handleQuestionTypeChange(selected) {
     const questionElement = selected.closest('.question')
     const optionsContainer = questionElement.querySelector('.options-input')
+    const answerInput = questionElement.querySelector('.answer-input')
+    const answerCheckboxes = answerInput.querySelector('.answer-checkboxes')
+
     const multipleOptions = ['multiple-choice', 'checkboxes', 'dropdown']
     optionsContainer.style.display = multipleOptions.includes(selected.value) ? '' : 'none'
+    answerCheckboxes.style.display = selected.value == 'checkboxes' ? '' : 'none'
+    answerInput.style.display = selected.value == 'checkboxes' ? '' : 'none'
 }
 
 function toggleAutograding(checkbox) {
-    const answersContainer = checkbox.closest('.question').querySelector('.answers-input')
-    answersContainer.style.display = checkbox.checked ? '' : 'none'
+    const question = checkbox.closest('.question')
+    const answerContainer = question.querySelector('.answer-input')
+    answerContainer.style.display = checkbox.checked ? '' : 'none'
 }
 
 function updateOptions(input) {
     const numberOfOptions = input.value
     const optionsContainer = input.closest('.options-input').querySelector('.options-container')
+    const answerCheckboxes = input.closest('.question').querySelector('.answer-checkboxes')
     optionsContainer.innerHTML = ''
+    answerCheckboxes.innerHTML = ''
+
     for (let i = 0; i < numberOfOptions; i++) {
         const option = document.createElement('div')
         option.innerHTML = `
@@ -68,5 +78,13 @@ function updateOptions(input) {
             <br>
         `
         optionsContainer.appendChild(option)
+
+        const answerCheckbox = document.createElement('div')
+        answerCheckbox.innerHTML = `
+            <label>Option ${i + 1}:</label>
+            <input type="checkbox" class="answer-checkbox" value=${i + 1}>
+            <br>
+        `
+        answerCheckboxes.appendChild(answerCheckbox)
     }
 }
