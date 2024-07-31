@@ -13,7 +13,7 @@ function addQuestion() {
 
     questionElement.innerHTML = `
     <label>Question ${questionCount}:</label>
-    <select class="question-type">
+    <select class="question-type" onchange="handleQuestionTypeChange(this)">
         <option value="short-answer">Short Answer</option>
         <option value="multiple-choice">Multiple Choice</option>
         <option value="checkboxes">Checkboxes</option>
@@ -28,7 +28,7 @@ function addQuestion() {
     <input type="number" class="question-points">
     <br>
     <label>Automatic Grading?</label>
-    <input type="checkbox" class="autograding">
+    <input type="checkbox" class="autograding" onchange="toggleAutograding(this)">
     <div class="options-input" style="display: none">
         <label>Number of Options:</label>
         <input type="number" class="num-of-options" min="1">
@@ -42,4 +42,16 @@ function addQuestion() {
     `
 
     questionContainer.appendChild(questionElement)
+}
+
+function handleQuestionTypeChange(selected) {
+    const questionElement = selected.closest('.question')
+    const optionsContainer = questionElement.querySelector('.options-input')
+    const multipleOptions = ['multiple-choice', 'checkboxes', 'dropdown']
+    optionsContainer.style.display = multipleOptions.includes(selected.value) ? '' : 'none'
+}
+
+function toggleAutograding(checkbox) {
+    const answersContainer = checkbox.closest('.question').querySelector('.answers-input')
+    answersContainer.style.display = checkbox.checked ? '' : 'none'
 }
