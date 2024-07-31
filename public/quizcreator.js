@@ -2,11 +2,12 @@ let questionCount = 0
 
 document.getElementById('addQuestionBtn').addEventListener('click', addQuestion)
 document.getElementById('createQuizBtn').addEventListener('click', async () => {
-
+    // async function for creating quiz
 })
 
 function addQuestion() {
     questionCount++
+
     const questionContainer = document.getElementById('questionsContainer')
     const questionElement = document.createElement('div')
     questionElement.className = 'question'
@@ -58,33 +59,21 @@ function handleQuestionTypeChange(selected) {
     const autogradingLabel = questionElement.querySelector('.autograding-label')
     const autogradingInput = questionElement.querySelector('.autograding')
 
-    const multipleOptions = ['multiple-choice', 'checkboxes', 'dropdown']
-    optionsContainer.style.display = multipleOptions.includes(selected.value) ? '' : 'none'
+    const isMultipleOptions = ['multiple-choice', 'checkboxes', 'dropdown'].includes(selected.value)
+    
+    optionsContainer.style.display = isMultipleOptions ? '' : 'none'
     answerCheckboxes.style.display = selected.value == 'checkboxes' ? '' : 'none'
     answerRadios.style.display = selected.value == 'multiple-choice' ? '' : 'none'
     answerDropdown.style.display = selected.value == 'dropdown' ? '' : 'none'
     
-    if (multipleOptions.includes(selected.value)) {
-        correctAnswerLabel.style.display = ''
-        correctAnswerInput.style.display = 'none'
-        autogradingLabel.style.display = ''
-        autogradingInput.style.display = ''
-    } else if (selected.value == 'file-upload') {
-        correctAnswerLabel.style.display = 'none'
-        correctAnswerInput.style.display = 'none'
-        autogradingLabel.style.display = 'none'
-        autogradingInput.style.display = 'none'
-    } else {
-        correctAnswerLabel.style.display = ''
-        correctAnswerInput.style.display = ''
-        autogradingLabel.style.display = ''
-        autogradingInput.style.display = ''
-    }
+    correctAnswerLabel.style.display = selected.value === 'file-upload' ? 'none' : ''
+    correctAnswerInput.style.display = selected.value === 'short-answer' ? '' : 'none'
+    autogradingLabel.style.display = selected.value === 'file-upload' ? 'none' : ''
+    autogradingInput.style.display = selected.value === 'file-upload' ? 'none' : ''
 }
 
 function toggleAutograding(checkbox) {
-    const question = checkbox.closest('.question')
-    const answerContainer = question.querySelector('.answer-input')
+    const answerContainer = checkbox.closest('.question').querySelector('.answer-input')
     answerContainer.style.display = checkbox.checked ? '' : 'none'
 }
 
@@ -94,6 +83,7 @@ function updateOptions(input) {
     const answerCheckboxes = input.closest('.question').querySelector('.answer-checkboxes')
     const answerRadios = input.closest('.question').querySelector('.answer-radios')
     const answerDropdown = input.closest('.question').querySelector('.answer-dropdown select')
+    
     optionsContainer.innerHTML = ''
     answerCheckboxes.innerHTML = ''
     answerRadios.innerHTML = ''
