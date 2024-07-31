@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Creator</title>
+    <link href="/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div class="navbar">
+        <a href="/"> Home </a>
+        <a href="/credits.html"> About Us </a>
+        <a href="/quizcreator.html"> Create Quiz </a>
+        <a href="/faqs.html"> FAQs </a>
+        <a href="/tutorial.html"> Where to start</a>
+        <b> Welcome to BlueBoard</b>
+    </div>
+    <h1>Quiz Creator</h1>
+    <div id="quizForm">
+        <div>
+            <label for="title">Quiz Title:</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+        <div id="questionsContainer"></div>
+        <button id="addQuestionBtn">Add Question</button>
+        <button id="createQuizBtn">Create Quiz</button>
+    </div>
+    <script src="quizcreator.js"></script>
+</body>
+</html>
