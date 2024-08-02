@@ -1,0 +1,143 @@
+:root {
+  --background-color: #ffffff;
+  --text-color: #242424;
+  --primary-color: #00a8ea; /* Example primary color */
+  --secondary-color: #03dac6; /* Example secondary color */
+  --background-image: url("../picture/day.jpg");
+}
+
+.dark-mode {
+  --background-color: #121212;
+  --text-color: #ffffff;
+  --primary-color: #8886fc; /* Dark mode primary color */
+  --secondary-color: #03dac6; /* Dark mode secondary color */
+  --background-image: url("../picture/night.jpg");
+}
+
+/* change navigation style */
+.navbar {
+    overflow: hidden;
+    background-color: #0b41b6	;
+  }
+  
+.navbar a {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  float: left;
+  font-size: 18px;
+  color: white;
+  padding: 18px 20px;
+  text-decoration: none;
+}
+.navbar b {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  float: right;
+  font-size: 24px;
+  color: white;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+.navbar a:hover {
+  background-color: #1d0087;
+}
+
+/* body style affects whole page */
+body {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  background-color: var(--background-color);
+  background-image: var(--background-image);
+  color: var(--text-color);
+  place-items: center;
+  height: 100vh;
+  width: 100vw; 
+  transition: background-color 0.3s ease, color 0.3s ease;
+  background-repeat: repeat;
+  background-size: cover;
+  margin: 0;
+}
+.banner {
+  color: white;
+  padding: 30px 40px;
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: fadeInUp 0.5s forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.banner h1 {
+  margin: 0;
+  color: var(--text-color);
+  font-size: 4.5rem;
+}
+
+.banner p {
+  margin-top: 10px;
+  color: var(--text-color);
+  font-size: 2.2rem;
+  opacity: 0.9;
+}
+/* Change footer style */
+footer {
+  position:absolute;
+  bottom:0;
+}
+
+/* Slider switch styles */
+.theme-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  transition: 0.4s;
+  border-radius: 50%;
+  background-image: url('../picture/sun.png'); /* Default to sun image */
+}
+
+input:checked + .slider {
+  background-color: var(--primary-color);
+}
+
+input:checked + .slider:before {
+  background-image: url('../picture/moon.png'); /* Change to moon image for dark mode */
+  transform: translateX(26px);
+}
+
+  
+  
