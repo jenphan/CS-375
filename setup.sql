@@ -1,4 +1,14 @@
--- Drop existing tables if they exist
+-- Create the database if it doesn't exist and connect to it
+-- Drop the existing database if it exists (optional)
+DROP DATABASE IF EXISTS cs375;
+
+-- Create the database
+CREATE DATABASE cs375;
+
+-- Connect to the database
+\c cs375;
+
+-- Drop the existing users table if it exists
 DROP TABLE IF EXISTS users;
 
 -- Create the users table
@@ -13,10 +23,3 @@ CREATE TABLE users (
 INSERT INTO users (username, password, role) VALUES
 ('john_doe', 'password', 'student'), 
 ('jane_doe', 'wordpass', 'professor');
-
-
-
--- Open psql cmd: psql -U your_username
--- Create the database: CREATE DATABASE CS375;
--- Connect to the database: \c CS375
--- Run the setup.sql script: \i /path/to/setup.sql
