@@ -1,0 +1,57 @@
+<!-- Example Input Info 
+Course Name: Web Development
+Subject Code: CS
+Course Number: 375
+CRN: 12345 
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlueBoard</title>
+    <link href="../styles/style.css" rel="stylesheet" type="text/css">
+    <link href="../styles/register.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+  <div class="navbar">
+      <a href="/"> Home </a>
+      <a href="./credits.html"> About Us </a>
+      <a href="./faqs.html"> FAQs </a>
+      <a href="./tutorial.html"> Where to start</a>
+      <b>
+        <label class="theme-switch">
+          <input type="checkbox" id="theme-toggle">
+          <span class="slider"></span>
+        </label>
+      </b>
+  </div>
+  <center>
+    <div class="account-container">
+      <h2>Create a New Course</h2>
+      <form id="create-course-form" action="/create-course" method="post">
+        <div class="input-group">
+          <label for="course-name">Course Name</label>
+          <input type="text" id="course-name" name="course-name" required>
+        </div>
+        <div class="input-group">
+          <label for="subject-code">Subject Code</label>
+          <input type="subject-code" id="subject-code" name="subject-code" required>
+        </div>
+        <div class="input-group">
+          <label for="course-number">Course Number</label>
+          <input type="course-number" id="course-number" name="course-number" required>
+        </div>
+        <div class="input-group">
+          <label for="crn">CRN</label>
+          <input type="crn" id="crn" name="crn" required>
+        </div>
+        <button type="submit" class="create-account-button">Create Course</button>
+      </form>
+    </div>
+    <script src="../script/app.js"></script>
+    <script src="../script/register.js"></script>
+</center>
+</body>
+</html>
