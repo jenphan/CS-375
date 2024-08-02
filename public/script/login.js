@@ -13,6 +13,7 @@ document.getElementById('login-form').addEventListener('submit', function(event)
     // Simulate login process
     if (username === 'admin' && password === 'password') {
       alert('Login successful!');
+      window.location.href = '../html/selectView.html';
       // Redirect or perform other actions here
     } else {
       alert('Invalid username or password.');
