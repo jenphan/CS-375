@@ -5,14 +5,15 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(50) NOT NULL,
     password VARCHAR(255) NOT NULL,
     role VARCHAR(10) NOT NULL
 );
 
 -- Insert initial data
-INSERT INTO users (username, password, role) VALUES
-('john_doe', 'password', 'student'), 
-('jane_doe', 'wordpass', 'professor');
+INSERT INTO users (username, email, password, role) VALUES
+('john_doe', 'jd567@gmail.com','password', 'student'), 
+('jane_doe', 'jd123@drexel.edu','wordpass', 'professor');
 
 
 
