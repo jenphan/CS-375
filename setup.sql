@@ -1,5 +1,6 @@
 -- Drop existing tables if they exist
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS courses;
 
 -- Create the users table
 CREATE TABLE users (
@@ -20,8 +21,8 @@ CREATE TABLE courses (
     id SERIAL PRIMARY KEY,
     course_name VARCHAR(50) NOT NULL,
     subject_code VARCHAR(5) NOT NULL,
-    course_number INT(3) NOT NULL,
-    crn INT(5) NOT NULL
+    course_number VARCHAR(3) NOT NULL,
+    crn VARCHAR(5) NOT NULL
 );
 
 INSERT INTO courses (course_name, subject_code, course_number, crn) VALUES
