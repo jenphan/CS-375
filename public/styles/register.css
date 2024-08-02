@@ -62,3 +62,11 @@ h2 {
   margin-right: 10px;
   width: auto;
 }
+
+select {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}

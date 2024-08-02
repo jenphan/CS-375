@@ -23,7 +23,7 @@
   <center>
     <div class="account-container">
       <h2>Create an Account</h2>
-      <form id="create-account-form">
+      <form id="create-account-form" action="/auth/register" method="post">
         <div class="input-group">
           <label for="username">Username</label>
           <input type="text" id="username" name="username" required>
@@ -40,15 +40,17 @@
           <label for="confirm-password">Confirm Password</label>
           <input type="password" id="confirm-password" name="confirm-password" required>
         </div>
-        <div class="input-group checkbox-group">
-          <input type="checkbox" id="is-professor" name="is-professor">
-          <label for="is-professor">Are you a professor?</label>
+        <div class="input-group">
+          <label for="register-role">Role:</label>
+          <select type="register-role" id="register-role" name="role" required>
+              <option value="student">Student</option>
+              <option value="professor">Professor</option>
+          </select>
         </div>
         <button type="submit" class="create-account-button">Register</button>
       </form>
     </div>
-    <script src="register.js"></script>
+    <script src="../script/register.js"></script>
 </center>
-  <script src="../script/app.js"></script>
 </body>
 </html>
