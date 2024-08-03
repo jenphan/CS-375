@@ -26,50 +26,46 @@
   background-color: #870000;
 }
 
-/* Body style affects whole page */
 body {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   background-color: whitesmoke;
   margin: 0;
   background-repeat: no-repeat;
   overflow: auto;
-  background-size: cover;
+  background-size: auto;
 }
 
-/* Form styles */
-form {
-  background-color: #f9f9f9;
+#quizForm {
+  width: 60%;
+  background: lightsteelblue;
+  border-radius: 10px;
   padding: 20px;
-  border: 1px solid #ddd;
-  margin: 20px;
+  margin-left: 20px;
 }
 
-label {
-  display: block;
-  margin: 10px 0 5px;
+#quizTitle {
+  margin-bottom: 10px;
 }
 
-input, select, button {
-  width: 100%;
-  padding: 10px;
-  margin: 5px 0 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+#quizForm div .questionSection {
+  margin-bottom: 40px;
 }
 
-/* Button styles */
-button {
-  background-color: #022c87;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
+#quizForm input[type="text"],
+#quizForm input[type="number"],
+#quizForm select {
+  padding: 4px;
+  margin-top: 5px;
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 500px;
+}
+
+#quizForm button {
+  padding: 5px 10px;
+  margin-right: 10px;
+  background-color: lightblue;
+  border: 1px solid black;
+  border-radius: 5px;
   cursor: pointer;
-  margin: 10px;
-  font-size: 16px;
-  width: auto;
-}
-
-button:hover {
-  background-color: #2a4eb7;
 }
