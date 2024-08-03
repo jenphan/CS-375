@@ -16,7 +16,7 @@ DROP TABLE IF EXISTS courses;
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
+    password VARCHAR(20) NOT NULL,
     role VARCHAR(10) NOT NULL
 ); 
 
@@ -31,7 +31,8 @@ CREATE TABLE courses (
     course_name VARCHAR(50) UNIQUE NOT NULL,
     subject_code VARCHAR(5) NOT NULL,
     course_number VARCHAR(3) NOT NULL,
-    crn VARCHAR(5) NOT NULL
+    crn VARCHAR(5) NOT NULL,
+    course_code VARCHAR(5) UNIQUE
 );
 
 -- Insert initial data
