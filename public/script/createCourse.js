@@ -14,12 +14,12 @@ document.getElementById('create-course-form').addEventListener('submit', functio
       alert('Course name is too long');
       return false;
     }
-    if (subjectCode.length > 5) {
+    if (subjectCode.length > 6) {
         alert('Subject code is too long');
         return false;
     }
-    if (courseNumber.length > 3) {
-        alert('Course number is too long');
+    if (courseNumber.length !== 3) {
+        alert('Course number is not 3 digits');
         return false;
     }
     if (crn.length != 5) {
