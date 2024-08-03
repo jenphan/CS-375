@@ -16,6 +16,7 @@ function addQuestion() {
         <select class="question-type" onchange="handleQuestionTypeChange(this)">
             <option value="short-answer">Short Answer</option>
             <option value="multiple-choice">Multiple Choice</option>
+            <option value="true-false">True/False</option>
             <option value="checkboxes">Checkboxes</option>
             <option value="dropdown">Dropdown</option>
             <option value="file-upload">File Upload</option>
@@ -38,6 +39,10 @@ function addQuestion() {
         <div class="answer-input" style="display: none">
             <label class="correct-answer-label">Correct Answer:</label>
             <input type="text" class="correct-answer">
+            <div class="true-false-options" style="display: none">
+                <label><input type="radio" name="true-false-${questionCount}" value="true"> True</label>
+                <label><input type="radio" name="true-false-${questionCount}" value="false"> False</label>
+            </div>
             <div class="answer-checkboxes" style="display: none"></div>
             <div class="answer-radios" style="display: none"></div>
             <div class="answer-dropdown" style="display: none"><select></select></div>
@@ -51,6 +56,7 @@ function addQuestion() {
 function handleQuestionTypeChange(selected) {
     const questionElement = selected.closest('.question')
     const optionsContainer = questionElement.querySelector('.options-input')
+    const trueFalseOptions = questionElement.querySelector('.true-false-options')
     const answerCheckboxes = questionElement.querySelector('.answer-checkboxes')
     const answerRadios = questionElement.querySelector('.answer-radios')
     const answerDropdown = questionElement.querySelector('.answer-dropdown')
@@ -62,6 +68,7 @@ function handleQuestionTypeChange(selected) {
     const isMultipleOptions = ['multiple-choice', 'checkboxes', 'dropdown'].includes(selected.value)
     
     optionsContainer.style.display = isMultipleOptions ? '' : 'none'
+    trueFalseOptions.style.display = selected.value == 'true-false' ? '' : none
     answerCheckboxes.style.display = selected.value == 'checkboxes' ? '' : 'none'
     answerRadios.style.display = selected.value == 'multiple-choice' ? '' : 'none'
     answerDropdown.style.display = selected.value == 'dropdown' ? '' : 'none'
@@ -137,6 +144,8 @@ async function createQuiz() {
 
         if (questionType === 'short-answer') {
             questionData.correctAnswer = question.querySelector('.correct-answer').value
+        } else if (questionType === 'true-false') {
+            questionData.correctAnswer = question.querySelector('.true-false-options input:checked')?.value || ''
         } else if (['multiple-choice', 'checkboxes', 'dropdown'].includes(questionType)) {
             const options = []
             question.querySelectorAll('.option').forEach(option => {
