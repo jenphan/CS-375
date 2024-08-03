@@ -68,7 +68,7 @@ function handleQuestionTypeChange(selected) {
     const isMultipleOptions = ['multiple-choice', 'checkboxes', 'dropdown'].includes(selected.value)
     
     optionsContainer.style.display = isMultipleOptions ? '' : 'none'
-    trueFalseOptions.style.display = selected.value == 'true-false' ? '' : none
+    trueFalseOptions.style.display = selected.value == 'true-false' ? '' : 'none'
     answerCheckboxes.style.display = selected.value == 'checkboxes' ? '' : 'none'
     answerRadios.style.display = selected.value == 'multiple-choice' ? '' : 'none'
     answerDropdown.style.display = selected.value == 'dropdown' ? '' : 'none'
@@ -173,7 +173,7 @@ async function createQuiz() {
     //downloadQuiz(quizJson, 'quiz.json')
 
     try {
-        const response = await fetch('/createquiz', {
+        const response = await fetch('/quiz/createquiz', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
