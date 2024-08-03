@@ -159,4 +159,25 @@ async function createQuiz() {
         }
         quiz.push(questionData)
     })
+
+    const quizJson = JSON.stringify(quiz, null, 2)
+    //downloadQuiz(quizJson, 'quiz.json')
+
+    try {
+        const response = await fetch('/createquiz', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: quizJson
+        })
+
+        if (response.ok) {
+            console.log('Quiz successfully created!')
+        } else {
+            console.log('Error creating quiz', response.statusText)
+        }
+    } catch (error) {
+        console.log('Error creating quiz', error)
+    }
 }
