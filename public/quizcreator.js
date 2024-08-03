@@ -137,6 +137,26 @@ async function createQuiz() {
 
         if (questionType === 'short-answer') {
             questionData.correctAnswer = question.querySelector('.correct-answer').value
-        } 
+        } else if (['multiple-choice', 'checkboxes', 'dropdown'].includes(questionType)) {
+            const options = []
+            question.querySelectorAll('.option').forEach(option => {
+                options.push(option.value)
+            })
+
+            questionData.options = options;
+
+            if (questionType === 'multiple-choice') {
+                questionData.correctAnswer = question.querySelector('.answer-radio:checked')?.value || ''
+            } else if (questionType === 'checkboxes') {
+                const correctAnswers = []
+                question.querySelectorAll('.answer-checkbox:checked').forEach(checkbox => {
+                    correctAnswers.push(checkbox.value)
+                })
+                questionData.correctAnswer = correctAnswers
+            } else if (questionType === 'dropdown') {
+                questionData.correctAnswer = question.querySelector('.answer-dropdown select').value
+            }
+        }
+        quiz.push(questionData)
     })
 }
