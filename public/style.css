@@ -1,7 +1,7 @@
-/* change navigation style */
+/* Change navigation style */
 .navbar {
   overflow: hidden;
-  background-color: #022c87	;
+  background-color: #022c87;
 }
 
 .navbar a {
@@ -12,6 +12,7 @@
   padding: 18px 20px;
   text-decoration: none;
 }
+
 .navbar b {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   float: right;
@@ -20,33 +21,18 @@
   padding: 14px 16px;
   text-decoration: none;
 }
+
 .navbar a:hover {
   background-color: #870000;
 }
 
-/* body style affects whole page */
 body {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   background-color: whitesmoke;
   margin: 0;
-  background-image: url("/chessbackground.jpg");
   background-repeat: no-repeat;
   overflow: auto;
   background-size: auto;
-}
-/* Change footer style */
-footer {
-  position:absolute;
-  bottom:0;
-}
-
-body {
-  font-weight: 600;
-}
-
-h1 {
-  margin-top: 20px;
-  margin-left: 20px;
 }
 
 #quizForm {
@@ -81,4 +67,42 @@ h1 {
   border: 1px solid black;
   border-radius: 5px;
   cursor: pointer;
+}
+
+/* Form styles */
+form {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border: 1px solid #ddd;
+  margin: 20px;
+}
+
+label {
+  display: block;
+  margin: 10px 0 5px;
+}
+
+input, select, button {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Button styles */
+button {
+  background-color: #022c87;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 10px;
+  font-size: 16px;
+  width: auto;
+}
+
+button:hover {
+  background-color: #2a4eb7;
 }

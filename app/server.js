@@ -1,25 +1,22 @@
 let axios = require("axios");
 const { response } = require("express");
 let express = require("express");
+
+const bodyParser = require('body-parser');
+const authRoutes = require('../routes/auth');
+
 let app = express();
 let port = 3000;
 let hostname = "localhost";
 
-app.use(express.json())
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("../public"));
 
-let quizzes = [];
+// Routes
+app.use('/auth', authRoutes);
 
-app.post('/createquiz', (req, res) => {
-    const quiz = req.body
-    quizzes.push(quiz)
-    console.log('Received quiz:', quiz)
-    res.status(200).json({ data: quiz })
-})
-
-app.get('/createquiz', (req, res) => {
-    res.json(quizzes)
-})
+// Start server
 
 app.listen(port, hostname, () => {
     console.log(`http://${hostname}:${port}`);
