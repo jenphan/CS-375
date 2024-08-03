@@ -1,9 +1,7 @@
 let questionCount = 0
 
 document.getElementById('addQuestionBtn').addEventListener('click', addQuestion)
-document.getElementById('createQuizBtn').addEventListener('click', async () => {
-    // async function for creating quiz
-})
+document.getElementById('createQuizBtn').addEventListener('click', createQuiz)
 
 function addQuestion() {
     questionCount++
@@ -102,14 +100,14 @@ function updateOptions(input) {
         const answerCheckbox = document.createElement('div')
         answerCheckbox.innerHTML = `
             <label>Option ${i + 1}:</label>
-            <input type="checkbox" class="answer-checkbox" value=${i + 1}>
+            <input type="checkbox" class="answer-checkbox" value=${i}>
         `
         answerCheckboxes.appendChild(answerCheckbox)
 
         const answerRadio = document.createElement('div')
         answerRadio.innerHTML = `
             <label>Option ${i + 1}:</label>
-            <input type="radio" name="correct-answer-${questionCount}" class="answer-radio" value=${i + 1}>
+            <input type="radio" name="correct-answer-${questionCount}" class="answer-radio" value=${i}>
         `
         answerRadios.appendChild(answerRadio)
 
@@ -118,4 +116,27 @@ function updateOptions(input) {
         answerDropdownOption.text = `Option ${i + 1}`
         answerDropdown.appendChild(answerDropdownOption)
     }
+}
+
+async function createQuiz() {
+    const questions = document.querySelectorAll('.question')
+    const quiz = []
+
+    questions.forEach(question => {
+        const questionType = question.querySelector('.question-type').value
+        const questionContent = question.querySelector('.question-content').value
+        const questionPoints = question.querySelector('.question-points').value
+        const autograding = question.querySelector('.autograding').checked
+
+        const questionData = {
+            type: questionType,
+            content: questionContent,
+            points: questionPoints,
+            autograding: autograding
+        }
+
+        if (questionType === 'short-answer') {
+            questionData.correctAnswer = question.querySelector('.correct-answer').value
+        } 
+    })
 }
