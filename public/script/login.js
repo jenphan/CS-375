@@ -27,9 +27,17 @@ document.getElementById('login-form').addEventListener('submit', function(event)
       if (data.message === 'Login successful') {
         alert('Login successful');
         console.log('Success:', data);
-        // redirect to a different page
-        // e.g. window.location.href = 'student/professor.html';
-      } else {
+
+        const role = data.user.role;
+        if (role === 'professor') {
+          window.location.href = '../html/professor.html';
+        } else if (role === 'student') {
+          window.location.href = '../html/student.html';
+        } else {
+          alert('Invalid role');
+        }
+        
+    } else {
         alert(data.message);
       }
     })

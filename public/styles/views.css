@@ -1,0 +1,58 @@
+/* .main-content {
+    margin-left: 250px;
+    margin-top: 50px;
+    padding: 16px;
+}
+
+h2 {
+    margin-top: 0;
+}
+
+#courseList {
+    margin-bottom: 20px;
+}
+
+.course-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f1f1f1;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+.course-item a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #333;
+}
+
+#createCourseForm {
+    display: none;
+    margin-top: 20px;
+}
+
+#createCourseForm input {
+    margin-right: 10px;
+    padding: 5px;
+} */
+
+/* Position the button in the top right corner */
+.create-course-button {
+    position: absolute;
+    top: 85px;
+    right: 20px;
+    background-color: #0b41b6;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 25px;
+}
+
+/* #createCourseForm input,
+#createCourseForm button {
+    padding: 10px;
+    font-size: 16px;
+} */
