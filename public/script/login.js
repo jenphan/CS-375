@@ -9,13 +9,31 @@ document.getElementById('login-form').addEventListener('submit', function(event)
       alert('Please enter both username and password.');
       return;
     }
-  
-    // Simulate login process
-    if (username === 'admin' && password === 'password') {
-      alert('Login successful!');
-      window.location.href = '../html/selectView.html';
-      // Redirect or perform other actions here
-    } else {
-      alert('Invalid username or password.');
-    }
-  });
+
+    let data = {
+      username: username,
+      password: password
+    };
+
+    fetch('auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.message === 'Login successful') {
+        alert('Login successful');
+        console.log('Success:', data);
+        // redirect to a different page
+        // e.g. window.location.href = 'student/professor.html';
+      } else {
+        alert(data.message);
+      }
+    })
+    .catch(error => {
+      console.error('Error', error);
+    });
+});
