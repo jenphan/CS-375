@@ -9,6 +9,7 @@ document.getElementById('login-form').addEventListener('submit', function(event)
       alert('Please enter both username and password.');
       return;
     }
+
     let data = {
       username: username,
       password: password
@@ -20,16 +21,19 @@ document.getElementById('login-form').addEventListener('submit', function(event)
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
-    }).then((response) => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.message === 'Login successful') {
+        alert('Login successful');
+        console.log('Success:', data);
+        // redirect to a different page
+        // e.g. window.location.href = 'student/professor.html';
+      } else {
+        alert(data.message);
       }
-      return response.json();
-  
-    }).then(data =>{
-      console.log('Success', data);
-  
-    }).catch(error => {
-      console.log('Error', error);
+    })
+    .catch(error => {
+      console.error('Error', error);
     });
-  });
+});
