@@ -39,7 +39,7 @@ document.getElementById('create-account-form').addEventListener('submit', functi
   }).then(data => {
       console.log('Success', data);
       alert(`Registration successful for ${role}! Please log in.`);
-    //   window.location.href = '../index.html'; // Change this to your desired page
+      window.location.href = '../index.html'; // Change this to your desired page
   })
   .catch(error => {
       console.error('Error', error);
