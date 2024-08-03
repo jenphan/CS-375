@@ -2,7 +2,7 @@ const { Pool } = require('pg');
 const fs = require('fs');
 
 // Load environment configuration
-const envConfig = JSON.parse(fs.readFileSync('env.json', 'utf8'));
+const envConfig = JSON.parse(fs.readFileSync('../env.json', 'utf8'));
 
 const pool = new Pool({
     user: envConfig.DATABASE_USER,
@@ -24,8 +24,7 @@ const findUserByUsername = async (username) => {
 };
 
 const registerUser = async (req, res) => {
-    const { username, password, role } = req.body;
-
+    const { username, password, confirmPassword, role } = req.body;
     if (!username || !password || !role) {
         return res.status(400).json({ message: 'All fields are required' });
     }
