@@ -26,14 +26,47 @@
   background-color: #870000;
 }
 
-/* Body style affects whole page */
 body {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   background-color: whitesmoke;
   margin: 0;
   background-repeat: no-repeat;
   overflow: auto;
-  background-size: cover;
+  background-size: auto;
+}
+
+#quizForm {
+  width: 60%;
+  background: lightsteelblue;
+  border-radius: 10px;
+  padding: 20px;
+  margin-left: 20px;
+}
+
+#quizTitle {
+  margin-bottom: 10px;
+}
+
+#quizForm div .questionSection {
+  margin-bottom: 40px;
+}
+
+#quizForm input[type="text"],
+#quizForm input[type="number"],
+#quizForm select {
+  padding: 4px;
+  margin-top: 5px;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+#quizForm button {
+  padding: 5px 10px;
+  margin-right: 10px;
+  background-color: lightblue;
+  border: 1px solid black;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 /* Form styles */

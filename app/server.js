@@ -17,6 +17,7 @@ app.use(express.static("../public"));
 app.use('/auth', authRoutes);
 
 // Start server
+
 app.listen(port, hostname, () => {
     console.log(`http://${hostname}:${port}`);
 });
