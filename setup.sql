@@ -24,3 +24,17 @@ CREATE TABLE users (
 INSERT INTO users (username, password, role) VALUES
 ('john_doe', 'password', 'student'), 
 ('jane_doe', 'wordpass', 'professor');
+
+-- Create the courses table
+CREATE TABLE courses (
+    id SERIAL PRIMARY KEY,
+    course_name VARCHAR(50) UNIQUE NOT NULL,
+    subject_code VARCHAR(5) NOT NULL,
+    course_number VARCHAR(3) NOT NULL,
+    crn VARCHAR(5) NOT NULL
+);
+
+-- Insert initial data
+INSERT INTO courses (course_name, subject_code, course_number, crn) VALUES
+('Web Development', 'CS', '375', '12345'),
+('Data Structures', 'CS', '260', '23456');
