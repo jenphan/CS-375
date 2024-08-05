@@ -40,6 +40,23 @@
   background-color: #1d0087;
 }
 
+/* style the logout button */
+.navbar button {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  float: right;
+  font-size: 18px;
+  color: white;
+  padding: 18px 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.navbar button:hover {
+  background-color: #1d0087;
+}
+
 /* body style affects whole page */
 body {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
@@ -138,6 +155,3 @@ input:checked + .slider:before {
   background-image: url('../picture/moon.png'); /* Change to moon image for dark mode */
   transform: translateX(26px);
 }
-
-  
-  
