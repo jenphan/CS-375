@@ -59,6 +59,9 @@ const loginUser = async (req, res) => {
             return res.status(400).json({ message: 'Invalid username or password' });
         }
 
+        // Set session data
+        req.session.user = { username: user.username, role: user.role };
+
         res.status(200).json({ message: 'Login successful', user: { username: user.username, role: user.role } });
     } catch (error) {
         console.error(error);
