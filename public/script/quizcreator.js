@@ -170,7 +170,6 @@ async function createQuiz() {
     })
 
     const quizJson = JSON.stringify(quiz, null, 2)
-    //downloadQuiz(quizJson, 'quiz.json')
 
     try {
         const response = await fetch('/quiz/createquiz', {
@@ -183,6 +182,14 @@ async function createQuiz() {
 
         if (response.ok) {
             console.log('Quiz successfully created!')
+            await fetch('/quiz/savequiz', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: quizJson
+            })
+            document.getElementById('quizLink').style.display = "block"
         } else {
             console.log('Error creating quiz', response.statusText)
         }
