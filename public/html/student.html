@@ -11,6 +11,8 @@
         <div class="navbar">
             <a href="/"> Home </a>
             <a href="./credits.html"> About Us </a>
+            <a href="./quizcreator.html"> Create Quiz </a>
+            <a href="./calendar.html"> Calendar </a>
             <a href="./faqs.html"> FAQs </a>
             <a href="./tutorial.html"> Where to start</a>
             <button id="logout-button" style="display:none; float: right;">Logout</button>
@@ -21,7 +23,12 @@
               </label>
             </b>
           </div>
-
+    <div class="button-container">
+        <button class="create-course-button">Add New Course</button>
+        <a href="./scheduleAppointment.html">
+            <button type="button" class="create-course-button">Schedule Appointment</button>
+        </a>
+    </div>
     <div class="sidebar">
         <!-- implement sidebar?-->
     </div>
@@ -30,7 +37,6 @@
         <div id="courseList">
             <!-- Courses will be listed here -->
         </div>
-        <button class="create-course-button">Add New Course</button>
         <form id="addCourseForm" style="display: none;">
             <input type="text" id="courseCode" placeholder="Enter Course Code" required>
             <button type="submit">Add Course</button>
