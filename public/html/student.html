@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BlueBoard</title>
     <link href="../styles/style.css" rel="stylesheet" type="text/css">
+    <link href="../styles/register.css" rel="stylesheet" type="text/css">
     <link href="../styles/views.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -26,19 +27,20 @@
         <!-- implement sidebar?-->
     </div>
 
-    <div class="main-content">
+
+    <div>
         <div id="courseList">
             <!-- Courses will be listed here -->
         </div>
-        <button class="create-course-button">Add New Course</button>
-        <form id="addCourseForm" style="display: none;">
-            <input type="text" id="courseCode" placeholder="Enter Course Code" required>
-            <button type="submit">Add Course</button>
-        </form>
+        <button id="add-course" class="create-course-button">Add New Course</button>
+        <div id="inputContainer" class="hidden">
+            <input id="course-code" type="text" placeholder="Enter Course Code">
+        </div>
     </div>
 
     <script src="../script/app.js"></script>
     <script src="../script/dark-mode.js"></script>
     <script src="../script/logout.js"></script>
+    <script src="../script/addCourse.js"></script>
 </body>
 </html>
