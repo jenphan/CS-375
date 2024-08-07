@@ -37,11 +37,16 @@ h2 {
     padding: 5px;
 } */
 
-/* Position the button in the top right corner */
-.create-course-button {
+.button-container {
     position: absolute;
     top: 85px;
     right: 20px;
+    display: flex;
+    gap: 10px; /* Space between buttons */
+}
+
+/* Position the button in the top right corner */
+.create-course-button {
     background-color: #0b41b6;
     color: white;
     padding: 10px 20px;
