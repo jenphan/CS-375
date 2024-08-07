@@ -24,28 +24,16 @@ function clearQuizFile() {
 clearQuizFile()
 
 router.post('/createquiz', async (req, res) => {
-    const { title, professorId, deadline, timer, quiz }  = req.body
+    const { title, creator, deadline, timer, quiz }  = req.body
 
     console.log('Request body', req.body)
     try {
         const result = await pool.query(
-            'INSERT INTO quizzes (title, professorid, deadline, timer) VALUES ($1, $2, $3, $4) RETURNING quizid',
-            [title, professorId, deadline, timer]
+            'INSERT INTO quizzes (creator, quiz, deadline, timer) VALUES ($1, $2, $3, $4) RETURNING quizID',
+            [creator, quiz, deadline, timer]
         )
-        const quizId = result.rows[0].quizId
-
-        for (const question of quiz) {
-            const { type, content, points, autograding, maxCharacters, minCharacters, options, correctAnswer } = question
-            const questionOptions = ['multiple-choice', 'checkboxes', 'dropdown'].includes(type) ? options : null
-            const questionAnswers = ['multiple-choice', 'checkboxes', 'dropdown', 'true-false'].includes(type) ? correctAnswer : null
-
-            const insertQuestion = await pool.query(
-                'INSERT INTO quiz_questions (quizid, type, content, points, autograding, max_characters, min_characters, options, answers) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING questionid',
-                [quizId, type, content, points, autograding, maxCharacters || null, minCharacters || null, questionOptions, questionAnswers]
-            )
-            const questionId = insertQuestion.rows[0].questionid
-        }
-        res.status(200).json({quizId})
+        const quizID = result.rows[0].quizid
+        res.status(200).json({quizID})
     } catch (error) {
         console.log('Error while creating quiz', error)
         res.status(500).json({message: 'Error while creating quiz'})
@@ -78,11 +66,11 @@ router.get('/createquiz', (req, res) => {
 })
 
 router.post('/submit', async (req, res) => {
-    const { quizId, studentId, response } = req.body
+    const { quizID, studentID, submission } = req.body
     try {
         await pool.query(
-            'INSERT INTO quiz_responses (quizid, studentid, responsejson) VALUES ($1, $2, $3)',
-            [quizId, studentId, response]
+            'INSERT INTO submissions (quizVersion, student, submission) VALUES ($1, $2, $3)',
+            [quizID, studentID, submission]
         )
         res.status(200).json({ message: 'Quiz was submitted successfully'})
     } catch (error) {
