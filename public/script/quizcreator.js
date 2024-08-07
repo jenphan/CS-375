@@ -15,6 +15,7 @@ function addQuestion() {
         <label>Question ${questionCount}:</label>
         <select class="question-type" onchange="handleQuestionTypeChange(this)">
             <option value="short-answer">Short Answer</option>
+            <option value="long-answer">Long Answer</option>
             <option value="multiple-choice">Multiple Choice</option>
             <option value="true-false">True/False</option>
             <option value="checkboxes">Checkboxes</option>
@@ -31,6 +32,18 @@ function addQuestion() {
             <label class="autograding-label">Automatic Grading?</label>
             <input type="checkbox" class="autograding" onchange="toggleAutograding(this)">
         </div>
+        <div class="validation-settings" style="display: none">
+            <div class="short-answer-validation" style="display: none">
+                <label>Max Characters:</label>
+                <input type="number" class="max-characters">
+            </div>
+            <div class="long-answer-validation" style="display: none">
+                <label>Min Characters:</label>
+                <input type="number" class="min-characters">
+                <label>Max Characters:</label>
+                <input type="number" class="max-characters">
+            </div>
+        </div>
         <div class="options-input" style="display: none">
             <label>Number of Options:</label>
             <input type="number" class="num-of-options" min="1" onchange="updateOptions(this)">
@@ -46,6 +59,8 @@ function addQuestion() {
             <div class="answer-checkboxes" style="display: none"></div>
             <div class="answer-radios" style="display: none"></div>
             <div class="answer-dropdown" style="display: none"><select></select></div>
+        </div>
+        <div class="file-upload-input" style="display: none">
         </div>
     </div>
     `
@@ -64,6 +79,18 @@ function handleQuestionTypeChange(selected) {
     const correctAnswerInput = questionElement.querySelector('.correct-answer')
     const autogradingLabel = questionElement.querySelector('.autograding-label')
     const autogradingInput = questionElement.querySelector('.autograding')
+    const fileUploadInput = questionElement.querySelector('.file-upload-input')
+
+    const validationSettings = questionElement.querySelector('.validation-settings')
+    if (validationSettings) {
+        validationSettings.style.display = ['short-answer', 'long-answer'].includes(selected.value) ? '' : 'none'
+
+        const shortAnswerValidation = questionElement.querySelector('.short-answer-validation')
+        const longAnswerValidation = questionElement.querySelector('.long-answer-validation')
+
+        shortAnswerValidation.style.display = selected.value == 'short-answer' ? '' : 'none'
+        longAnswerValidation.style.display = selected.value == 'long-answer' ? '' : 'none'
+    }
 
     const isMultipleOptions = ['multiple-choice', 'checkboxes', 'dropdown'].includes(selected.value)
     
@@ -72,11 +99,12 @@ function handleQuestionTypeChange(selected) {
     answerCheckboxes.style.display = selected.value == 'checkboxes' ? '' : 'none'
     answerRadios.style.display = selected.value == 'multiple-choice' ? '' : 'none'
     answerDropdown.style.display = selected.value == 'dropdown' ? '' : 'none'
+    fileUploadInput.style.display = selected.value == 'file-upload' ? '' : 'none'
     
-    correctAnswerLabel.style.display = selected.value === 'file-upload' ? 'none' : ''
+    correctAnswerLabel.style.display = ['file-upload', 'long-answer'].includes(selected.value) ? 'none' : ''
     correctAnswerInput.style.display = selected.value === 'short-answer' ? '' : 'none'
-    autogradingLabel.style.display = selected.value === 'file-upload' ? 'none' : ''
-    autogradingInput.style.display = selected.value === 'file-upload' ? 'none' : ''
+    autogradingLabel.style.display = ['file-upload', 'long-answer'].includes(selected.value) ? 'none' : ''
+    autogradingInput.style.display = ['file-upload', 'long-answer'].includes(selected.value) ? 'none' : ''
 }
 
 function toggleAutograding(checkbox) {
@@ -143,6 +171,13 @@ async function createQuiz() {
         }
 
         if (questionType === 'short-answer') {
+            questionData.maxCharacters = question.querySelector('.max-characters').value
+        } else if (questionType === 'long-answer') {
+            questionData.minCharacters = question.querySelector('.min-characters').value
+            questionData.maxCharacters = question.querySelector('.max-characters').value
+        }
+
+        if (questionType === 'short-answer') {
             questionData.correctAnswer = question.querySelector('.correct-answer').value
         } else if (questionType === 'true-false') {
             questionData.correctAnswer = question.querySelector('.true-false-options input:checked')?.value || ''
@@ -165,11 +200,24 @@ async function createQuiz() {
             } else if (questionType === 'dropdown') {
                 questionData.correctAnswer = question.querySelector('.answer-dropdown select').value
             }
+        } else if (questionType === 'long-answer' || questionType === 'file-upload') {
+            questionData.correctAnswer = ''
         }
         quiz.push(questionData)
     })
 
-    const quizJson = JSON.stringify(quiz, null, 2)
+    const quizTitle = document.getElementById('title').value
+    const quizDeadline = document.getElementById('deadline').value
+    const quizTimer = document.getElementById('timer').value
+
+    const quizData = {
+        title: quizTitle,
+        deadline: quizDeadline,
+        time: quizTimer,
+        questions: quiz
+    }
+
+    const quizJson = JSON.stringify(quizData, null, 2)
 
     try {
         const response = await fetch('/quiz/createquiz', {

@@ -20,7 +20,9 @@ function generateQuizForm(quiz) {
         questionElement.innerHTML = `<label>${question.content}</label>`
         
         if (question.type === 'short-answer') {
-            questionElement.innerHTML += `<input type="text" name="question-${index}">`
+            questionElement.innerHTML += `<input type="text" name="question-${index}" maxlength="${question.maxCharacters || ''}">`
+        } else if (question.type === 'long-answer') {
+            questionElement.innerHTML += `<textarea name="question-${index}" rows="4" cols="60" minlength="${question.minCharacters || ''}" maxlength="${question.maxCharacters || ''}"></textarea>`
         } else if (question.type === 'true-false') {
             questionElement.innerHTML += `
                 <label><input type="radio" name="question-${index}" value="true">True</label>
