@@ -54,6 +54,7 @@ document.getElementById('submitQuizButton').addEventListener('click', async () =
     const quizForm = document.getElementById('quizForm')
     const formData = new FormData(quizForm)
     const quizData = {}
+    const quizId = 4141
 
     for (let [key, value] of formData.entries()) {
         if (!quizData[key]) {
@@ -68,7 +69,7 @@ document.getElementById('submitQuizButton').addEventListener('click', async () =
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(quizData)
+            body: JSON.stringify({ quizId, response: quizData})
         })
 
         if (response.ok) {

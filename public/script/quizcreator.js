@@ -156,6 +156,7 @@ function updateOptions(input) {
 async function createQuiz() {
     const questions = document.querySelectorAll('.question')
     const quiz = []
+    const professorId = 1414 //temporary
 
     questions.forEach(question => {
         const questionType = question.querySelector('.question-type').value
@@ -211,6 +212,7 @@ async function createQuiz() {
     const quizTimer = document.getElementById('timer').value
 
     const quizData = {
+        professorId: professorId,
         title: quizTitle,
         deadline: quizDeadline,
         time: quizTimer,
@@ -225,7 +227,7 @@ async function createQuiz() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: quizJson
+            body: JSON.stringify(quizData)
         })
 
         if (response.ok) {
