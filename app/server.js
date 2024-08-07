@@ -8,6 +8,7 @@ const crypto = require('crypto'); // Import crypto for generating a random strin
 const authRoutes = require('../routes/auth');
 const quizRoutes = require('../routes/quiz');
 const createCourse = require('../routes/course');
+const calendarRoutes = require('../routes/calendar');
 
 let app = express();
 let port = 3000;
@@ -32,6 +33,7 @@ app.use(express.static("../public"));
 app.use('/auth', authRoutes);
 app.use('/quiz', quizRoutes);
 app.use('/course', createCourse);
+app.use('/calendar', calendarRoutes);
 
 app.use((err, req, res, next) => {
     console.error(err.stack);
