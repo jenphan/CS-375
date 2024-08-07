@@ -73,6 +73,16 @@ router.get('/getquiz', (req, res) => {
     })
 })
 
+router.get('/get-quizzes-calendar', async (req, res) => {
+    try {
+        const result = await pool.query('SELECT * FROM quizzes');
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error('Error while fetching quizzes', error);
+        res.status(500).json({ message: 'Error while fetching quizzes' });
+    }
+});
+
 router.get('/createquiz', (req, res) => {
     res.json(quizzes)
 })
