@@ -6,7 +6,6 @@ document.getElementById('create-course-form').addEventListener('submit', functio
   const courseNumber = document.getElementById('course-number').value.trim();
   const crn = document.getElementById('crn').value.trim();
   
-
   // Validation logic
   if (!courseName || !subjectCode || !courseNumber || !crn) {
       alert('Please fill in all fields');
@@ -14,19 +13,19 @@ document.getElementById('create-course-form').addEventListener('submit', functio
   }
   if (courseName.length > 50) {
       alert('Course name is too long');
-      return false;
+      return;
   }
   if (subjectCode.length > 6) {
       alert('Subject code is too long');
-      return false;
+      return;
   }
   if (courseNumber.length !== 3) {
       alert('Course number is not 3 digits');
-      return false;
+      return;
   }
   if (crn.length !== 5) {
       alert('CRN must be 5 digits');
-      return false;
+      return;
   }
 
   // Create data object
@@ -61,5 +60,6 @@ document.getElementById('create-course-form').addEventListener('submit', functio
     console.error('Error:', error);
     alert(`Course creation failed: ${error.message}`);
 });
-
 });
+
+// addClass(crn, subjectCode, courseName, courseNumber, '12345');
