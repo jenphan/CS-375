@@ -1,48 +1,54 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BlueBoard</title>
-    <link href="../styles/style.css" rel="stylesheet" type="text/css">
-    <link href="../styles/views.css" rel="stylesheet" type="text/css">
-</head>
-<body>
+    <link href="../styles/style.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/views.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
     <div class="navbar">
-        <a href="/"> Home </a>
-        <a href="./credits.html"> About Us </a>
-        <a href="./quizcreator.html"> Create Quiz </a>
-        <a href="./calendar.html"> Calendar </a>
-        <a href="./faqs.html"> FAQs </a>
-        <a href="./tutorial.html"> Where to start</a>
-        <button id="logout-button" style="display:none; float: right;">Logout</button>
-        <b>
-          <label class="theme-switch">
-            <input type="checkbox" id="theme-toggle">
-            <span class="slider"></span>
-          </label>
-        </b>
+      <a href="/"> Home </a>
+      <a href="./credits.html"> About Us </a>
+      <a href="./quizcreator.html"> Create Quiz </a>
+      <a href="./calendar.html"> Calendar </a>
+      <a href="./faqs.html"> FAQs </a>
+      <a href="./tutorial.html"> Where to start</a>
+      <button id="logout-button" style="display: none; float: right">
+        Logout
+      </button>
+      <b>
+        <label class="theme-switch">
+          <input type="checkbox" id="theme-toggle" />
+          <span class="slider"></span>
+        </label>
+      </b>
     </div>
     <div class="button-container">
-        <a href="./createCourse.html">
-            <button type="button" class="create-course-button">Create New Course</button>
-        </a>
-        <a href="./scheduleAppointment.html">
-            <button type="button" class="create-course-button">Schedule Appointment</button>
-        </a>
+      <a href="./createCourse.html">
+        <button type="button" class="create-course-button">
+          Create New Course
+        </button>
+      </a>
+      <a href="./scheduleAppointment.html">
+        <button type="button" class="create-course-button">
+          Schedule Appointment
+        </button>
+      </a>
     </div>
     <div class="sidebar">
-        <!-- implement sidebar?-->
+      <!-- implement sidebar?-->
     </div>
 
     <div class="main-content">
-        <div id="courseList">
-            <!-- Courses will be listed here -->
-        </div>
+      <div id="courseList">
+        <!-- Courses will be listed here -->
+      </div>
     </div>
 
     <script src="../script/app.js"></script>
     <script src="../script/dark-mode.js"></script>
     <script src="../script/logout.js"></script>
-</body>
+  </body>
 </html>

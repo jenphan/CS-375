@@ -1,44 +1,48 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BlueBoard</title>
-    <link href="../styles/style.css" rel="stylesheet" type="text/css">
-    <link href="../styles/login.css" rel="stylesheet" type="text/css">
-</head>
-<body>
-  <div class="navbar">
+    <link href="../styles/style.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/login.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div class="navbar">
       <a href="/"> Home </a>
       <a href="./credits.html"> About Us </a>
       <a href="./quizcreator.html"> Create Quiz </a>
       <a href="./calendar.html"> Calendar </a>
       <a href="./faqs.html"> FAQs </a>
       <a href="./tutorial.html"> Where to start</a>
-      <button id="logout-button" style="display:none; float: right;">Logout</button>
+      <button id="logout-button" style="display: none; float: right">
+        Logout
+      </button>
       <b>
         <label class="theme-switch">
-          <input type="checkbox" id="theme-toggle">
+          <input type="checkbox" id="theme-toggle" />
           <span class="slider"></span>
         </label>
       </b>
-  </div>
-  <div class="banner">
-    <h1>Successfully logged in!</h1>
-    <p>Please select the Professor's View or Student's View</p>
-  </div>
-  <center>
-    <div class="login-container">
+    </div>
+    <div class="banner">
+      <h1>Successfully logged in!</h1>
+      <p>Please select the Professor's View or Student's View</p>
+    </div>
+    <center>
+      <div class="login-container">
         <a href="./professor.html">
-            <button type="button" class="login-button">Professor View</button>
+          <button type="button" class="login-button">Professor View</button>
         </a>
         <a href="./student.html">
-            <button type="button" class="create-account-button">Student View</button>
+          <button type="button" class="create-account-button">
+            Student View
+          </button>
         </a>
-    </div>
-  </center>
-  <script src="../script/app.js"></script>
-  <script src="../script/login.js"></script>
-  <script src="../script/logout.js"></script>
-</body>
+      </div>
+    </center>
+    <script src="../script/app.js"></script>
+    <script src="../script/login.js"></script>
+    <script src="../script/logout.js"></script>
+  </body>
 </html>

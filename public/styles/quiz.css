@@ -1,4 +1,3 @@
-
 #quizForm {
   max-width: 800px;
   margin: 40px auto;
@@ -9,7 +8,7 @@
 
 #quizForm h1 {
   text-align: center;
-  color: #022C87;
+  color: #022c87;
   font-size: 40px;
 }
 
@@ -21,18 +20,20 @@
   width: 60px;
 }
 
-#quizTitle, #quizDetails {
+#quizTitle,
+#quizDetails {
   margin-bottom: 20px;
 }
 
-#quizTitle label, #quizDetails label {
+#quizTitle label,
+#quizDetails label {
   font-weight: bold;
 }
 
 #questionsContainer .question {
   margin-bottom: 20px;
   padding: 15px;
-  border: 2px solid #022C87;
+  border: 2px solid #022c87;
   border-radius: 5px;
 }
 
@@ -49,12 +50,23 @@ button {
   font-size: 16px;
   border-radius: 25px;
   cursor: pointer;
-  transition: background-color .25s ease;
+  transition: background-color 0.25s ease;
+}
+
+#deleteQuestionBtn {
+  background-color: #b60b0b;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
 }
 
 button:hover {
-  background-color: white;
-  color: #0b41b6;
+  background-color: #5c1818;
 }
 
 #quizLink {
