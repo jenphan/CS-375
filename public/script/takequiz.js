@@ -2,8 +2,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
         const response = await fetch('/quiz/getquiz')
         if (response.ok) {
-            const quiz = await response.json()
-            generateQuizForm(quiz)
+            const quiz = await response.json();
+            console.log(quiz);
+            generateQuizForm(quiz);
         } else {
             console.log('Error while fetching quiz data', response.statusText)
         }
@@ -14,7 +15,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 function generateQuizForm(quiz) {
     const quizForm = document.getElementById('quizForm')
-    quiz.forEach((question, index) => {
+    quiz.questions.forEach((question, index) => {
         const questionElement = document.createElement('div')
         questionElement.className = 'question'
         questionElement.innerHTML = `<label>${question.content}</label>`
@@ -56,6 +57,7 @@ document.getElementById('submitQuizButton').addEventListener('click', async () =
     const quizData = {}
     const quizId = 4141
 
+
     for (let [key, value] of formData.entries()) {
         if (!quizData[key]) {
             quizData[key] = []
@@ -73,7 +75,8 @@ document.getElementById('submitQuizButton').addEventListener('click', async () =
         })
 
         if (response.ok) {
-            console.log('Quiz was submitted successfully!')
+            console.log('Quiz was submitted successfully!');
+
         } else {
             console.log('Error while submitting quiz', response.statusText)
         }

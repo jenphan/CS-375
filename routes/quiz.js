@@ -4,6 +4,7 @@ const path = require('path')
 const fs = require('fs')
 
 const { Pool } = require('pg');
+const { error } = require('console');
 const envConfig = JSON.parse(fs.readFileSync('../env.json', 'utf8'));
 
 const pool = new Pool({
@@ -16,6 +17,7 @@ const pool = new Pool({
 
 let quizzes = []
 const quizFilePath = path.join(__dirname, 'quiz.json')
+const submissionFilePath = path.join(__dirname, 'submit.json')
 
 function clearQuizFile() {
     fs.writeFileSync(quizFilePath, JSON.stringify([], null, 2), 'utf-8')
@@ -76,12 +78,18 @@ router.get('/createquiz', (req, res) => {
 })
 
 router.post('/submit', async (req, res) => {
+    fs.writeFile(submissionFilePath, JSON.stringify(req.body, null, 2), (err) => {
+        if (err) {
+            console.log(error)
+        }
+    });
     const { quizID, studentID, submission } = req.body
     try {
         await pool.query(
             'INSERT INTO submissions (quizVersion, student, submission) VALUES ($1, $2, $3)',
             [quizID, studentID, submission]
         )
+        console.log(quizID, studentID, submission);
         res.status(200).json({ message: 'Quiz was submitted successfully'})
     } catch (error) {
         console.log('Error while submitting quiz:', error)
@@ -89,4 +97,14 @@ router.post('/submit', async (req, res) => {
     }
 })
 
+router.get('/getsubmit', (req, res) => {
+    fs.readFile(submissionFilePath, 'utf-8', (err, data) => {
+        if (err) {
+            res.status(500).send('Error while reading submission from file')
+        } else {
+            res.setHeader('Content-Type', 'application/json')
+            res.status(200).json(JSON.parse(data))
+        }
+    })
+})
 module.exports = router

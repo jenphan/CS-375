@@ -1,3 +1,8 @@
+-- Drop the existing database if it exists (optional)
+DROP DATABASE IF EXISTS blueboard;
+
+-- Create the database
+CREATE DATABASE blueboard;
 \c blueboard;
 
 DROP TABLE IF EXISTS accounts CASCADE;

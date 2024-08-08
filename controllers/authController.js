@@ -13,12 +13,12 @@ const pool = new Pool({
 });
 
 const createUser = async (username, password, role) => {
-    const query = 'INSERT INTO users (username, password, role) VALUES ($1, $2, $3)';
+    const query = 'INSERT INTO accounts (username, password, type) VALUES ($1, $2, $3)';
     await pool.query(query, [username, password, role]);
 };
 
 const findUserByUsername = async (username) => {
-    const query = 'SELECT * FROM users WHERE username = $1';
+    const query = 'SELECT * FROM accounts WHERE username = $1';
     const result = await pool.query(query, [username]);
     return result.rows[0];
 };
@@ -60,9 +60,9 @@ const loginUser = async (req, res) => {
         }
 
         // Set session data
-        req.session.user = { username: user.username, role: user.role };
+        req.session.user = { username: user.username, role: user.type };
 
-        res.status(200).json({ message: 'Login successful', user: { username: user.username, role: user.role } });
+        res.status(200).json({ message: 'Login successful', user: { username: user.username, role: user.type } });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
