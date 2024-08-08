@@ -31,7 +31,7 @@ CREATE TABLE quizzes (
     quizID SERIAL PRIMARY KEY,
     creator INT REFERENCES accounts(usrid),
     quiz JSON,
-    deadline TIMESTAMPTZ,
+    deadline TIMESTAMPTZ NULL,
     timer INT
 );
 

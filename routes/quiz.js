@@ -24,9 +24,8 @@ function clearQuizFile() {
 clearQuizFile()
 
 router.post('/createquiz', async (req, res) => {
-    const { title, creator, deadline, timer, quiz }  = req.body
+    const { creator, deadline, timer, quiz }  = req.body
 
-    console.log('Request body', req.body)
     try {
         const result = await pool.query(
             'INSERT INTO quizzes (creator, quiz, deadline, timer) VALUES ($1, $2, $3, $4) RETURNING quizID',

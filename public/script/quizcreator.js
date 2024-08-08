@@ -13,7 +13,8 @@ function addQuestion() {
     questionElement.innerHTML = `
     <div class="questionSection">
         <label>Question ${questionCount}:</label>
-        <select class="question-type" onchange="handleQuestionTypeChange(this)">
+        <select class="question-type" onchange="handleQuestionTypeChange(this)" required>
+            <option value="" disabled selected>Select question type</option>
             <option value="short-answer">Short Answer</option>
             <option value="long-answer">Long Answer</option>
             <option value="multiple-choice">Multiple Choice</option>
@@ -24,10 +25,10 @@ function addQuestion() {
         </select>
         <div>
             <label>Question:</label>
-            <input type="text" class="question-content">
+            <input type="text" class="question-content" required>
             <br>
             <label>Points:</label>
-            <input type="number" class="question-points">
+            <input type="number" class="question-points" required>
             <br>
             <label class="autograding-label">Automatic Grading?</label>
             <input type="checkbox" class="autograding" onchange="toggleAutograding(this)">
@@ -154,16 +155,35 @@ function updateOptions(input) {
 }
 
 async function createQuiz() {
+    const quizTitle = document.getElementById('title').value.trim()
+    const quizDeadline = document.getElementById('deadline').value.trim()
+    const timerHours = document.getElementById('timer-hours').value.trim()
+    const timerMinutes = document.getElementById('timer-minutes').value.trim()
+    const timerSeconds = document.getElementById('timer-seconds').value.trim()
     const questions = document.querySelectorAll('.question')
+
+    if (!quizTitle) {
+        alert('Quiz title is required')
+        return
+    }
+    
     const quiz = []
-    const professorId = 1414 //temporary
+    let alertShown = false
+
+    for (const question of questions) {
+        if (!validateQuestion(question) && !alertShown) {
+            alert('Please fill out all required fields correctly.')
+            alertShown = true
+            return
+        }
+    }
 
     questions.forEach(question => {
         const questionType = question.querySelector('.question-type').value
         const questionContent = question.querySelector('.question-content').value
         const questionPoints = question.querySelector('.question-points').value
         const autograding = question.querySelector('.autograding').checked
-
+        
         const questionData = {
             type: questionType,
             content: questionContent,
@@ -207,15 +227,15 @@ async function createQuiz() {
         quiz.push(questionData)
     })
 
-    const quizTitle = document.getElementById('title').value
-    const quizDeadline = document.getElementById('deadline').value
-    const quizTimer = document.getElementById('timer').value
+    let totalSeconds = 0
+    if (timerHours) totalSeconds += parseInt(timerHours, 10) * 3600
+    if (timerMinutes) totalSeconds += parseInt(timerMinutes, 10) * 60
+    if (timerSeconds) totalSeconds += parseInt(timerSeconds, 10)
 
     const quizData = {
-        professorId: professorId,
-        title: quizTitle,
-        deadline: quizDeadline,
-        time: quizTimer,
+        professorId: 1414, //temporary
+        deadline: quizDeadline || null,
+        timer: totalSeconds || null,
         questions: quiz
     }
 
@@ -246,4 +266,109 @@ async function createQuiz() {
     } catch (error) {
         console.log('Error creating quiz', error)
     }
+}
+
+function validateQuestion(question) {
+    const type = question.querySelector('.question-type').value
+    const content = question.querySelector('.question-content').value
+    const points = question.querySelector('.question-points').value
+
+    if (!content || !points) return false
+
+    switch (type) {
+        case 'short-answer':
+            return validateShortAnswer(question)
+        case 'multiple-choice':
+            return validateMultipleChoice(question)
+        case 'true-false':
+            return validateTrueFalse(question)
+        case 'checkboxes':
+            return validateCheckboxes(question)
+        case 'dropdown':
+            return validateDropdown(question)
+        default:
+            return true
+    }
+}
+
+function validateShortAnswer(question) {
+    let valid = true
+    const correctAnswer = question.querySelector('.correct-answer').value.trim()
+    const autograding = question.querySelector('.autograding').checked
+    if (autograding) {
+        if (!correctAnswer) valid = false
+        if (correctAnswer.length < 1) valid = false
+    }
+    return valid
+}
+
+function validateMultipleChoice(question) {
+    let valid = true
+    const numberOfOptions = question.querySelector('.num-of-options').value
+    const options = question.querySelectorAll('.option')
+    const correctAnswer = question.querySelector('.answer-radio:checked')
+    const autograding = question.querySelector('.autograding').checked
+
+    options.forEach (option => {
+        if (option.value.trim().length === 0) {
+            valid = false
+        }
+    })
+
+    if (autograding) {
+        if (!correctAnswer) valid = false
+    }
+
+    return (numberOfOptions > 0) && valid
+}
+
+function validateTrueFalse(question) {
+    let valid = true
+    const correctAnswer = question.querySelector('.true-false-options input:checked')
+    const autograding = question.querySelector('.autograding').checked
+    if (autograding) {
+        if (!correctAnswer) valid = false
+    }
+
+    return valid
+}
+
+function validateCheckboxes(question) {
+    let valid = true
+    const numberOfOptions = question.querySelector('.num-of-options').value
+    const options = question.querySelectorAll('.option')
+    const correctAnswer = question.querySelector('.answer-checkbox:checked')
+    const autograding = question.querySelector('.autograding').checked
+
+    options.forEach (option => {
+        if (option.value.trim().length === 0) {
+            valid = false
+        }
+    })
+
+    if (autograding) {
+        if (!correctAnswer) valid = false
+    }
+
+    return (numberOfOptions > 0) && valid
+}
+
+function validateDropdown(question) {
+    let valid = true
+    const numberOfOptions = question.querySelector('.num-of-options').value
+    const options = question.querySelectorAll('.option')
+    const correctAnswer = question.querySelector('.answer-dropdown select').value
+    const autograding = question.querySelector('.autograding').checked
+
+    options.forEach (option => {
+        if (option.value.trim().length === 0) {
+            valid = false
+        }
+    })
+
+    if (autograding) {
+        if (!correctAnswer) valid = false
+    }
+
+    return (numberOfOptions > 0) && valid
 }

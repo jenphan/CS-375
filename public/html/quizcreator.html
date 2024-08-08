@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BlueBoard</title>
+    <link href="../styles/style.css" rel="stylesheet" type="text/css">
     <link href="../styles/quiz.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -14,10 +15,16 @@
         <a href="./calendar.html"> Calendar </a>
         <a href="./faqs.html"> FAQs </a>
         <a href="./tutorial.html"> Where to start</a>
-        <button id="logout-button" style="display: none; float: right;">Logout</button>
+        <button id="logout-button" style="display:none; float: right;">Logout</button> 
+        <b>
+          <label class="theme-switch">
+            <input type="checkbox" id="theme-toggle">
+            <span class="slider"></span>
+          </label>
+        </b>
     </div>
-    <h1>Quiz Creator (Temporary)</h1>
     <div id="quizForm">
+        <h1>Quiz Creator (Temporary)</h1>
         <div id="quizTitle">
             <label for="title">Quiz Title:</label>
             <input type="text" id="title" name="title" required>
@@ -26,8 +33,12 @@
             <label for="deadline">Deadline:</label>
             <input type="datetime-local" id="deadline" name="deadline">
             <br>
-            <label for="timer">Quiz Timer:</label>
-            <input type="number" id="timer" name="timer">
+            <label>Quiz Timer:</label>
+            <div>
+                <input type="number" id="timer-hours" name="timer-hours" min="0" placeholder="00"> Hr
+                <input type="number" id="timer-minutes" name="timer-minutes" min="0" max="59" placeholder="00"> Min
+                <input type="number" id="timer-seconds" name="timer-seconds" min="0" max="59" placeholder="00"> Sec
+            </div>
         </div>
         <div id="questionsContainer"></div>
         <button id="addQuestionBtn">Add Question</button>

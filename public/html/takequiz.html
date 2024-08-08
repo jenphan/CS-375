@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BlueBoard</title>
+    <link href="../styles/style.css" rel="stylesheet" type="text/css">
     <link href="../styles/quiz.css" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -14,14 +15,22 @@
         <a href="./calendar.html"> Calendar </a>
         <a href="./faqs.html"> FAQs </a>
         <a href="./tutorial.html"> Where to start</a>
-        <button id="logout-button" style="display:none; float: right;">Logout</button>
+        <button id="logout-button" style="display:none; float: right;">Logout</button> 
+        <b>
+          <label class="theme-switch">
+            <input type="checkbox" id="theme-toggle">
+            <span class="slider"></span>
+          </label>
+        </b>
     </div>
-    <h1>Take Quiz (Temporary)</h1>
     <div id="quizFormContainer">
+        <h1>Take Quiz (Temporary)</h1>
         <form id="quizForm"></form>
         <button id="submitQuizButton">Submit Quiz</button>
     </div>
     <script src="../script/app.js"></script>
     <script src="../script/takequiz.js"></script>
+    <script src="../script/dark-mode.js"></script>
+    <script src="../script/logout.js"></script>
 </body>
 </html>
