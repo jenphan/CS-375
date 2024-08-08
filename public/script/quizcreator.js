@@ -12,7 +12,7 @@ function addQuestion() {
 
     questionElement.innerHTML = `
     <div class="questionSection">
-        <label>Question ${questionCount}:</label>
+        <label>Question ${questionCount}<span style="color: red;">*</span></label>
         <select class="question-type" onchange="handleQuestionTypeChange(this)" required>
             <option value="" disabled selected>Select question type</option>
             <option value="short-answer">Short Answer</option>
@@ -24,10 +24,10 @@ function addQuestion() {
             <option value="file-upload">File Upload</option>
         </select>
         <div>
-            <label>Question:</label>
+            <label>Question<span style="color: red;">*</span></label>
             <input type="text" class="question-content" required>
             <br>
-            <label>Points:</label>
+            <label>Points<span style="color: red;">*</span></label>
             <input type="number" class="question-points" required>
             <br>
             <label class="autograding-label">Automatic Grading?</label>
@@ -46,12 +46,12 @@ function addQuestion() {
             </div>
         </div>
         <div class="options-input" style="display: none">
-            <label>Number of Options:</label>
+            <label>Number of Options<span style="color: red;">*</span></label>
             <input type="number" class="num-of-options" min="1" onchange="updateOptions(this)">
             <div class="options-container"></div>
         </div>
         <div class="answer-input" style="display: none">
-            <label class="correct-answer-label">Correct Answer:</label>
+            <label class="correct-answer-label">Correct Answer<span style="color: red;">*</span></label>
             <input type="text" class="correct-answer">
             <div class="true-false-options" style="display: none">
                 <label><input type="radio" name="true-false-${questionCount}" value="true"> True</label>
@@ -60,8 +60,6 @@ function addQuestion() {
             <div class="answer-checkboxes" style="display: none"></div>
             <div class="answer-radios" style="display: none"></div>
             <div class="answer-dropdown" style="display: none"><select></select></div>
-        </div>
-        <div class="file-upload-input" style="display: none">
         </div>
     </div>
     `
@@ -80,7 +78,6 @@ function handleQuestionTypeChange(selected) {
     const correctAnswerInput = questionElement.querySelector('.correct-answer')
     const autogradingLabel = questionElement.querySelector('.autograding-label')
     const autogradingInput = questionElement.querySelector('.autograding')
-    const fileUploadInput = questionElement.querySelector('.file-upload-input')
 
     const validationSettings = questionElement.querySelector('.validation-settings')
     if (validationSettings) {
@@ -100,7 +97,6 @@ function handleQuestionTypeChange(selected) {
     answerCheckboxes.style.display = selected.value == 'checkboxes' ? '' : 'none'
     answerRadios.style.display = selected.value == 'multiple-choice' ? '' : 'none'
     answerDropdown.style.display = selected.value == 'dropdown' ? '' : 'none'
-    fileUploadInput.style.display = selected.value == 'file-upload' ? '' : 'none'
     
     correctAnswerLabel.style.display = ['file-upload', 'long-answer'].includes(selected.value) ? 'none' : ''
     correctAnswerInput.style.display = selected.value === 'short-answer' ? '' : 'none'
@@ -164,6 +160,16 @@ async function createQuiz() {
 
     if (!quizTitle) {
         alert('Quiz title is required')
+        return
+    }
+
+    if (!quizDeadline) {
+        alert('Quiz deadline is required')
+        return
+    }
+
+    if (questions.length === 0) {
+        alert('You must add at least one question to the quiz.')
         return
     }
     
