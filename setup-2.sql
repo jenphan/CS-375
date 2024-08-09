@@ -16,10 +16,6 @@ CREATE TABLE users (
     role VARCHAR(11) NOT NULL
 ); 
 
-INSERT INTO users (username, password, role) VALUES
-('john_doe', 'password', 'student'), 
-('jane_doe', 'wordpass', 'professor');
-
 CREATE TABLE courses (
     crn VARCHAR(10) UNIQUE PRIMARY KEY, 
     department VARCHAR(255) NOT NULL,

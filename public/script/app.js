@@ -1,7 +1,7 @@
 const createAccountButton = document.querySelector(".create-account-button");
 if (createAccountButton) {
   createAccountButton.addEventListener("click", function () {
-    window.location.href = "./html/register.html";
+    window.location.href = "../html/register.html";
   });
 }
 
