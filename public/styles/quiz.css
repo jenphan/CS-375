@@ -1,71 +1,84 @@
-/* Change navigation style */
-.navbar {
-  overflow: hidden;
-  background-color: #022c87;
-}
-
-.navbar a {
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  float: left;
-  font-size: 18px;
-  color: white;
-  padding: 18px 20px;
-  text-decoration: none;
-}
-
-.navbar b {
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  float: right;
-  font-size: 24px;
-  color: white;
-  padding: 14px 16px;
-  text-decoration: none;
-}
-
-.navbar a:hover {
-  background-color: #870000;
-}
-
-body {
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  background-color: whitesmoke;
-  margin: 0;
-  background-repeat: no-repeat;
-  overflow: auto;
-  background-size: auto;
-}
-
 #quizForm {
-  width: 60%;
-  background: lightsteelblue;
-  border-radius: 10px;
+  max-width: 800px;
+  margin: 40px auto;
   padding: 20px;
-  margin-left: 20px;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
 }
 
-#quizTitle {
-  margin-bottom: 10px;
+#quizForm h1 {
+  text-align: center;
+  color: #022c87;
+  font-size: 40px;
 }
 
-#quizForm div .questionSection {
-  margin-bottom: 40px;
+#quizForm input[type="text"] {
+  width: 80%;
 }
 
-#quizForm input[type="text"],
-#quizForm input[type="number"],
-#quizForm select {
-  padding: 4px;
-  margin-top: 5px;
-  border: 1px solid black;
+#quizForm input[type="number"] {
+  width: 60px;
+}
+
+#quizTitle,
+#quizDetails {
+  margin-bottom: 20px;
+}
+
+#quizTitle label,
+#quizDetails label {
+  font-weight: bold;
+}
+
+#questionsContainer .question {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 2px solid #022c87;
   border-radius: 5px;
-  width: 500px;
 }
 
-#quizForm button {
-  padding: 5px 10px;
-  margin-right: 10px;
-  background-color: lightblue;
-  border: 1px solid black;
-  border-radius: 5px;
+#questionsContainer .question label {
+  font-weight: bold;
+}
+
+button {
+  background-color: #0b41b6;
+  color: white;
+  padding: 10px 20px;
+  border: none;
   cursor: pointer;
+  font-size: 16px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+#deleteQuestionBtn {
+  background-color: #b60b0b;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+button:hover {
+  background-color: #5c1818;
+}
+
+#quizLink {
+  max-width: 800px;
+  margin: 20px auto;
+}
+
+#quizLink a {
+  color: #0b41b6;
+  text-decoration: none;
+}
+
+#quizlink a:hover {
+  text-decoration: underline;
 }

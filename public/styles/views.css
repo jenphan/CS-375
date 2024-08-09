@@ -37,18 +37,23 @@ h2 {
     padding: 5px;
 } */
 
+.button-container {
+  position: absolute;
+  top: 85px;
+  right: 20px;
+  display: flex;
+  gap: 10px; /* Space between buttons */
+}
+
 /* Position the button in the top right corner */
 .create-course-button {
-    position: absolute;
-    top: 85px;
-    right: 20px;
-    background-color: #0b41b6;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 25px;
+  background-color: #0b41b6;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 25px;
 }
 
 /* #createCourseForm input,

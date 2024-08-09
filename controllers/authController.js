@@ -1,7 +1,4 @@
-
-
 let {registerAccount, getUser} = require('../app/query');
-
 
 const registerUser = async (req, res) => {
     const { username, password, role } = req.body;

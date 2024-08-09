@@ -188,7 +188,6 @@ function getUser(username){
     });
   }
 
-
 function testSuite(){
     //account creation 
     registerAccount("user-test", "passW0rd", 1);
@@ -224,11 +223,9 @@ function testSuite(){
     enroll(1, 'CEF-ABD-2');
     enroll(2, 'WUH239-W')
 
-
     //unenroll account 
     //UNTESTED
 }
-
 
 module.exports = {
   //users
@@ -248,5 +245,3 @@ module.exports = {
   enroll,
   unenroll
 };
-
-  

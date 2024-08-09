@@ -16,12 +16,12 @@
 
 /* change navigation style */
 .navbar {
-    overflow: hidden;
-    background-color: #0b41b6	;
-  }
-  
+  overflow: hidden;
+  background-color: #0b41b6;
+}
+
 .navbar a {
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   float: left;
   font-size: 18px;
   color: white;
@@ -29,7 +29,7 @@
   text-decoration: none;
 }
 .navbar b {
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   float: right;
   font-size: 24px;
   color: white;
@@ -42,7 +42,7 @@
 
 /* style the logout button */
 .navbar button {
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   float: right;
   font-size: 18px;
   color: white;
@@ -59,14 +59,16 @@
 
 /* body style affects whole page */
 body {
-  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   background-color: var(--background-color);
   background-image: var(--background-image);
   color: var(--text-color);
   place-items: center;
   height: 100vh;
-  width: 100vw; 
-  transition: background-color 0.3s ease, color 0.3s ease;
+  width: 100vw;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
   background-repeat: repeat;
   background-size: cover;
   margin: 0;
@@ -76,7 +78,9 @@ body {
   padding: 30px 40px;
   border-radius: 12px;
   text-align: center;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
   opacity: 0;
   transform: translateY(-20px);
   animation: fadeInUp 0.5s forwards;
@@ -103,8 +107,8 @@ body {
 }
 /* Change footer style */
 footer {
-  position:absolute;
-  bottom:0;
+  position: absolute;
+  bottom: 0;
 }
 
 /* Slider switch styles */
@@ -144,7 +148,7 @@ footer {
   background-repeat: no-repeat;
   transition: 0.4s;
   border-radius: 50%;
-  background-image: url('../picture/sun.png'); /* Default to sun image */
+  background-image: url("../picture/sun.png"); /* Default to sun image */
 }
 
 input:checked + .slider {
@@ -152,6 +156,6 @@ input:checked + .slider {
 }
 
 input:checked + .slider:before {
-  background-image: url('../picture/moon.png'); /* Change to moon image for dark mode */
+  background-image: url("../picture/moon.png"); /* Change to moon image for dark mode */
   transform: translateX(26px);
 }

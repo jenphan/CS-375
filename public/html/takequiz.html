@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BlueBoard</title>
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
-    <link href="../styles/views.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/quiz.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
     <div class="navbar">
@@ -25,29 +25,13 @@
         </label>
       </b>
     </div>
-    <div class="button-container">
-      <a href="./createCourse.html">
-        <button type="button" class="create-course-button">
-          Create New Course
-        </button>
-      </a>
-      <a href="./scheduleAppointment.html">
-        <button type="button" class="create-course-button">
-          Schedule Appointment
-        </button>
-      </a>
+    <div id="quizFormContainer">
+      <h1>Take Quiz (Temporary)</h1>
+      <form id="quizForm"></form>
+      <button id="submitQuizButton">Submit Quiz</button>
     </div>
-    <div class="sidebar">
-      <!-- implement sidebar?-->
-    </div>
-
-    <div class="main-content">
-      <div id="courseList">
-        <!-- Courses will be listed here -->
-      </div>
-    </div>
-
     <script src="../script/app.js"></script>
+    <script src="../script/takequiz.js"></script>
     <script src="../script/dark-mode.js"></script>
     <script src="../script/logout.js"></script>
   </body>
