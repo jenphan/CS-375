@@ -285,13 +285,10 @@ async function createQuiz() {
   }
 
   const quiz = [];
-  let alertShown = false;
 
   for (const question of questions) {
     if (!validateQuestion(question) && !alertShown) {
-      alert("Please fill out all required fields correctly.");
-      alertShown = true;
-      return;
+      return alert("Please fill out all required fields correctly.");
     }
   }
 
@@ -310,21 +307,21 @@ async function createQuiz() {
 
     if (questionType === "short-answer") {
       questionData.maxCharacters =
-        question.querySelector(".max-characters").value;
+        question.querySelector(".max-characters").value || null;
     } else if (questionType === "long-answer") {
       questionData.minCharacters =
-        question.querySelector(".min-characters").value;
+        question.querySelector(".min-characters").value || null;
       questionData.maxCharacters =
-        question.querySelector(".max-characters").value;
+        question.querySelector(".max-characters").value || null;
     }
 
     if (questionType === "short-answer") {
       questionData.correctAnswer =
-        question.querySelector(".correct-answer").value;
+        question.querySelector(".correct-answer").value || null;
     } else if (questionType === "true-false") {
       questionData.correctAnswer =
         question.querySelector(".true-false-options input:checked")?.value ||
-        "";
+        null;
     } else if (
       ["multiple-choice", "checkboxes", "dropdown"].includes(questionType)
     ) {
@@ -337,7 +334,7 @@ async function createQuiz() {
 
       if (questionType === "multiple-choice") {
         questionData.correctAnswer =
-          question.querySelector(".answer-radio:checked")?.value || "";
+          question.querySelector(".answer-radio:checked")?.value || null;
       } else if (questionType === "checkboxes") {
         const correctAnswers = [];
         question
@@ -355,7 +352,7 @@ async function createQuiz() {
       questionType === "long-answer" ||
       questionType === "file-upload"
     ) {
-      questionData.correctAnswer = "";
+      questionData.correctAnswer = null;
     }
     quiz.push(questionData);
   });
@@ -366,14 +363,13 @@ async function createQuiz() {
   if (timerSeconds) totalSeconds += parseInt(timerSeconds, 10);
 
   const quizData = {
-    title: quizTitle,
-    professorId: 1414, //temporary
+    professorId: 1,
     deadline: quizDeadline || null,
     timer: totalSeconds || null,
-    questions: quiz,
+    questions: JSON.stringify(quiz),
   };
 
-  const quizJson = JSON.stringify(quizData, null, 2);
+  console.log(JSON.stringify(quizData));
 
   try {
     const response = await fetch("/quiz/createquiz", {
@@ -391,7 +387,7 @@ async function createQuiz() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: quizJson,
+        body: JSON.stringify(quizData),
       });
       document.getElementById("quizLink").style.display = "block";
     } else {
@@ -402,27 +398,17 @@ async function createQuiz() {
   }
 }
 
+const validation = {
+  "short-answer": validateShortAnswer,
+  "multiple-choice": validateMultipleChoice,
+  "true-false": validateTrueFalse,
+  checkboxes: validateCheckboxes,
+  dropdown: validateDropdown,
+};
+
 function validateQuestion(question) {
   const type = question.querySelector(".question-type").value;
-  const content = question.querySelector(".question-content").value;
-  const points = question.querySelector(".question-points").value;
-
-  if (!content || !points) return false;
-
-  switch (type) {
-    case "short-answer":
-      return validateShortAnswer(question);
-    case "multiple-choice":
-      return validateMultipleChoice(question);
-    case "true-false":
-      return validateTrueFalse(question);
-    case "checkboxes":
-      return validateCheckboxes(question);
-    case "dropdown":
-      return validateDropdown(question);
-    default:
-      return true;
-  }
+  return validation[type] ? validation[type](question) : true;
 }
 
 function validateShortAnswer(question) {
