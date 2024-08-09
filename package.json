@@ -1,7 +1,8 @@
 {
   "scripts": {
     "start": "cd app && node server.js",
-    "setup": "psql -U postgres -f setup-2.sql"
+    "setup": "psql -U postgres -f setup.sql",
+    "setup-2": "psql -U postgres -f setup-2.sql"
   },
   "dependencies": {
     "axios": "^1.7.2",
