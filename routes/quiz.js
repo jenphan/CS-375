@@ -24,12 +24,12 @@ function clearQuizFile() {
 clearQuizFile();
 
 router.post("/createquiz", async (req, res) => {
-  const { professorId, deadline, timer, questions } = req.body;
+  const { title, professorId, deadline, timer, questions } = req.body;
 
   try {
     const result = await pool.query(
-      "INSERT INTO quizzes (creator, quiz, deadline, timer) VALUES ($1, $2, $3, $4) RETURNING quizID",
-      [professorId, questions, deadline, timer],
+      "INSERT INTO quizzes (title, creator, quiz, deadline, timer) VALUES ($1, $2, $3, $4, $5) RETURNING quizID",
+      [title, professorId, questions, deadline, timer],
     );
     const quizID = result.rows[0].quizID;
     res.status(200).json({ quizID });

@@ -363,6 +363,7 @@ async function createQuiz() {
   if (timerSeconds) totalSeconds += parseInt(timerSeconds, 10);
 
   const quizData = {
+    title: quizTitle,
     professorId: 1,
     deadline: quizDeadline || null,
     timer: totalSeconds || null,
