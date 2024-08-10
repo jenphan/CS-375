@@ -3,9 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BlueBoard</title>
+    <title>Calendar</title>
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
     <link href="../styles/views.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/calendar.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
     <div class="navbar">
@@ -26,33 +27,30 @@
       </b>
     </div>
     <div class="button-container">
-      <button class="button">Add New Course</button>
       <a href="./scheduleAppointment.html">
-        <button type="button" class="button">
+        <button type="button" class="create-course-button">
           Schedule Appointment
         </button>
       </a>
     </div>
-    <div class="sidebar">
-      <!-- implement sidebar?-->
-    </div>
-
-    <div class="main-content">
-      <div id="courseList">
-        <!-- Courses will be listed here -->
+    <div class="page-container">
+      <div class="calendar-container">
+        <div class="events-section">
+          <h2>Appointments</h2>
+          <div id="appointments">
+            <!-- Appointments will be displayed here -->
+          </div>
+        </div>
+        <div class="events-section">
+          <h2>Deadlines</h2>
+          <div id="deadlines">
+            <!-- Deadlines will be displayed here -->
+          </div>
+        </div>
       </div>
-      <form id="addCourseForm" style="display: none">
-        <input
-          type="text"
-          id="courseCode"
-          placeholder="Enter Course Code"
-          required
-        />
-        <button type="submit">Add Course</button>
-      </form>
     </div>
-
     <script src="../script/app.js"></script>
+    <script src="../script/calendar.js"></script>
     <script src="../script/dark-mode.js"></script>
     <script src="../script/logout.js"></script>
   </body>

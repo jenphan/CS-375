@@ -9,7 +9,6 @@ DROP TABLE IF EXISTS quizzes CASCADE;
 DROP TABLE IF EXISTS submissions CASCADE;
 DROP TABLE IF EXISTS appointments CASCADE;
 
-
 CREATE TABLE users (
     usrid SERIAL PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
@@ -33,6 +32,7 @@ CREATE TABLE enrollment (
 
 CREATE TABLE quizzes (
     quizID SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
     creator INT REFERENCES users(usrid),
     quiz JSON,
     deadline TIMESTAMPTZ,

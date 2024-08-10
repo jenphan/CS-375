@@ -10,9 +10,9 @@ const createCourse = async (req, res) => {
     console.log(req.body);
     console.log(req.session.user);
 
-    if (!courseName || !subjectCode || !courseNumber || !crn) {
-        return res.status(400).json({ message: 'All fields are required' });
-    }
+  if (!courseName || !subjectCode || !courseNumber || !crn) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
 
 
     addCourse(crn, subjectCode, courseNumber, courseName, req.session.user.userid, generateRandomCode(), req, res);

@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BlueBoard</title>
+    <title>Schedule Appointment</title>
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
-    <link href="../styles/views.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/register.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
     <div class="navbar">
@@ -25,34 +25,28 @@
         </label>
       </b>
     </div>
-    <div class="button-container">
-      <button class="button">Add New Course</button>
-      <a href="./scheduleAppointment.html">
-        <button type="button" class="button">
-          Schedule Appointment
-        </button>
-      </a>
-    </div>
-    <div class="sidebar">
-      <!-- implement sidebar?-->
-    </div>
-
-    <div class="main-content">
-      <div id="courseList">
-        <!-- Courses will be listed here -->
+    <center>
+      <div class="account-container">
+        <h2>Schedule an Appointment</h2>
+        <form id="schedule-appointment-form">
+          <div class="input-group">
+            <label for="appointment-title">Title</label>
+            <input type="text" id="appointment-title" name="title" required />
+          </div>
+          <div class="input-group">
+            <label for="appointment-date">Date</label>
+            <input
+              type="datetime-local"
+              id="appointment-date"
+              name="date"
+              required
+            />
+          </div>
+          <button type="submit" class="create-account-button">Schedule</button>
+        </form>
       </div>
-      <form id="addCourseForm" style="display: none">
-        <input
-          type="text"
-          id="courseCode"
-          placeholder="Enter Course Code"
-          required
-        />
-        <button type="submit">Add Course</button>
-      </form>
-    </div>
-
-    <script src="../script/app.js"></script>
+    </center>
+    <script src="../script/scheduleAppointment.js"></script>
     <script src="../script/dark-mode.js"></script>
     <script src="../script/logout.js"></script>
   </body>

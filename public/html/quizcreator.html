@@ -1,33 +1,83 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BlueBoard</title>
-    <link href="../styles/quiz.css" rel="stylesheet" type="text/css">
-</head>
-<body>
+    <link href="../styles/style.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/quiz.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
     <div class="navbar">
-        <a href="/"> Home </a>
-        <a href="./credits.html"> About Us </a>
-        <a href="./quizcreator.html"> Create Quiz </a>
-        <a href="./faqs.html"> FAQs </a>
-        <a href="./tutorial.html"> Where to start</a>
-        <button id="logout-button" style="display:none; float: right;">Logout</button>
+      <a href="/"> Home </a>
+      <a href="./credits.html"> About Us </a>
+      <a href="./quizcreator.html"> Create Quiz </a>
+      <a href="./calendar.html"> Calendar </a>
+      <a href="./faqs.html"> FAQs </a>
+      <a href="./tutorial.html"> Where to start</a>
+      <button id="logout-button" style="display: none; float: right">
+        Logout
+      </button>
+      <b>
+        <label class="theme-switch">
+          <input type="checkbox" id="theme-toggle" />
+          <span class="slider"></span>
+        </label>
+      </b>
     </div>
-    <h1>Quiz Creator (Temporary)</h1>
     <div id="quizForm">
-        <div id="quizTitle">
-            <label for="title">Quiz Title:</label>
-            <input type="text" id="title" name="title" required>
+      <h1>Quiz Creator (Temporary)</h1>
+      <div id="quizTitle">
+        <label for="title">Quiz Title<span style="color: red">*</span></label>
+        <input type="text" id="title" name="title" required />
+      </div>
+      <div id="quizDetails">
+        <label for="deadline">Deadline<span style="color: red">*</span></label>
+        <input type="datetime-local" id="deadline" name="deadline" required />
+        <br />
+        <label>Quiz Timer:</label>
+        <div>
+          <input
+            type="number"
+            id="timer-hours"
+            name="timer-hours"
+            min="0"
+            placeholder="00"
+          />
+          Hr
+          <input
+            type="number"
+            id="timer-minutes"
+            name="timer-minutes"
+            min="0"
+            max="59"
+            placeholder="00"
+          />
+          Min
+          <input
+            type="number"
+            id="timer-seconds"
+            name="timer-seconds"
+            min="0"
+            max="59"
+            placeholder="00"
+          />
+          Sec
         </div>
-        <div id="questionsContainer"></div>
-        <button id="addQuestionBtn">Add Question</button>
-        <button id="createQuizBtn">Create Quiz</button>
+      </div>
+      <div id="questionsContainer"></div>
+      <button id="addQuestionBtn">Add Question</button>
+      <button id="createQuizBtn">Create Quiz</button>
+    </div>
+    <div id="quizLink" style="display: none">
+      <p>
+        Quiz created successfully!
+        <a href="./takequiz.html">Take the quiz here!</a>
+      </p>
     </div>
     <script src="../script/app.js"></script>
     <script src="../script/quizcreator.js"></script>
     <script src="../script/dark-mode.js"></script>
     <script src="../script/logout.js"></script>
-</body>
+  </body>
 </html>
