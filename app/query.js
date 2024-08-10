@@ -100,14 +100,22 @@ function registerAccount(username = "", password = "", role){
     })
   }
   
-function getUser(username){
-    pool.query(`SELECT * FROM users WHERE username = $1`, [username]).then(result => {
-      console.log(result.rows);
-      return result.rows;
-    }).catch(error => {
-      console.log("user not found");
-    });
-  }
+function getUser(username) {
+  return pool.query(`SELECT * FROM users WHERE username = $1`, [username])
+      .then(result => {
+          if (result.rows.length > 0) {
+              console.log(result.rows[0]);  // Log the user data
+              return result.rows[0];  // Return the first matching user
+          } else {
+              console.log("User not found");
+              return undefined;  // Return undefined if no user is found
+          }
+      })
+      .catch(error => {
+          console.error("Error executing query", error);
+          throw error;  // Re-throw the error to be handled by the calling function
+      });
+}
   
   function getUsers(role = 0){
     //0: all accounts 

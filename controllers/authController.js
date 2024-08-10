@@ -32,7 +32,7 @@ const loginUser = async (req, res) => {
     }
 
     try {
-        const user = await findUserByUsername(username);
+        const user = await getUser(username);
         if (!user || user.password !== password) {
             return res.status(400).json({ message: 'Invalid username or password' });
         }
