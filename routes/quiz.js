@@ -16,6 +16,7 @@ const pool = new Pool({
 });
 
 const quizFilePath = path.join(__dirname, "quiz.json");
+const submissionFilePath = path.join(__dirname, "submit.json");
 
 function clearQuizFile() {
   fs.writeFileSync(quizFilePath, JSON.stringify([], null, 2), "utf-8");
@@ -112,5 +113,16 @@ router.get("/export-quiz/:quizID", async (req, res) => {
     res.status(500).json({ error: "Failed to fetch quiz data" });
   }
 });
+
+router.get('/getsubmit', (req, res) => {
+  fs.readFile(submissionFilePath, 'utf-8', (err, data) => {
+      if (err) {
+          res.status(500).send('Error while reading submission from file')
+      } else {
+          res.setHeader('Content-Type', 'application/json')
+          res.status(200).json(JSON.parse(data))
+      }
+  })
+})
 
 module.exports = router;
