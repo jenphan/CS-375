@@ -38,9 +38,9 @@ const loginUser = async (req, res) => {
         }
 
         // Set session data
-        req.session.user = { username: user.username, role: user.role };
+        req.session.user = { username: user.username, role: user.type };
 
-        res.status(200).json({ message: 'Login successful', user: { username: user.username, role: user.role } });
+        res.status(200).json({ message: 'Login successful', user: { username: user.username, role: user.type } });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
