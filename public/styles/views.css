@@ -1,42 +1,4 @@
-/* .main-content {
-    margin-left: 250px;
-    margin-top: 50px;
-    padding: 16px;
-}
-
-h2 {
-    margin-top: 0;
-}
-
-#courseList {
-    margin-bottom: 20px;
-}
-
-.course-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #f1f1f1;
-    padding: 10px;
-    margin-bottom: 5px;
-}
-
-.course-item a {
-    margin-left: 20px;
-    text-decoration: none;
-    color: #333;
-}
-
-#createCourseForm {
-    display: none;
-    margin-top: 20px;
-}
-
-#createCourseForm input {
-    margin-right: 10px;
-    padding: 5px;
-} */
-
+/* interactive buttons in top right corner */
 .button-container {
   position: absolute;
   top: 85px;
@@ -45,8 +7,8 @@ h2 {
   gap: 10px; /* Space between buttons */
 }
 
-/* Position the button in the top right corner */
-.create-course-button {
+.button {
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   background-color: #0b41b6;
   color: white;
   padding: 10px 20px;
@@ -56,8 +18,59 @@ h2 {
   border-radius: 25px;
 }
 
-/* #createCourseForm input,
-#createCourseForm button {
-    padding: 10px;
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+/* add announcement */
+textarea {
+    width: 100%; 
+    height: 150px; 
+    padding: 10px; 
+    box-sizing: border-box; 
     font-size: 16px;
-} */
+    resize: vertical; 
+  }
+  
+.post-container {
+    margin-top: 10%;
+    width: 700px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.6);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+  }
+
+  /* display current courses */
+  .course-box {
+    display: inline-block;
+    width: 300px;
+    height: 200px;
+    margin: 10px;
+    border: 2px solid #ddd;
+    background-color: rgba(255, 255, 255, 0.6);
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: center;
+    vertical-align: top;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    transform: translateX(10px);
+  }
+  .course-box img {
+    width: 100%;
+    height: 80%;
+    object-fit: cover;
+  }
+  .course-box .title {
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  .course-box:hover {
+    transform: scale(1.05);
+  }

@@ -15,6 +15,7 @@
       <a href="./calendar.html"> Calendar </a>
       <a href="./faqs.html"> FAQs </a>
       <a href="./tutorial.html"> Where to start</a>
+      <a href="./announcements.html"> Announcements</a>   <!-- add to side bar nav later? -->
       <button id="logout-button" style="display: none; float: right">
         Logout
       </button>
@@ -27,21 +28,19 @@
     </div>
     <div class="button-container">
       <a href="./createCourse.html">
-        <button type="button" class="create-course-button">
+        <button type="button" class="button">
           Create New Course
         </button>
       </a>
       <a href="./scheduleAppointment.html">
-        <button type="button" class="create-course-button">
+        <button type="button" class="button">
           Schedule Appointment
         </button>
       </a>
     </div>
-    <div class="sidebar">
-      <!-- implement sidebar?-->
-    </div>
 
     <div class="main-content">
+      <h2 class="title">Current Courses</h2>
       <div id="courseList">
         <!-- Courses will be listed here -->
       </div>
@@ -50,5 +49,6 @@
     <script src="../script/app.js"></script>
     <script src="../script/dark-mode.js"></script>
     <script src="../script/logout.js"></script>
+    <script src="../script/currentCourses.js"></script>
   </body>
 </html>
