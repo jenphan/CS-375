@@ -18,8 +18,9 @@ CREATE TABLE users (
 ); 
 
 CREATE TABLE courses (
-    crn VARCHAR(10) UNIQUE PRIMARY KEY, 
+    crn VARCHAR(10) UNIQUE PRIMARY KEY,  
     department VARCHAR(255) NOT NULL,
+    number VARCHAR(3),
     title VARCHAR(255) NOT NULL, 
     professorid INT REFERENCES users(usrid), 
     registrationcode VARCHAR(10) UNIQUE

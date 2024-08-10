@@ -15,18 +15,23 @@ const pool = new Pool({
 });
 
 /* QUERY FUNCTIONS */
-function registerAccount(username = "", password = "", role){
-    if ((username === "") || (password === "")) {
-      //error
-      return -2;
-    }
-    pool.query(`INSERT INTO users(username, password, role) VALUES($1, $2, $3)`, [username, password, role]).then(result => {
-      console.log("successful account insert");
-    }).catch(error => {
-      console.log("account insert error");
-      return -1;
+function registerAccount(username, password, role, req, res){
+    pool.query(`SELECT * FROM users WHERE username = $1`, [username]).then( result => {
+      console.log(result.rows);
+      if(result.rows.length !== 0){
+        return res.status(400).json({ message: 'Username already exists' });
+      }
+      else {
+        pool.query(`INSERT INTO users(username, password, role) VALUES($1, $2, $3)`, [username, password, role]).then(result => {
+        console.log("successful account insert");
+        return res.status(200).json({message: 'User registered successfully'});
+      }).catch(error => {
+        console.log("account insert error");
+        return res.status(500).json({ message: 'Account creation error' });
+      });
+      }
     });
-  }
+  };
   
   function updateUsername(userid, username){
     if ((username === "")){
@@ -43,7 +48,7 @@ function registerAccount(username = "", password = "", role){
     if ((password === "")){
       return -2;
     }
-    pool.query(`UPDATE users SET password = $1 WHERE usrID = $2`, [password, userid]).then(result => {
+    return pool.query(`UPDATE users SET password = $1 WHERE usrID = $2`, [password, userid]).then(result => {
       console.log("successful password update");
     }).catch(error => {
       console.log("password update error");
@@ -51,28 +56,37 @@ function registerAccount(username = "", password = "", role){
   }
   
   
-  function addCourse(crn = "", dept = "", title = "", profID = "", code = ""){
-      if ((crn === "") || (dept === "") || (title === "") || (profID=== "") || (code === "")){
-        //error
-        return -2;
-      }  
-  
-      pool.query(`INSERT INTO courses(crn, department, title, professorid, registrationcode) VALUES($1, $2, $3, $4, $5)`, [crn, dept, title, profID, code]).then(result =>{
-        console.log("successful course creation");
-      }).catch(error => {
+  function addCourse(crn, num, dept, title, profID, code, req, res){
+    pool.query(`SELECT * FROM courses WHERE crn = $1`, [crn]).then(result => {
+      console.log(result.rows);
+      if (result.rows.length !== 0){
+        return res.status(400).json({ message: 'Course with provided CRN already exists' });
+      }
+      else{
+        pool.query(`INSERT INTO courses(crn, department, number, title, professorid, registrationcode) VALUES($1, $2, $3, $4, $5, $6)`, [crn, dept, num, title, profID, code]).then(result =>{
+          console.log("successful course creation");
+          return res.status(200).json({
+            message: 'Course created successfully',
+            course: result.rows[0]});
+        }).catch(error => {
         console.log("course creation error");
-      });
+        return res.status(500).json({ message: 'course creation error' });
+        });
+      }
+    });
   }
+     
   
   function updateTitle(crn, title = ""){
     if(title === ""){
       return -2;
     }
   
-    pool.query(`UPDATE courses SET title = $1 WHERE crn = $2`, [title, crn]).then( result => {
+    return pool.query(`UPDATE courses SET title = $1 WHERE crn = $2`, [title, crn]).then( result => {
       console.log("successful course name update");
     }).catch(error => {
       console.log("course name update error");
+      throw new Error("Title could not be updated");
     })
   }
   
@@ -81,7 +95,7 @@ function registerAccount(username = "", password = "", role){
       return -2;
     }
   
-    pool.query(`UPDATE courses SET professorid = $1 WHERE crn = $2`, [profID, crn]).then( result => {
+    return pool.query(`UPDATE courses SET professorid = $1 WHERE crn = $2`, [profID, crn]).then( result => {
       console.log("successful course professor update");
     }).catch(error => {
       console.log("course professor update error");
@@ -93,21 +107,29 @@ function registerAccount(username = "", password = "", role){
       return -2;
     }
   
-    pool.query(`UPDATE courses SET registrationcode = $1 WHERE crn = $2`, [code, crn]).then( result => {
+    return pool.query(`UPDATE courses SET registrationcode = $1 WHERE crn = $2`, [code, crn]).then( result => {
       console.log("successful registration code update");
     }).catch(error => {
       console.log("registration code update error"); 
     })
   }
   
-function getUser(username){
-    pool.query(`SELECT * FROM users WHERE username = $1`, [username]).then(result => {
+    function getLogin(username, password, req, res){
+    pool.query(`SELECT * FROM users WHERE username = $1`, [username]).then( result =>{
       console.log(result.rows);
-      return result.rows;
+      if(result.rows.length === 0 || result.rows[0].password !== password){
+        return res.status(400).json({ message: 'Invalid username or password' });
+      }
+      else {
+        let user = result.rows[0];
+        req.session.user = { userid: user.usrid, username: user.username, role: user.role };
+        res.status(200).json({ message: 'Login successful', user: { username: user.username, role: user.role } });
+      }
     }).catch(error => {
       console.log("user not found");
+      res.status(500).json({message: 'User not found'});
     });
-  }
+  };
   
   function getUsers(role = 0){
     //0: all accounts 
@@ -235,7 +257,7 @@ module.exports = {
   registerAccount,
   updateUsername,
   updatePassword,
-  getUser,
+  getLogin,
   getUsers,
   //courses
   addCourse,
