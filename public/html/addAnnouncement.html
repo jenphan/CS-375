@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BlueBoard</title>
+    <title>Add Announcement</title>
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/register.css" rel="stylesheet" type="text/css" />
     <link href="../styles/views.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
@@ -25,35 +26,26 @@
         </label>
       </b>
     </div>
-    <div class="button-container">
-      <button class="button">Add New Course</button>
-      <a href="./scheduleAppointment.html">
-        <button type="button" class="button">
-          Schedule Appointment
-        </button>
-      </a>
-    </div>
-    <div class="sidebar">
-      <!-- implement sidebar?-->
-    </div>
-
-    <div class="main-content">
-      <div id="courseList">
-        <!-- Courses will be listed here -->
-      </div>
-      <form id="addCourseForm" style="display: none">
-        <input
-          type="text"
-          id="courseCode"
-          placeholder="Enter Course Code"
-          required
-        />
-        <button type="submit">Add Course</button>
+    <center>
+      <div class="post-container">
+        <h2>Add New Announcement</h2>
+        <form id="create-course-form">
+          <div class="input-group">
+            <label for="Title">Title</label>
+            <input type="text" id="title" name="title" required />
+          </div>
+          <div class="input-group">
+            <label for="body">Enter text...</label>
+            <textarea id="body" name="body" required></textarea>
+          </div>
+          <button type="submit" class="create-account-button">
+            Create Post
+          </button>
       </form>
     </div>
-
     <script src="../script/app.js"></script>
     <script src="../script/dark-mode.js"></script>
     <script src="../script/logout.js"></script>
+    <script src="../script/addAnnoucement.js"></script>
   </body>
 </html>
