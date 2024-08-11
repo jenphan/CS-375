@@ -35,9 +35,11 @@ function handleDragEnd(event) {
 let questionCount = 0;
 
 document
-  .getElementById("addQuestionBtn")
+  .getElementById("addQuestionButton")
   .addEventListener("click", addQuestion);
-document.getElementById("createQuizBtn").addEventListener("click", createQuiz);
+document
+  .getElementById("createQuizButton")
+  .addEventListener("click", createQuiz);
 
 function addQuestion() {
   questionCount++;
@@ -99,7 +101,7 @@ function addQuestion() {
             <div class="answer-radios" style="display: none"></div>
             <div class="answer-dropdown" style="display: none"><select></select></div>
         </div>
-        <button id="deleteQuestionBtn" onclick="deleteQuestion(this)">Delete</button>
+        <button id="deleteQuestionButton" onclick="deleteQuestion(this)">Delete</button>
     </div>
     `;
 
