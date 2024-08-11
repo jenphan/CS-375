@@ -7,8 +7,8 @@ const envConfig = JSON.parse(fs.readFileSync("../env.json", "utf8"));
 const pool = new Pool({
   user: envConfig.DATABASE_USER,
   host: envConfig.DATABASE_HOST,
-  database: envConfig.DATABASE_NAME,
-  password: envConfig.DATABASE_PASSWORD,
+  database: 'cs375',
+  password: 'password',
   port: envConfig.DATABASE_PORT,
 });
 
