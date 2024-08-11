@@ -60,40 +60,42 @@ function generateQuizForm(quiz, quizQuestions) {
 
     quizForm.appendChild(questionElement);
   });
-  const quizSubmitBtn = document.createElement("button");
-  quizSubmitBtn.innerText = "Submit Quiz";
-  quizSubmitBtn.setAttribute("id", "submitQuizBtn");
-  quizForm.appendChild(quizSubmitBtn);
+  const quizSubmitButton = document.createElement("button");
+  quizSubmitButton.innerText = "Submit Quiz";
+  quizSubmitButton.setAttribute("id", "submitQuizButton");
+  quizForm.appendChild(quizSubmitButton);
 }
 
-document.getElementById("submitQuizBtn").addEventListener("click", async () => {
-  const quizForm = document.getElementById("quizForm");
-  const formData = new FormData(quizForm);
-  const quizData = {};
-  const quizId = 4141;
+document
+  .getElementById("submitQuizButton")
+  .addEventListener("click", async () => {
+    const quizForm = document.getElementById("quizForm");
+    const formData = new FormData(quizForm);
+    const quizData = {};
+    const quizId = 4141;
 
-  for (let [key, value] of formData.entries()) {
-    if (!quizData[key]) {
-      quizData[key] = [];
+    for (let [key, value] of formData.entries()) {
+      if (!quizData[key]) {
+        quizData[key] = [];
+      }
+      quizData[key].push(value);
     }
-    quizData[key].push(value);
-  }
 
-  try {
-    const response = await fetch("/quiz/submit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ quizId, response: quizData }),
-    });
+    try {
+      const response = await fetch("/quiz/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ quizId, response: quizData }),
+      });
 
-    if (response.ok) {
-      console.log("Quiz was submitted successfully!");
-    } else {
-      console.log("Error while submitting quiz", response.statusText);
+      if (response.ok) {
+        console.log("Quiz was submitted successfully!");
+      } else {
+        console.log("Error while submitting quiz", response.statusText);
+      }
+    } catch (error) {
+      console.log("Error while submitting quiz", error);
     }
-  } catch (error) {
-    console.log("Error while submitting quiz", error);
-  }
-});
+  });
