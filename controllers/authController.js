@@ -1,5 +1,3 @@
-
-
 let {registerAccount, getLogin} = require('../app/query');
 
 

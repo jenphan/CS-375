@@ -3,10 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Calendar</title>
+    <title>BlueBoard</title>
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
-    <link href="../styles/views.css" rel="stylesheet" type="text/css" />
-    <link href="../styles/calendar.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/quiz.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
     <div class="navbar">
@@ -25,31 +24,14 @@
         </label>
       </b>
     </div>
-    <div class="button-container">
-      <a href="./scheduleAppointment.html">
-        <button type="button" class="button">
-          Schedule Appointment
-        </button>
-      </a>
-    </div>
-    <div class="page-container">
-      <div class="calendar-container">
-        <div class="events-section">
-          <h2>Appointments</h2>
-          <div id="appointments">
-            <!-- Appointments will be displayed here -->
-          </div>
-        </div>
-        <div class="events-section">
-          <h2>Deadlines</h2>
-          <div id="deadlines">
-            <!-- Deadlines will be displayed here -->
-          </div>
-        </div>
-      </div>
+    <div id="editQuizForm">
+      <h1>Edit Quiz</h1>
+      <form id="quizForm">
+        <label>Quiz Title:</label>
+      </form>
     </div>
     <script src="../script/app.js"></script>
-    <script src="../script/calendar.js"></script>
+    <script src="../script/takeQuiz.js"></script>
     <script src="../script/dark-mode.js"></script>
     <script src="../script/logout.js"></script>
   </body>

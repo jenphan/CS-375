@@ -114,15 +114,54 @@ router.get("/export-quiz/:quizID", async (req, res) => {
   }
 });
 
-router.get('/getsubmit', (req, res) => {
-  fs.readFile(submissionFilePath, 'utf-8', (err, data) => {
-      if (err) {
-          res.status(500).send('Error while reading submission from file')
-      } else {
-          res.setHeader('Content-Type', 'application/json')
-          res.status(200).json(JSON.parse(data))
-      }
-  })
-})
+router.get("/getsubmit", (req, res) => {
+  fs.readFile(submissionFilePath, "utf-8", (err, data) => {
+    if (err) {
+      res.status(500).send("Error while reading submission from file");
+    } else {
+      res.setHeader("Content-Type", "application/json");
+      res.status(200).json(JSON.parse(data));
+    }
+  });
+});
+
+router.get("/get-quizzes", async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT q.quizID, q.title AS quizTitle, u.username AS professorName, q.deadline
+      FROM quizzes q
+      JOIN users u ON q.creator = u.usrid
+    `);
+    res.status(200).json(result.rows);
+  } catch (error) {
+    console.error("Error while fetching quizzes", error);
+    res.status(500).json({ message: "Error while fetching quizzes" });
+  }
+});
+
+router.get("/take/:quizID", async (req, res) => {
+  const quizID = req.params.quizID;
+  try {
+    const result = await pool.query(
+      `
+      SELECT q.title AS quizTitle, u.username AS professorName, q.deadline, q.quiz
+      FROM quizzes q
+      JOIN users u ON q.creator = u.usrid
+      WHERE q.quizID = $1
+    `,
+      [quizID],
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Quiz not found" });
+    }
+    res.status(200).json(result.rows[0]);
+  } catch (error) {
+    console.error("Error while fetching quizzes", error);
+    res.status(500).json({ message: "Error while fetching quizzes" });
+  }
+});
+
+router.get("/edit/:quizID", async (req, res) => {});
 
 module.exports = router;
