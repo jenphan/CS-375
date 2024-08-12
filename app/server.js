@@ -12,7 +12,19 @@ const calendarRoutes = require("../routes/calendar");
 
 let app = express();
 let port = 3000;
-let hostname = "localhost";
+let hostname;
+
+let databaseConfig;
+// fly.io sets NODE_ENV to production automatically, otherwise it's unset when running locally
+if (process.env.NODE_ENV == "production") {
+	hostname = "0.0.0.0";
+	databaseConfig = { connectionString: process.env.DATABASE_URL };
+} else {
+	hostname = "localhost";
+	let { PGUSER, PGPASSWORD, PGDATABASE, PGHOST, PGPORT } = process.env;
+	databaseConfig = { PGUSER, PGPASSWORD, PGDATABASE, PGHOST, PGPORT };
+}
+
 
 // Generate a random secret key
 const secretKey = crypto.randomBytes(64).toString("hex");
