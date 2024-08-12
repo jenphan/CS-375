@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BlueBoard</title>
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
-    <link href="../styles/quizCards.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/quiz.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
     <div class="navbar">
       <a href="/"> Home </a>
       <a href="./credits.html"> About Us </a>
+      <a href="./calendar.html"> Calendar </a>
       <a href="./faqs.html"> FAQs </a>
       <a href="./tutorial.html"> Where to start</a>
       <button id="logout-button" style="display: none; float: right">
@@ -23,11 +24,14 @@
         </label>
       </b>
     </div>
-    <div id="quizContainer">
-      <h1>All Quizzes</h1>
+    <div id="editQuizForm">
+      <h1>Edit Quiz</h1>
+      <form id="quizForm">
+        <label>Quiz Title:</label>
+      </form>
     </div>
     <script src="../script/app.js"></script>
-    <script src="../script/displayQuizzes.js"></script>
+    <script src="../script/takeQuiz.js"></script>
     <script src="../script/dark-mode.js"></script>
     <script src="../script/logout.js"></script>
   </body>

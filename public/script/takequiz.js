@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   try {
-    const response = await fetch(`/quiz/${quizID}`);
+    const response = await fetch(`/quiz/take/${quizID}`);
     if (response.ok) {
       const quiz = await response.json();
       generateQuizForm(quiz, quiz.quiz);

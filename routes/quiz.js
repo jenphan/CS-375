@@ -139,7 +139,7 @@ router.get("/get-quizzes", async (req, res) => {
   }
 });
 
-router.get("/:quizID", async (req, res) => {
+router.get("/take/:quizID", async (req, res) => {
   const quizID = req.params.quizID;
   try {
     const result = await pool.query(
@@ -161,5 +161,7 @@ router.get("/:quizID", async (req, res) => {
     res.status(500).json({ message: "Error while fetching quizzes" });
   }
 });
+
+router.get("/edit/:quizID", async (req, res) => {});
 
 module.exports = router;

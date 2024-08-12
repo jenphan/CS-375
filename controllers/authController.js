@@ -1,53 +1,57 @@
-let {registerAccount, getUser} = require('../app/query');
+let { registerAccount, getUser } = require("../app/query");
 
 const registerUser = async (req, res) => {
-    const { username, password, role } = req.body;
-    console.log(req.body);
-    
-    if (!username || !password || !role) {
-        return res.status(400).json({ message: 'All fields are required' });
+  const { username, password, role } = req.body;
+  console.log(req.body);
+
+  if (!username || !password || !role) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  try {
+    let existingUser = getUser(username);
+    if (existingUser != undefined) {
+      return res.status(400).json({ message: "Username already exists" });
     }
 
-    try {
-        let existingUser = getUser(username);
-        if (existingUser != undefined) {
-            return res.status(400).json({ message: 'Username already exists' });
-        }
+    registerAccount(username, password, role);
 
-        registerAccount(username, password, role); 
-        
-        //THIS ERROR TRAPPING NO LONGER WORKS
-        res.status(201).json({ message: 'User registered successfully' });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
-    }
+    //THIS ERROR TRAPPING NO LONGER WORKS
+    res.status(201).json({ message: "User registered successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
 };
 
 const loginUser = async (req, res) => {
-    const { username, password } = req.body;
+  const { username, password } = req.body;
 
-    if (!username || !password) {
-        return res.status(400).json({ message: 'All fields are required' });
+  if (!username || !password) {
+    return res.status(400).json({ message: "All fields are required" });
+  }
+
+  try {
+    const user = await getUser(username);
+    console.log(user.role);
+    if (!user || user.password !== password) {
+      return res.status(400).json({ message: "Invalid username or password" });
     }
 
-    try {
-        const user = await getUser(username);
-        if (!user || user.password !== password) {
-            return res.status(400).json({ message: 'Invalid username or password' });
-        }
+    // Set session data
+    req.session.user = { username: user.username, role: user.role };
 
-        // Set session data
-        req.session.user = { username: user.username, role: user.type };
-
-        res.status(200).json({ message: 'Login successful', user: { username: user.username, role: user.type } });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
-    }
+    res.status(200).json({
+      message: "Login successful",
+      user: { username: user.username, role: user.role },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
 };
 
 module.exports = {
-    registerUser,
-    loginUser,
+  registerUser,
+  loginUser,
 };
