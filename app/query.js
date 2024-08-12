@@ -2,6 +2,7 @@
 const { Pool } = require('pg');
 const fs = require('fs');
 const { register } = require('module');
+const argon2 = require('argon2'); // linh changed
 
 // Load environment configuration
 const envConfig = JSON.parse(fs.readFileSync('../env.json', 'utf8'));
@@ -15,23 +16,23 @@ const pool = new Pool({
 });
 
 /* QUERY FUNCTIONS */
-function registerAccount(username, password, role, req, res){
-    pool.query(`SELECT * FROM users WHERE username = $1`, [username]).then( result => {
-      console.log(result.rows);
-      if(result.rows.length !== 0){
+  // linh changed - async await juust for wait while waiting for a process of database query to complete
+  async function registerAccount(username, password, role, req, res) {
+    try {
+      const result = await pool.query(`SELECT * FROM users WHERE username = $1`, [username]);
+      if (result.rows.length !== 0) {
         return res.status(400).json({ message: 'Username already exists' });
       }
-      else {
-        pool.query(`INSERT INTO users(username, password, role) VALUES($1, $2, $3)`, [username, password, role]).then(result => {
-        console.log("successful account insert");
-        return res.status(200).json({message: 'User registered successfully'});
-      }).catch(error => {
-        console.log("account insert error");
-        return res.status(500).json({ message: 'Account creation error' });
-      });
-      }
-    });
-  };
+      // Hash the password
+      const hashedPassword = await argon2.hash(password);
+      await pool.query(`INSERT INTO users(username, password, role) VALUES($1, $2, $3)`, [username, hashedPassword, role]);
+      console.log("successful account insert");
+      return res.status(200).json({ message: 'User registered successfully' });
+    } catch (error) {
+      console.log("Error registering account:", error);
+      return res.status(500).json({ message: 'Account creation error' });
+    }
+  }
   
   function updateUsername(userid, username){
     if ((username === "")){
@@ -44,15 +45,18 @@ function registerAccount(username, password, role, req, res){
     });
   }
   
-  function updatePassword(userid, password){
-    if ((password === "")){
+  // linh changed
+  async function updatePassword(userid, password) {
+    if (!password) {
       return -2;
     }
-    return pool.query(`UPDATE users SET password = $1 WHERE usrID = $2`, [password, userid]).then(result => {
+    try {
+      const hashedPassword = await argon2.hash(password);
+      await pool.query(`UPDATE users SET password = $1 WHERE usrid = $2`, [hashedPassword, userid]);
       console.log("successful password update");
-    }).catch(error => {
-      console.log("password update error");
-    });
+    } catch (error) {
+      console.log("password update error:", error);
+    }
   }
   
   
@@ -114,22 +118,26 @@ function registerAccount(username, password, role, req, res){
     })
   }
   
-    function getLogin(username, password, req, res){
-    pool.query(`SELECT * FROM users WHERE username = $1`, [username]).then( result =>{
-      console.log(result.rows);
-      if(result.rows.length === 0 || result.rows[0].password !== password){
+  // linh changed
+  async function getLogin(username, password, req, res) {
+    try {
+      const result = await pool.query(`SELECT * FROM users WHERE username = $1`, [username]);
+      if (result.rows.length === 0) {
         return res.status(400).json({ message: 'Invalid username or password' });
       }
-      else {
-        let user = result.rows[0];
-        req.session.user = { userid: user.usrid, username: user.username, role: user.role };
-        res.status(200).json({ message: 'Login successful', user: { username: user.username, role: user.role } });
+      const user = result.rows[0];
+      // Verify the password
+      const validPassword = await argon2.verify(user.password, password);
+      if (!validPassword) {
+        return res.status(400).json({ message: 'Invalid username or password' });
       }
-    }).catch(error => {
-      console.log("user not found");
-      res.status(500).json({message: 'User not found'});
-    });
-  };
+      req.session.user = { userid: user.usrid, username: user.username, role: user.role };
+      res.status(200).json({ message: 'Login successful', user: { username: user.username, role: user.role } });
+    } catch (error) {
+      console.log("Error during login:", error);
+      res.status(500).json({ message: 'User not found' });
+    }
+ }
   
   function getUsers(role = 0){
     //0: all accounts 
