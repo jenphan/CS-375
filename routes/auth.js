@@ -26,4 +26,20 @@ router.get("/check-session", (req, res) => {
   }
 });
 
+// handle the home redirection based on role
+router.get("/home", (req, res) => {
+  if (req.session.user) {
+    const role = req.session.user.role;
+    if (role === 'professor') {
+      res.redirect("/html/professor.html");
+    } else if (role === 'student') {
+      res.redirect("/html/student.html");
+    } else {
+      res.redirect("/"); // default to home if the role is unrecognized
+    }
+  } else {
+    res.redirect("/"); // redirect to home if not logged in
+  }
+});
+
 module.exports = router;
