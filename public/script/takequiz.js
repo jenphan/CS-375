@@ -1,6 +1,6 @@
+const url = new URLSearchParams(window.location.search);
+const quizID = url.get("quizID");
 document.addEventListener("DOMContentLoaded", async () => {
-  const url = new URLSearchParams(window.location.search);
-  const quizID = url.get("quizID");
 
   if (!quizID) {
     console.log("Quiz ID is missing");
@@ -60,19 +60,17 @@ function generateQuizForm(quiz, quizQuestions) {
 
     quizForm.appendChild(questionElement);
   });
+
   const quizSubmitButton = document.createElement("button");
   quizSubmitButton.innerText = "Submit Quiz";
   quizSubmitButton.setAttribute("id", "submitQuizButton");
   quizForm.appendChild(quizSubmitButton);
-}
 
-document
-  .getElementById("submitQuizButton")
-  .addEventListener("click", async () => {
+  quizSubmitButton.addEventListener("click", async () => {
+    event.preventDefault();
     const quizForm = document.getElementById("quizForm");
     const formData = new FormData(quizForm);
     const quizData = {};
-    const quizId = 4141;
 
     for (let [key, value] of formData.entries()) {
       if (!quizData[key]) {
@@ -87,7 +85,7 @@ document
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ quizId, response: quizData }),
+        body: JSON.stringify({ quizID, response: quizData }),
       });
 
       if (response.ok) {
@@ -99,3 +97,4 @@ document
       console.log("Error while submitting quiz", error);
     }
   });
+}

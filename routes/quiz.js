@@ -26,11 +26,11 @@ clearQuizFile();
 
 router.post("/createquiz", async (req, res) => {
   const { title, professorId, deadline, timer, questions } = req.body;
-
+  console.log(req.session.user.userid);
   try {
     const result = await pool.query(
       "INSERT INTO quizzes (title, creator, quiz, deadline, timer) VALUES ($1, $2, $3, $4, $5) RETURNING quizID",
-      [title, professorId, questions, deadline, timer],
+      [title, req.session.user.userid, questions, deadline, timer],
     );
     const quizID = result.rows[0].quizID;
     res.status(200).json({ quizID });
@@ -72,7 +72,9 @@ router.get("/get-quizzes-calendar", async (req, res) => {
 });
 
 router.post("/submit", async (req, res) => {
-  const { quizID, studentID, submission } = req.body;
+  const { quizID, submission } = req.body;
+  const studentID = req.session.user.userid;
+  console.log(studentID);
   try {
     await pool.query(
       "INSERT INTO submissions (quizVersion, student, submission) VALUES ($1, $2, $3)",
