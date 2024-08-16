@@ -57,7 +57,8 @@ document
 
 function loadQuizData(quizData) {
   document.getElementById("title").value = quizData.title;
-  document.getElementById("deadline").value = quizData.deadline;
+  const deadline = new Date(quizData.deadline).toISOString().slice(0, 16);
+  document.getElementById("deadline").value = deadline;
 
   const { hours, minutes, seconds } = convertSecondsToTime(quizData.timer);
   document.getElementById("timer-hours").value = hours;
@@ -117,20 +118,19 @@ function populateQuestion(questionElement, questionData) {
 
     questionData.options.forEach((option, index) => {
       questionElement.querySelectorAll(".option")[index].value = option;
+      if (questionData.type === "multiple-choice") {
+        questionElement.querySelectorAll(".option")[index].value = option;
+      } else if (questionData.type === "checkboxes") {
+        questionData.correctAnswer.forEach((correctAnswerIndex) => {
+          questionElement.querySelector(
+            `.answer-checkbox[value='${correctAnswerIndex}']`,
+          ).checked = true;
+        });
+      } else if (questionData.type === "dropdown") {
+        questionElement.querySelector(".answer-dropdown select").value =
+          questionData.correctAnswer;
+      }
     });
-
-    if (questionData.type === "multiple-choice") {
-      questionElement.querySelectorAll(".option")[index].value = option;
-    } else if (questionData.type === "checkboxes") {
-      questionData.correctAnswer.forEach((correctAnswerIndex) => {
-        questionElement.querySelector(
-          `.answer-checkbox[value='${correctAnswerIndex}']`,
-        ).checked = true;
-      });
-    } else if (questionData.type === "dropdown") {
-      questionElement.querySelector(".answer-dropdown select").value =
-        questionData.correctAnswer;
-    }
   }
   toggleAutograding(questionElement.querySelector(".autograding"));
 }
@@ -399,71 +399,4 @@ async function createQuiz() {
   } catch (error) {
     console.log("Error creating quiz", error);
   }
-}
-
-function addQuestion() {
-  questionCount++;
-
-  const questionContainer = document.getElementById("questionsContainer");
-  const questionElement = document.createElement("div");
-  questionElement.className = "question";
-  questionElement.draggable = true;
-  questionElement.dataset.index = questionCount;
-
-  questionElement.innerHTML = `
-    <div class="questionSection">
-        <label>Question ${questionCount}<span style="color: red;">*</span></label>
-        <select class="question-type" onchange="handleQuestionTypeChange(this)" required>
-            <option value="" disabled selected>Select question type</option>
-            <option value="short-answer">Short Answer</option>
-            <option value="long-answer">Long Answer</option>
-            <option value="multiple-choice">Multiple Choice</option>
-            <option value="true-false">True/False</option>
-            <option value="checkboxes">Checkboxes</option>
-            <option value="dropdown">Dropdown</option>
-            <option value="file-upload">File Upload</option>
-        </select>
-        <div>
-            <label>Question<span style="color: red;">*</span></label>
-            <input type="text" class="question-content" required>
-            <br>
-            <label>Points<span style="color: red;">*</span></label>
-            <input type="number" class="question-points" required>
-            <br>
-            <label class="autograding-label">Automatic Grading?</label>
-            <input type="checkbox" class="autograding" onchange="toggleAutograding(this)">
-        </div>
-        <div class="validation-settings" style="display: none">
-            <div class="short-answer-validation" style="display: none">
-                <label>Max Characters:</label>
-                <input type="number" class="max-characters">
-            </div>
-            <div class="long-answer-validation" style="display: none">
-                <label>Min Characters:</label>
-                <input type="number" class="min-characters">
-                <label>Max Characters:</label>
-                <input type="number" class="max-characters">
-            </div>
-        </div>
-        <div class="options-input" style="display: none">
-            <label>Number of Options<span style="color: red;">*</span></label>
-            <input type="number" class="num-of-options" min="1" onchange="updateOptions(this)">
-            <div class="options-container"></div>
-        </div>
-        <div class="answer-input" style="display: none">
-            <label class="correct-answer-label">Correct Answer<span style="color: red;">*</span></label>
-            <input type="text" class="correct-answer">
-            <div class="true-false-options" style="display: none">
-                <label><input type="radio" name="true-false-${questionCount}" value="true"> True</label>
-                <label><input type="radio" name="true-false-${questionCount}" value="false"> False</label>
-            </div>
-            <div class="answer-checkboxes" style="display: none"></div>
-            <div class="answer-radios" style="display: none"></div>
-            <div class="answer-dropdown" style="display: none"><select></select></div>
-        </div>
-        <button id="deleteQuestionButton" onclick="deleteQuestion(this)">Delete</button>
-    </div>
-    `;
-
-  questionContainer.appendChild(questionElement);
 }

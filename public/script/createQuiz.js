@@ -1,9 +1,26 @@
 document.addEventListener("DOMContentLoaded", () => {
   const questionContainer = document.getElementById("questionsContainer");
-  questionContainer.addEventListener("dragstart", handleDragStart);
-  questionContainer.addEventListener("dragover", handleDragOver);
-  questionContainer.addEventListener("drop", handleDrop);
-  questionContainer.addEventListener("dragend", handleDragEnd);
+
+  const eventMappings = {
+    dragstart: handleDragStart,
+    dragover: handleDragOver,
+    drop: handleDrop,
+    dragend: handleDragEnd,
+    click: handleButtonClicks
+  };
+
+  Object.keys(eventMappings).forEach(event => {
+    questionContainer.addEventListener(event, eventMappings[event])
+  })
+
+  const buttons = {
+    addQuestionButton: addQuestion,
+    createQuizButton: createQuiz
+  }
+
+  Object.keys(buttons).forEach(id => {
+    document.getElementById(id).addEventListener("click", buttons[id]);
+  })
 });
 
 const validation = {
@@ -36,27 +53,30 @@ function handleDrop(event) {
   }
 }
 
-function handleDragEnd(event) {
+function handleDragEnd() {
   draggedElement = null;
+}
+
+function handleButtonClicks(event) {
+  if (event.target.matches("#deleteQuestionButton")) {
+    deleteQuestion(event.target);
+  }
 }
 
 let questionCount = 0;
 
-document
-  .getElementById("addQuestionButton")
-  .addEventListener("click", addQuestion);
-document
-  .getElementById("createQuizButton")
-  .addEventListener("click", createQuiz);
-
 function addQuestion() {
   questionCount++;
-
   const questionContainer = document.getElementById("questionsContainer");
+  const questionElement = createQuestionElement(questionCount);
+  questionContainer.appendChild(questionElement);
+}
+
+function createQuestionElement(index) {
   const questionElement = document.createElement("div");
   questionElement.className = "question";
   questionElement.draggable = true;
-  questionElement.dataset.index = questionCount;
+  questionElement.dataset.index = index;
 
   questionElement.innerHTML = `
     <div class="questionSection">
@@ -112,107 +132,83 @@ function addQuestion() {
         <button id="deleteQuestionButton" onclick="deleteQuestion(this)">Delete</button>
     </div>
     `;
-
-  questionContainer.appendChild(questionElement);
+    return questionElement;
 }
 
 function deleteQuestion(button) {
-  const questionElement = button.closest(".question");
-  questionElement.remove();
+  button.closest(".question").remove();
   renumberQuestions();
 }
 
 function renumberQuestions() {
   const questions = document.querySelectorAll(".question");
-  questionCount = 0;
 
   questions.forEach((question, index) => {
     questionCount++;
     question.dataset.index = questionCount;
     const label = question.querySelector("label");
-    if (label) {
-      label.textContent = `Question ${questionCount}`;
-    }
+    if (label) label.textContent = `Question ${questionCount}`;
 
-    const radios = question.querySelectorAll(".answer-radio");
-    radios.forEach((radio) => {
-      radio.name = `correct-answer-${questionCount}`;
-    });
+    updateNames(question, questionCount)
+  });
+}
 
-    const trueFalse = question.querySelectorAll(".true-false-options input");
-    trueFalse.forEach((input) => {
-      input.name = `true-false-${questionCount}`;
-    });
+function updateNames(question, count) {
+  question.querySelectorAll(".answer-radio").forEach((radio) => {
+    radio.name = `correct-answer-${count}`;
+  });
+
+  question.querySelectorAll(".true-false-options input").forEach((input) => {
+    input.name = `true-false-${count}`;
   });
 }
 
 function handleQuestionTypeChange(selected) {
   const questionElement = selected.closest(".question");
-  const optionsContainer = questionElement.querySelector(".options-input");
-  const trueFalseOptions = questionElement.querySelector(".true-false-options");
-  const answerCheckboxes = questionElement.querySelector(".answer-checkboxes");
-  const answerRadios = questionElement.querySelector(".answer-radios");
-  const answerDropdown = questionElement.querySelector(".answer-dropdown");
-  const correctAnswerLabel = questionElement.querySelector(
-    ".correct-answer-label",
-  );
-  const correctAnswerInput = questionElement.querySelector(".correct-answer");
-  const autogradingLabel = questionElement.querySelector(".autograding-label");
-  const autogradingInput = questionElement.querySelector(".autograding");
+  const type = selected.value
 
-  const validationSettings = questionElement.querySelector(
-    ".validation-settings",
-  );
-  if (validationSettings) {
-    validationSettings.style.display = ["short-answer", "long-answer"].includes(
-      selected.value,
-    )
-      ? ""
-      : "none";
+  const displayMap = {
+    "short-answer": ".short-answer-validation",
+    "long-answer": ".long-answer-validation",
+    "true-false": ".true-false-options",
+    "multiple-choice": ".options-input",
+    "checkboxes": ".options-input",
+    "dropdown": ".options-input",
+    "file-upload": ".answer-input"
+  };
 
-    const shortAnswerValidation = questionElement.querySelector(
-      ".short-answer-validation",
-    );
-    const longAnswerValidation = questionElement.querySelector(
-      ".long-answer-validation",
-    );
+  Object.values(displayMap).forEach(selector => {
+    const element = questionElement.querySelector(selector);
+    if (element) element.style.display = "none"
+  });
 
-    shortAnswerValidation.style.display =
-      selected.value == "short-answer" ? "" : "none";
-    longAnswerValidation.style.display =
-      selected.value == "long-answer" ? "" : "none";
-  }
+  if (type in displayMap) {
+    const displayElement = questionElement.querySelector(displayMap[type]);
+    if (displayElement) displayElement.style.display = "";
+  };
 
   const isMultipleOptions = [
     "multiple-choice",
     "checkboxes",
     "dropdown",
-  ].includes(selected.value);
+  ].includes(type);
+  questionElement.querySelector(".options-input").style.display = isMultipleOptions ? "" : "none";
 
-  optionsContainer.style.display = isMultipleOptions ? "" : "none";
-  trueFalseOptions.style.display = selected.value == "true-false" ? "" : "none";
-  answerCheckboxes.style.display = selected.value == "checkboxes" ? "" : "none";
-  answerRadios.style.display =
-    selected.value == "multiple-choice" ? "" : "none";
-  answerDropdown.style.display = selected.value == "dropdown" ? "" : "none";
+  const isAutogradingVisible = ["file-upload", "long-answer"].includes(type);
+  questionElement.querySelector(".correct-answer-label").style.display = isAutogradingVisible ? "none" : "";
+  questionElement.querySelector(".correct-answer").style.display = type === "short-answer" ? "" : "none";
+  questionElement.querySelector(".autograding-label").style.display = isAutogradingVisible ? "none" : "";
+  questionElement.querySelector(".autograding").style.display = isAutogradingVisible ? "none" : "";
 
-  correctAnswerLabel.style.display = ["file-upload", "long-answer"].includes(
-    selected.value,
-  )
-    ? "none"
-    : "";
-  correctAnswerInput.style.display =
-    selected.value === "short-answer" ? "" : "none";
-  autogradingLabel.style.display = ["file-upload", "long-answer"].includes(
-    selected.value,
-  )
-    ? "none"
-    : "";
-  autogradingInput.style.display = ["file-upload", "long-answer"].includes(
-    selected.value,
-  )
-    ? "none"
-    : "";
+  questionElement.querySelector(".true-false-options").style.display = type == "true-false" ? "" : "none";
+  questionElement.querySelector(".answer-checkboxes").style.display = type == "checkboxes" ? "" : "none";
+  questionElement.querySelector(".answer-radios").style.display = type == "multiple-choice" ? "" : "none";
+  questionElement.querySelector(".answer-dropdown").style.display = type == "dropdown" ? "" : "none";
+
+  const validationSettings = questionElement.querySelector(
+    ".validation-settings",
+  );
+  validationSettings.style.display = ["short-answer", "long-answer"].includes(type) ? "" : "none";
 }
 
 function toggleAutograding(checkbox) {
@@ -224,60 +220,56 @@ function toggleAutograding(checkbox) {
 
 function updateOptions(input) {
   const numberOfOptions = input.value;
-  const optionsContainer = input
-    .closest(".options-input")
-    .querySelector(".options-container");
-  const answerCheckboxes = input
-    .closest(".question")
-    .querySelector(".answer-checkboxes");
-  const answerRadios = input
-    .closest(".question")
-    .querySelector(".answer-radios");
-  const answerDropdown = input
-    .closest(".question")
-    .querySelector(".answer-dropdown select");
+  const questionElement = input.closest(".question");
 
-  optionsContainer.innerHTML = "";
-  answerCheckboxes.innerHTML = "";
-  answerRadios.innerHTML = "";
-  answerDropdown.innerHTML = "";
+  const options = ["options-container", "answer-checkboxes", "answer-radios", "answer-dropdown"]
+  options.forEach(optionClass => {
+    const container = questionElement.querySelector(`.${optionClass}`);
+    container.innerHTML = "";
+  })
 
   for (let i = 0; i < numberOfOptions; i++) {
-    const option = document.createElement("div");
-    option.innerHTML = `
+    const optionDiv = document.createElement("div");
+    optionDiv.innerHTML = `
             <label>Option ${i + 1}:</label>
             <input type="text" class="option">
         `;
-    optionsContainer.appendChild(option);
+    questionElement.querySelector(".options-container").appendChild(optionDiv);
 
-    const answerCheckbox = document.createElement("div");
-    answerCheckbox.innerHTML = `
+    const checkboxDiv = document.createElement("div");
+    checkboxDiv.innerHTML = `
             <label>Option ${i + 1}:</label>
             <input type="checkbox" class="answer-checkbox" value=${i}>
         `;
-    answerCheckboxes.appendChild(answerCheckbox);
+    questionElement.querySelector(".answer-checkboxes").appendChild(checkboxDiv);
 
-    const answerRadio = document.createElement("div");
-    answerRadio.innerHTML = `
+    const radioDiv = document.createElement("div");
+    radioDiv.innerHTML = `
             <label>Option ${i + 1}:</label>
             <input type="radio" name="correct-answer-${questionCount}" class="answer-radio" value=${i}>
         `;
-    answerRadios.appendChild(answerRadio);
+    questionElement.querySelector(".answer-radios").appendChild(radioDiv);
 
-    const answerDropdownOption = document.createElement("option");
-    answerDropdownOption.value = i + 1;
-    answerDropdownOption.text = `Option ${i + 1}`;
-    answerDropdown.appendChild(answerDropdownOption);
+    const optionElement = document.createElement("option");
+    optionElement.value = i + 1;
+    optionElement.text = `Option ${i + 1}`;
+    questionElement.querySelector(".answer-dropdown select").appendChild(optionElement);
   }
 }
 
 async function createQuiz() {
-  const quizTitle = document.getElementById("title").value.trim();
-  const quizDeadline = document.getElementById("deadline").value.trim();
-  const timerHours = document.getElementById("timer-hours").value.trim();
-  const timerMinutes = document.getElementById("timer-minutes").value.trim();
-  const timerSeconds = document.getElementById("timer-seconds").value.trim();
+  const quizTitleElement = document.getElementById("title");
+  const quizDeadlineElement = document.getElementById("deadline");
+  const timerHoursElement = document.getElementById("timer-hours");
+  const timerMinutesElement = document.getElementById("timer-minutes");
+  const timerSecondsElement = document.getElementById("timer-seconds").value.trim();
   const questions = document.querySelectorAll(".question");
+
+  const quizTitle = quizTitleElement.value.trim();
+  const quizDeadline = quizDeadlineElement.value.trim()
+  const timerHours = timerHoursElement.value.trim()
+  const timerMinutes = timerMinutesElement.value.trim();
+  const timerSeconds = timerSecondsElement.value.trim();
 
   if (!quizTitle) {
     alert("Quiz title is required");
@@ -496,218 +488,4 @@ function validateDropdown(question) {
   }
 
   return numberOfOptions > 0 && valid;
-}
-
-async function editQuiz(quizID) {
-  try {
-    const response = await fetch(`/quiz/take/${quizID}`);
-    if (response.ok) {
-      const quizData = await response.json();
-      populateQuizForm(quizData);
-    } else {
-      console.log("Error fetching quiz data for editing.");
-    }
-  } catch (error) {
-    console.log("Error fetching quiz data for editing.");
-  }
-}
-
-function populateQuizForm(quizData) {
-  document.getElementById("title").value = quizData.quizTitle || "";
-  document.getElementById("deadline").value = quizData.deadline || "";
-
-  if (quizData.timer) {
-    const totalSeconds = quizData.timer;
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-
-    document.getElementById("timer-hours").value = hours;
-    document.getElementById("timer-minutes").value = minutes;
-    document.getElementById("timer-seconds").value = seconds;
-  } else {
-    document.getElementById("timer-hours").value = "";
-    document.getElementById("timer-minutes").value = "";
-    document.getElementById("timer-seconds").value = "";
-  }
-
-  const questionContainer = document.getElementById("questionsContainer");
-  questionContainer.innerHTML = "";
-
-  const questions = JSON.parse(quizData.quiz);
-  questions.forEach((questionData, index) => {
-    addQuestion();
-    const questionElement = document.querySelectorAll(".question")[index];
-    questionElement = document.querySelector(".question-type").value =
-      questionData.type;
-    handleQuestionTypeChange(questionElement.querySelector(".question-type"));
-
-    questionElement.querySelector(".question-content").value =
-      questionData.content || "";
-    questionElement.querySelector(".question-points").value =
-      questionData.points || "";
-
-    const autogradingInput = questionElement.querySelector(".autograding");
-    autogradingInput.checked = questionData.autograding || false;
-    toggleAutograding(autogradingInput);
-  });
-
-  if (questionData.type === "short-answer") {
-    questionElement.querySelector(".max-characters").value =
-      questionData.maxCharacters || "";
-  } else if (questionData.type === "long-answer") {
-    questionElement.querySelector("min-characters").value =
-      questionData.minCharacters || "";
-    questionElement.querySelector("max-characters").value =
-      questionData.maxCharacters || "";
-  }
-
-  if (
-    ["multiple-choice", "checkboxes", "dropdown"].includes(questionData.type)
-  ) {
-    updateOptions(questionElement.querySelector(".num-of-options"));
-    const options = questionElement.querySelectorAll(".option");
-    options.forEach((option, index) => {
-      option.value = questionData.options[index] || "";
-    });
-
-    if (questionData.type === "multiple-choice") {
-      const correctAnswer = questionElement.querySelector(
-        ".answer-radio[value='" + questionData.correctAnswer + "']",
-      );
-      if (correctAnswer) correctAnswer.checked = true;
-    } else if (questionData.type === "checkboxes") {
-      questionData.correctAnswer.forEach((answer) => {
-        const checkbox = questionElement.querySelector(
-          ".answer-checkbox[value='" + answer + "']",
-        );
-        if (checkbox) checkbox.checked = true;
-      });
-    } else if (questionData.type === "dropdown") {
-      const dropdown = questionElement.querySelector(".answer-dropdown select");
-      dropdown.value = questionData.correctAnswer || "";
-    } else if (questionData.type === "true-false") {
-      const correctAnswer = questionElement.querySelector(
-        ".true-false-options input[value='" +
-          questionData.correctAnswer +
-          "']'",
-      );
-      if (correctAnswer) correctAnswer.checked = true;
-    }
-  }
-  renumberQuestions();
-}
-
-async function updateQuiz(quizID) {
-  const quizTitle = document.getElementById("title").value.trim();
-  const quizDeadline = document.getElementById("deadline").value.trim();
-  const timerHours = document.getElementById("timer-hours").value.trim();
-  const timerMinutes = document.getElementById("timer-minutes").value.trim();
-  const timerSeconds = document.getElementById("timer-seconds").value.trim();
-  const questions = document.querySelectorAll(".question");
-
-  const quiz = [];
-
-  for (const question of questions) {
-    if (!validateQuestion(question)) {
-      return alert("Please fill out all required fields correctly.");
-    }
-
-    const questionType = question.querySelector(".question-type").value;
-    const questionContent = question.querySelector(".question-content").value;
-    const questionPoints = question.querySelector(".question-points").value;
-    const autograding = question.querySelector(".autograding").checked;
-
-    const questionData = {
-      type: questionType,
-      content: questionContent,
-      points: questionPoints,
-      autograding: autograding,
-    };
-
-    if (questionType === "short-answer") {
-      questionData.maxCharacters =
-        question.querySelector(".max-characters").value || "";
-    } else if (questionType === "long-answer") {
-      questionData.minCharacters =
-        question.querySelector(".min-characters").value || "";
-      questionData.maxCharacters =
-        question.querySelector(".max-characters").value || "";
-    }
-
-    if (questionType === "short-answer") {
-      questionData.correctAnswer =
-        question.querySelector(".correct-answer").value || "";
-    } else if (questionType === "true-false") {
-      questionData.correctAnswer =
-        question.querySelector(".true-false-options input:checked")?.value ||
-        "";
-    } else if (
-      ["multiple-choice", "checkboxes", "dropdown"].includes(questionType)
-    ) {
-      const options = [];
-      question.querySelectorAll(".option").forEach((option) => {
-        options.push(option.value);
-      });
-
-      questionData.options = options;
-
-      if (questionType === "multiple-choice") {
-        questionData.correctAnswer =
-          question.querySelector(".answer-radio:checked")?.value || "";
-      } else if (questionType === "checkboxes") {
-        const correctAnswers = [];
-        question
-          .querySelectorAll(".answer-checkbox:checked")
-          .forEach((checkbox) => {
-            correctAnswers.push(checkbox.value);
-          });
-        questionData.correctAnswer = correctAnswers;
-      } else if (questionType === "dropdown") {
-        questionData.correctAnswer = question.querySelector(
-          ".answer-dropdown select",
-        ).value;
-      }
-    } else if (
-      questionType === "long-answer" ||
-      questionType === "file-upload"
-    ) {
-      questionData.correctAnswer = "";
-    }
-    quiz.push(questionData);
-  }
-
-  let totalSeconds = 0;
-  if (timerHours) totalSeconds += parseInt(timerHours, 10) * 3600;
-  if (timerMinutes) totalSeconds += parseInt(timerMinutes, 10) * 60;
-  if (timerSeconds) totalSeconds += parseInt(timerSeconds, 10);
-
-  const quizData = {
-    title: quizTitle,
-    professorId: 1,
-    deadline: quizDeadline || "",
-    timer: totalSeconds || "",
-    questions: JSON.stringify(quiz),
-  };
-
-  console.log(JSON.stringify(quizData));
-
-  try {
-    const response = await fetch(`/quiz/update/${quizID}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(quizData),
-    });
-
-    if (response.ok) {
-      console.log("Quiz successfully updated!");
-      document.getElementById("quizLink").style.display = "block";
-    } else {
-      console.log("Error updating quiz", response.statusText);
-    }
-  } catch (error) {
-    console.log("Error updating quiz", error);
-  }
 }
