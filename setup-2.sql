@@ -19,9 +19,6 @@ CREATE TABLE users (
     role VARCHAR(11) NOT NULL
 ); 
 
-INSERT INTO users (username, password, role) VALUES
-('john_doe', 'password', 'student'), 
-('jane_doe', 'wordpass', 'professor');
 
 CREATE TABLE courses (
     crn VARCHAR(10) UNIQUE PRIMARY KEY,  
@@ -60,8 +57,18 @@ CREATE TABLE appointments (
 );
 
 -- Insert initial data
+
+INSERT INTO users (username, password, role) VALUES
+('john_doe', 'password', 'student'), 
+('jane_doe', 'wordpass', 'professor');
+
+
 INSERT INTO users (username, password, role) VALUES
 ('abc', '$argon2id$v=19$m=65536,t=3,p=4$T/3Mid5O4H2tdaTdIVV35w$4n6nPs2ANYiPz77w64biA1jN7uZMpxee2EqPwQbBAVE', 'student'); -- password: password
+
+INSERT INTO courses (crn, department, number, title, professorid, registrationcode) VALUES
+('12345', 'CS', '375', 'Web Development', '1', 'WD375'),
+('54321', 'CS', '260', 'Data Structures', '1', 'DS260');
 
 INSERT INTO quizzes (title, creator, deadline, timer) VALUES
 ('Web Development Quiz 1', 1, '2024-08-07 23:59:00', 60),
