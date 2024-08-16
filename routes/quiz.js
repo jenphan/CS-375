@@ -50,6 +50,16 @@ router.post("/savequiz", (req, res) => {
   });
 });
 
+router.post("/savesubmission", (req, res) => {
+  fs.writeFile(submissionFilePath, JSON.stringify(req.body, null, 2), (err) => {
+    if (err) {
+      res.status(500).send("Error while saving quiz submission to file");
+    } else {
+      res.status(200).send("Quiz submission was successfully saved!");
+    }
+  });
+});
+
 router.get("/getquiz", (req, res) => {
   fs.readFile(quizFilePath, "utf-8", (err, data) => {
     if (err) {
@@ -72,11 +82,11 @@ router.get("/get-quizzes-calendar", async (req, res) => {
 });
 
 router.post("/submit", async (req, res) => {
-  const { quizID, studentID, submission } = req.body;
+  const { studentid, submission, quizVersion, submissionDate } = req.body;
   try {
     await pool.query(
-      "INSERT INTO submissions (quizVersion, student, submission) VALUES ($1, $2, $3)",
-      [quizID, studentID, submission],
+      "INSERT INTO submissions (student, submission, quizversion, submissiondate) VALUES ($1, $2, $3, $4)",
+      [studentid, submission, quizVersion, submissionDate],
     );
     res.status(200).json({ message: "Quiz was submitted successfully" });
   } catch (error) {
