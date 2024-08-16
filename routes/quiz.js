@@ -162,6 +162,39 @@ router.get("/take/:quizID", async (req, res) => {
   }
 });
 
-router.get("/edit/:quizID", async (req, res) => {});
+router.get("/edit/:quizID", async (req, res) => {
+  const quizID = req.params.quizID;
+  try {
+    const result = await pool.query(
+      `
+      SELECT * FROM quizzes WHERE quizID = $1
+      `,
+      [quizID],
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Quiz not found" });
+    }
+    res.status(200).json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ message: "Error while fetching quiz data" });
+  }
+});
+
+router.post("/edit/:quizID", async (req, res) => {
+  const quizID = req.params.quizID;
+  const { title, deadline, timer, questions } = req.body;
+
+  try {
+    await pool.query(
+      `
+    UPDATE quizzes SET title = $1, deadline = $2, timer = $3, quiz = $4 WHERE quizID = $5
+    `,
+      [title, deadline, timer, questions, quizID],
+    );
+    res.status(200).json({ message: "Quiz updated successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Error while updating quiz" });
+  }
+});
 
 module.exports = router;

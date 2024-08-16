@@ -6,6 +6,14 @@ document.addEventListener("DOMContentLoaded", () => {
   questionContainer.addEventListener("dragend", handleDragEnd);
 });
 
+const validation = {
+  "short-answer": validateShortAnswer,
+  "multiple-choice": validateMultipleChoice,
+  "true-false": validateTrueFalse,
+  checkboxes: validateCheckboxes,
+  dropdown: validateDropdown,
+};
+
 let draggedElement = null;
 
 function handleDragStart(event) {
@@ -401,14 +409,6 @@ async function createQuiz() {
   }
 }
 
-const validation = {
-  "short-answer": validateShortAnswer,
-  "multiple-choice": validateMultipleChoice,
-  "true-false": validateTrueFalse,
-  checkboxes: validateCheckboxes,
-  dropdown: validateDropdown,
-};
-
 function validateQuestion(question) {
   const type = question.querySelector(".question-type").value;
   return validation[type] ? validation[type](question) : true;
@@ -496,4 +496,218 @@ function validateDropdown(question) {
   }
 
   return numberOfOptions > 0 && valid;
+}
+
+async function editQuiz(quizID) {
+  try {
+    const response = await fetch(`/quiz/take/${quizID}`);
+    if (response.ok) {
+      const quizData = await response.json();
+      populateQuizForm(quizData);
+    } else {
+      console.log("Error fetching quiz data for editing.");
+    }
+  } catch (error) {
+    console.log("Error fetching quiz data for editing.");
+  }
+}
+
+function populateQuizForm(quizData) {
+  document.getElementById("title").value = quizData.quizTitle || "";
+  document.getElementById("deadline").value = quizData.deadline || "";
+
+  if (quizData.timer) {
+    const totalSeconds = quizData.timer;
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    document.getElementById("timer-hours").value = hours;
+    document.getElementById("timer-minutes").value = minutes;
+    document.getElementById("timer-seconds").value = seconds;
+  } else {
+    document.getElementById("timer-hours").value = "";
+    document.getElementById("timer-minutes").value = "";
+    document.getElementById("timer-seconds").value = "";
+  }
+
+  const questionContainer = document.getElementById("questionsContainer");
+  questionContainer.innerHTML = "";
+
+  const questions = JSON.parse(quizData.quiz);
+  questions.forEach((questionData, index) => {
+    addQuestion();
+    const questionElement = document.querySelectorAll(".question")[index];
+    questionElement = document.querySelector(".question-type").value =
+      questionData.type;
+    handleQuestionTypeChange(questionElement.querySelector(".question-type"));
+
+    questionElement.querySelector(".question-content").value =
+      questionData.content || "";
+    questionElement.querySelector(".question-points").value =
+      questionData.points || "";
+
+    const autogradingInput = questionElement.querySelector(".autograding");
+    autogradingInput.checked = questionData.autograding || false;
+    toggleAutograding(autogradingInput);
+  });
+
+  if (questionData.type === "short-answer") {
+    questionElement.querySelector(".max-characters").value =
+      questionData.maxCharacters || "";
+  } else if (questionData.type === "long-answer") {
+    questionElement.querySelector("min-characters").value =
+      questionData.minCharacters || "";
+    questionElement.querySelector("max-characters").value =
+      questionData.maxCharacters || "";
+  }
+
+  if (
+    ["multiple-choice", "checkboxes", "dropdown"].includes(questionData.type)
+  ) {
+    updateOptions(questionElement.querySelector(".num-of-options"));
+    const options = questionElement.querySelectorAll(".option");
+    options.forEach((option, index) => {
+      option.value = questionData.options[index] || "";
+    });
+
+    if (questionData.type === "multiple-choice") {
+      const correctAnswer = questionElement.querySelector(
+        ".answer-radio[value='" + questionData.correctAnswer + "']",
+      );
+      if (correctAnswer) correctAnswer.checked = true;
+    } else if (questionData.type === "checkboxes") {
+      questionData.correctAnswer.forEach((answer) => {
+        const checkbox = questionElement.querySelector(
+          ".answer-checkbox[value='" + answer + "']",
+        );
+        if (checkbox) checkbox.checked = true;
+      });
+    } else if (questionData.type === "dropdown") {
+      const dropdown = questionElement.querySelector(".answer-dropdown select");
+      dropdown.value = questionData.correctAnswer || "";
+    } else if (questionData.type === "true-false") {
+      const correctAnswer = questionElement.querySelector(
+        ".true-false-options input[value='" +
+          questionData.correctAnswer +
+          "']'",
+      );
+      if (correctAnswer) correctAnswer.checked = true;
+    }
+  }
+  renumberQuestions();
+}
+
+async function updateQuiz(quizID) {
+  const quizTitle = document.getElementById("title").value.trim();
+  const quizDeadline = document.getElementById("deadline").value.trim();
+  const timerHours = document.getElementById("timer-hours").value.trim();
+  const timerMinutes = document.getElementById("timer-minutes").value.trim();
+  const timerSeconds = document.getElementById("timer-seconds").value.trim();
+  const questions = document.querySelectorAll(".question");
+
+  const quiz = [];
+
+  for (const question of questions) {
+    if (!validateQuestion(question)) {
+      return alert("Please fill out all required fields correctly.");
+    }
+
+    const questionType = question.querySelector(".question-type").value;
+    const questionContent = question.querySelector(".question-content").value;
+    const questionPoints = question.querySelector(".question-points").value;
+    const autograding = question.querySelector(".autograding").checked;
+
+    const questionData = {
+      type: questionType,
+      content: questionContent,
+      points: questionPoints,
+      autograding: autograding,
+    };
+
+    if (questionType === "short-answer") {
+      questionData.maxCharacters =
+        question.querySelector(".max-characters").value || "";
+    } else if (questionType === "long-answer") {
+      questionData.minCharacters =
+        question.querySelector(".min-characters").value || "";
+      questionData.maxCharacters =
+        question.querySelector(".max-characters").value || "";
+    }
+
+    if (questionType === "short-answer") {
+      questionData.correctAnswer =
+        question.querySelector(".correct-answer").value || "";
+    } else if (questionType === "true-false") {
+      questionData.correctAnswer =
+        question.querySelector(".true-false-options input:checked")?.value ||
+        "";
+    } else if (
+      ["multiple-choice", "checkboxes", "dropdown"].includes(questionType)
+    ) {
+      const options = [];
+      question.querySelectorAll(".option").forEach((option) => {
+        options.push(option.value);
+      });
+
+      questionData.options = options;
+
+      if (questionType === "multiple-choice") {
+        questionData.correctAnswer =
+          question.querySelector(".answer-radio:checked")?.value || "";
+      } else if (questionType === "checkboxes") {
+        const correctAnswers = [];
+        question
+          .querySelectorAll(".answer-checkbox:checked")
+          .forEach((checkbox) => {
+            correctAnswers.push(checkbox.value);
+          });
+        questionData.correctAnswer = correctAnswers;
+      } else if (questionType === "dropdown") {
+        questionData.correctAnswer = question.querySelector(
+          ".answer-dropdown select",
+        ).value;
+      }
+    } else if (
+      questionType === "long-answer" ||
+      questionType === "file-upload"
+    ) {
+      questionData.correctAnswer = "";
+    }
+    quiz.push(questionData);
+  }
+
+  let totalSeconds = 0;
+  if (timerHours) totalSeconds += parseInt(timerHours, 10) * 3600;
+  if (timerMinutes) totalSeconds += parseInt(timerMinutes, 10) * 60;
+  if (timerSeconds) totalSeconds += parseInt(timerSeconds, 10);
+
+  const quizData = {
+    title: quizTitle,
+    professorId: 1,
+    deadline: quizDeadline || "",
+    timer: totalSeconds || "",
+    questions: JSON.stringify(quiz),
+  };
+
+  console.log(JSON.stringify(quizData));
+
+  try {
+    const response = await fetch(`/quiz/update/${quizID}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(quizData),
+    });
+
+    if (response.ok) {
+      console.log("Quiz successfully updated!");
+      document.getElementById("quizLink").style.display = "block";
+    } else {
+      console.log("Error updating quiz", response.statusText);
+    }
+  } catch (error) {
+    console.log("Error updating quiz", error);
+  }
 }

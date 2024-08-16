@@ -8,32 +8,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     quizzes.forEach((quiz) => {
       const card = document.createElement("div");
       card.className = "card";
-      card.innerHTML = `
-                <h2>${quiz.quiztitle}</h2>
-                <p>Professor: ${quiz.professorname}</p>
-                <p>Deadline: ${new Date(quiz.deadline).toLocaleString()}</p>
-                <button onclick="editQuiz(${quiz.quizid})">Edit</button>
-            `;
       card.addEventListener("click", () => {
         window.location.href = `/html/takeQuiz.html?quizID=${quiz.quizid}`;
       });
+      const editButton = document.createElement("button");
+      editButton.textContent = "Edit";
+      editButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        window.location.href = `editQuiz.html?quizID=${quiz.quizid}`;
+      });
+      card.innerHTML = `
+        <h2>${quiz.quiztitle}</h2>
+        <p>Professor: ${quiz.professorname}</p>
+        <p>Deadline: ${new Date(quiz.deadline).toLocaleString()}</p>
+      `;
+      card.appendChild(editButton);
       container.appendChild(card);
     });
   } catch (error) {
     console.log("Error fetching quizzes", error);
   }
 });
-
-async function editQuiz() {
-  try {
-    const response = await fetch(`/quiz/edit/${quizID}`);
-    if (response.ok) {
-      const quiz = await response.json();
-      generateQuizForm(quiz, quiz.quiz);
-    } else {
-      console.log("Error while fetching quiz data", response.statusText);
-    }
-  } catch (error) {
-    console.log("Error while fetching quiz data", error);
-  }
-}

@@ -30,9 +30,9 @@ router.get("/check-session", (req, res) => {
 router.get("/home", (req, res) => {
   if (req.session.user) {
     const role = req.session.user.role;
-    if (role === 'professor') {
+    if (role === "professor") {
       res.redirect("/html/professor.html");
-    } else if (role === 'student') {
+    } else if (role === "student") {
       res.redirect("/html/student.html");
     } else {
       res.redirect("/"); // default to home if the role is unrecognized

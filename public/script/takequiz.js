@@ -72,7 +72,6 @@ document
     const quizForm = document.getElementById("quizForm");
     const formData = new FormData(quizForm);
     const quizData = {};
-    const quizId = 4141;
 
     for (let [key, value] of formData.entries()) {
       if (!quizData[key]) {
