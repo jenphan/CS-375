@@ -1,9 +1,17 @@
 document.addEventListener("DOMContentLoaded", async () => {
+  const url = new URLSearchParams(window.location.search);
+  const quizID = url.get("quizID");
+
+  if (!quizID) {
+    console.log("Quiz ID is missing");
+    return;
+  }
+
   try {
-    const response = await fetch("/quiz/getquiz");
+    const response = await fetch(`/quiz/take/${quizID}`);
     if (response.ok) {
       const quiz = await response.json();
-      generateQuizForm(quiz);
+      generateQuizForm(quiz, quiz.quiz);
     } else {
       console.log("Error while fetching quiz data", response.statusText);
     }
@@ -12,12 +20,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-function generateQuizForm(quiz) {
+function generateQuizForm(quiz, quizQuestions) {
   const quizForm = document.getElementById("quizForm");
-  quiz.forEach((question, index) => {
+  const quizTitle = document.createElement("h1");
+  quizTitle.textContent = quiz.quiztitle;
+  quizForm.appendChild(quizTitle);
+
+  quizQuestions.forEach((question, index) => {
     const questionElement = document.createElement("div");
     questionElement.className = "question";
-    questionElement.innerHTML = `<label>${question.content}</label>`;
+    questionElement.innerHTML = `<label style="font-weight: bold">${index + 1}. ${question.content}</label>`;
 
     if (question.type === "short-answer") {
       questionElement.innerHTML += `<input type="text" name="question-${index}" maxlength="${question.maxCharacters || ""}">`;
@@ -48,6 +60,10 @@ function generateQuizForm(quiz) {
 
     quizForm.appendChild(questionElement);
   });
+  const quizSubmitButton = document.createElement("button");
+  quizSubmitButton.innerText = "Submit Quiz";
+  quizSubmitButton.setAttribute("id", "submitQuizButton");
+  quizForm.appendChild(quizSubmitButton);
 }
 
 document
