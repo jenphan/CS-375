@@ -1,4 +1,15 @@
+let professorId;
 document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const response = await fetch("/quiz/get-user-id");
+    if (response.ok) {
+      const data = await response.json();
+      professorId = data.userID;
+    }
+  } catch (error) {
+    console.log("Not logged in")
+  }
+
   const questionContainer = document.getElementById("questionsContainer");
 
   const eventMappings = {
@@ -427,7 +438,7 @@ function createQuizData() {
 
   return {
     title: quizTitle,
-    professorId: 1,
+    professorId: professorId,
     deadline: quizDeadline || null,
     timer: totalSeconds || null,
     questions: JSON.stringify(quiz),

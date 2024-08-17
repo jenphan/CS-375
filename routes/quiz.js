@@ -226,4 +226,13 @@ router.get("/get-submissions/:quizID", async (req, res) => {
   }
 });
 
+router.get("/get-user-id", async (req, res) => {
+  try {
+    const userID = req.session.user.userid;
+    res.status(200).json({ userID: userID });
+  } catch (error) {
+    res.status(404).json({ message: "Error while fetching user id"});
+  }
+})
+
 module.exports = router;
