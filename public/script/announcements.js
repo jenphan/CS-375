@@ -2,6 +2,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const announcementList = document.getElementById("announcementList");
   const announcements = JSON.parse(localStorage.getItem("announcements")) || [];
 
+  const userRole = localStorage.getItem("userRole");
+  if (userRole === "student") {
+    document.getElementById("add-new-post").style.display = "none";
+  }
+
   if (announcements.length === 0) {
     announcementList.innerHTML = "<li>No announcements available.</li>";
   } else {

@@ -29,8 +29,10 @@ document
         if (data.message === "Login successful") {
           alert("Login successful");
           console.log("Success:", data);
-
+          
           const role = data.user.role;
+          localStorage.setItem("userRole", role); // Store the role in localStorage
+        
           if (role === "professor") {
             window.location.href = "../html/professor.html";
           } else if (role === "student") {
