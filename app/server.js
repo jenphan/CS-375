@@ -10,6 +10,8 @@ const quizRoutes = require("../routes/quiz");
 const createCourse = require("../routes/course");
 const calendarRoutes = require("../routes/calendar");
 
+const ensureAuthenticated = require('../middleware/authMiddleware'); // Import the auth middleware
+
 let app = express();
 let port = 3000;
 let hostname;
@@ -24,7 +26,6 @@ if (process.env.NODE_ENV == "production") {
 	let { PGUSER, PGPASSWORD, PGDATABASE, PGHOST, PGPORT } = process.env;
 	databaseConfig = { PGUSER, PGPASSWORD, PGDATABASE, PGHOST, PGPORT };
 }
-
 
 // Generate a random secret key
 const secretKey = crypto.randomBytes(64).toString("hex");
@@ -45,9 +46,9 @@ app.use(express.static("../public"));
 
 // Routes
 app.use("/auth", authRoutes);
-app.use("/quiz", quizRoutes);
-app.use("/course", createCourse);
-app.use("/calendar", calendarRoutes);
+app.use("/quiz", ensureAuthenticated, quizRoutes); // Protecting quiz routes
+app.use("/course", ensureAuthenticated, createCourse); // Protecting course routes
+app.use("/calendar", ensureAuthenticated, calendarRoutes); // Protecting calendar routes
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
