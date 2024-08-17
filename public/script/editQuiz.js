@@ -77,14 +77,6 @@ function loadQuizData(quizData) {
   });
 }
 
-function convertSecondsToTime(totalSeconds) {
-  return {
-    hours: Math.floor(totalSeconds / 3600),
-    minutes: Math.floor((totalSeconds % 3600) / 60),
-    seconds: totalSeconds % 60,
-  };
-}
-
 function populateQuestion(questionElement, questionData) {
   const { type, content, points, autograding } = questionData;
   questionElement.querySelector(".question-type").value = type;
@@ -114,7 +106,7 @@ function populateQuestion(questionElement, questionData) {
     const numOfOptions = questionElement.querySelector(".num-of-options");
     numOfOptions.value = questionData.options.length;
 
-    updateOptions(numOfOptions);
+    updateCorrectOptions(numOfOptions);
 
     questionData.options.forEach((option, index) => {
       questionElement.querySelectorAll(".option")[index].value = option;
@@ -211,7 +203,38 @@ function toggleAutograding(checkbox) {
   answerContainer.style.display = checkbox.checked ? "" : "none";
 }
 
-function updateOptions(input) {
+async function createQuiz() {
+  const quizData = createQuizData();
+  console.log(JSON.stringify(quizData));
+
+  try {
+    const response = await fetch("/quiz/createquiz", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(quizData),
+    });
+
+    if (response.ok) {
+      console.log("Quiz successfully created!");
+      await fetch("/quiz/savequiz", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(quizData),
+      });
+      document.getElementById("quizLink").style.display = "block";
+    } else {
+      console.log("Error creating quiz", response.statusText);
+    }
+  } catch (error) {
+    console.log("Error creating quiz", error);
+  }
+}
+
+function updateCorrectOptions(input) {
   const numberOfOptions = input.value;
   const optionsContainer = input
     .closest(".options-input")
@@ -260,143 +283,10 @@ function updateOptions(input) {
   }
 }
 
-function createQuizData() {
-  const quizTitle = document.getElementById("title").value.trim();
-  const quizDeadline = document.getElementById("deadline").value.trim();
-  const timerHours = document.getElementById("timer-hours").value.trim();
-  const timerMinutes = document.getElementById("timer-minutes").value.trim();
-  const timerSeconds = document.getElementById("timer-seconds").value.trim();
-  const questions = document.querySelectorAll(".question");
-
-  if (!quizTitle) {
-    alert("Quiz title is required");
-    return;
-  }
-
-  if (!quizDeadline) {
-    alert("Quiz deadline is required");
-    return;
-  }
-
-  if (questions.length === 0) {
-    alert("You must add at least one question to the quiz.");
-    return;
-  }
-
-  const quiz = [];
-
-  for (const question of questions) {
-    if (!validateQuestion(question) && !alertShown) {
-      return alert("Please fill out all required fields correctly.");
-    }
-  }
-
-  questions.forEach((question) => {
-    const questionType = question.querySelector(".question-type").value;
-    const questionContent = question.querySelector(".question-content").value;
-    const questionPoints = question.querySelector(".question-points").value;
-    const autograding = question.querySelector(".autograding").checked;
-
-    const questionData = {
-      type: questionType,
-      content: questionContent,
-      points: questionPoints,
-      autograding: autograding,
-    };
-
-    if (questionType === "short-answer") {
-      questionData.maxCharacters =
-        question.querySelector(".max-characters").value || null;
-    } else if (questionType === "long-answer") {
-      questionData.minCharacters =
-        question.querySelector(".min-characters").value || null;
-      questionData.maxCharacters =
-        question.querySelector(".max-characters").value || null;
-    }
-
-    if (questionType === "short-answer") {
-      questionData.correctAnswer =
-        question.querySelector(".correct-answer").value || null;
-    } else if (questionType === "true-false") {
-      questionData.correctAnswer =
-        question.querySelector(".true-false-options input:checked")?.value ||
-        null;
-    } else if (
-      ["multiple-choice", "checkboxes", "dropdown"].includes(questionType)
-    ) {
-      const options = [];
-      question.querySelectorAll(".option").forEach((option) => {
-        options.push(option.value);
-      });
-
-      questionData.options = options;
-
-      if (questionType === "multiple-choice") {
-        questionData.correctAnswer =
-          question.querySelector(".answer-radio:checked")?.value || null;
-      } else if (questionType === "checkboxes") {
-        const correctAnswers = [];
-        question
-          .querySelectorAll(".answer-checkbox:checked")
-          .forEach((checkbox) => {
-            correctAnswers.push(checkbox.value);
-          });
-        questionData.correctAnswer = correctAnswers;
-      } else if (questionType === "dropdown") {
-        questionData.correctAnswer = question.querySelector(
-          ".answer-dropdown select",
-        ).value;
-      }
-    } else if (
-      questionType === "long-answer" ||
-      questionType === "file-upload"
-    ) {
-      questionData.correctAnswer = null;
-    }
-    quiz.push(questionData);
-  });
-
-  let totalSeconds = 0;
-  if (timerHours) totalSeconds += parseInt(timerHours, 10) * 3600;
-  if (timerMinutes) totalSeconds += parseInt(timerMinutes, 10) * 60;
-  if (timerSeconds) totalSeconds += parseInt(timerSeconds, 10);
-
+function convertSecondsToTime(totalSeconds) {
   return {
-    title: quizTitle,
-    professorId: 1,
-    deadline: quizDeadline || null,
-    timer: totalSeconds || null,
-    questions: JSON.stringify(quiz),
+    hours: Math.floor(totalSeconds / 3600),
+    minutes: Math.floor((totalSeconds % 3600) / 60),
+    seconds: totalSeconds % 60,
   };
-}
-
-async function createQuiz() {
-  const quizData = createQuizData();
-  console.log(JSON.stringify(quizData));
-
-  try {
-    const response = await fetch("/quiz/createquiz", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(quizData),
-    });
-
-    if (response.ok) {
-      console.log("Quiz successfully created!");
-      await fetch("/quiz/savequiz", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(quizData),
-      });
-      document.getElementById("quizLink").style.display = "block";
-    } else {
-      console.log("Error creating quiz", response.statusText);
-    }
-  } catch (error) {
-    console.log("Error creating quiz", error);
-  }
 }

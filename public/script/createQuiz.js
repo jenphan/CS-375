@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const questionContainer = document.getElementById("questionsContainer");
 
   const eventMappings = {
@@ -23,25 +23,29 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+let questionCount = 0;
+let draggedElement = null;
+
 const validation = {
   "short-answer": validateShortAnswer,
   "multiple-choice": validateMultipleChoice,
   "true-false": validateTrueFalse,
-  checkboxes: validateCheckboxes,
-  dropdown: validateDropdown,
+  "checkboxes": validateCheckboxes,
+  "dropdown": validateDropdown,
 };
 
-let draggedElement = null;
-
+// store dragged element's reference and index to set up drag-and-drop
 function handleDragStart(event) {
   draggedElement = event.target.closest(".question");
   event.dataTransfer.setData("text/plain", draggedElement.dataset.index);
 }
 
+// prevent default browser behavior to allow drag-and-drop
 function handleDragOver(event) {
   event.preventDefault();
 }
 
+// reorder dragged elements and renumber questions
 function handleDrop(event) {
   event.preventDefault();
   const dropTarget = event.target.closest(".question");
@@ -53,25 +57,28 @@ function handleDrop(event) {
   }
 }
 
+// reset dragged element reference after drag-and-drop ends
 function handleDragEnd() {
   draggedElement = null;
 }
 
+// handles button click for deleting question
 function handleButtonClicks(event) {
   if (event.target.matches("#deleteQuestionButton")) {
+    questionCount -= 1;
     deleteQuestion(event.target);
   }
 }
 
-let questionCount = 0;
-
+// creates and appends question to container
 function addQuestion() {
   questionCount++;
+  renumberQuestions();
   const questionContainer = document.getElementById("questionsContainer");
-  const questionElement = createQuestionElement(questionCount);
-  questionContainer.appendChild(questionElement);
+  questionContainer.appendChild(createQuestionElement(questionCount));
 }
 
+// creates a new question element with provided index and proper content/structure
 function createQuestionElement(index) {
   const questionElement = document.createElement("div");
   questionElement.className = "question";
@@ -80,7 +87,7 @@ function createQuestionElement(index) {
 
   questionElement.innerHTML = `
     <div class="questionSection">
-        <label>Question ${questionCount}<span style="color: red;">*</span></label>
+        <label>Question ${index}<span style="color: red;">*</span></label>
         <select class="question-type" onchange="handleQuestionTypeChange(this)" required>
             <option value="" disabled selected>Select question type</option>
             <option value="short-answer">Short Answer</option>
@@ -115,7 +122,7 @@ function createQuestionElement(index) {
         </div>
         <div class="options-input" style="display: none">
             <label>Number of Options<span style="color: red;">*</span></label>
-            <input type="number" class="num-of-options" min="1" onchange="updateOptions(this)">
+            <input type="number" class="num-of-options" min="1" onchange="updateQuizOptions(this)">
             <div class="options-container"></div>
         </div>
         <div class="answer-input" style="display: none">
@@ -135,21 +142,24 @@ function createQuestionElement(index) {
   return questionElement;
 }
 
+// deletes a question from the container and renumbers the questions
 function deleteQuestion(button) {
   button.closest(".question").remove();
   renumberQuestions();
 }
 
+// updates the question attributes to reflect new index
 function renumberQuestions() {
   const questions = document.querySelectorAll(".question");
+  let newIndex = 1;
 
-  questions.forEach((question, index) => {
-    questionCount++;
-    question.dataset.index = questionCount;
+  questions.forEach((question) => {
+    question.dataset.index = newIndex;
     const label = question.querySelector("label");
-    if (label) label.textContent = `Question ${questionCount}`;
-
-    updateNames(question, questionCount);
+    if (label) label.innerHTML = `Question ${newIndex}<span style='color: red;'>*</span>`;
+    
+    updateNames(question, newIndex);
+    newIndex++;
   });
 }
 
@@ -163,17 +173,17 @@ function updateNames(question, count) {
   });
 }
 
-function handleQuestionTypeChange(selected) {
-  const questionElement = selected.closest(".question");
-  const type = selected.value;
+function handleQuestionTypeChange(selectedElement) {
+  const questionElement = selectedElement.closest(".question");
+  const type = selectedElement.value;
 
   const displayMap = {
     "short-answer": ".short-answer-validation",
     "long-answer": ".long-answer-validation",
     "true-false": ".true-false-options",
     "multiple-choice": ".options-input",
-    checkboxes: ".options-input",
-    dropdown: ".options-input",
+    "checkboxes": ".options-input",
+    "dropdown": ".options-input",
     "file-upload": ".answer-input",
   };
 
@@ -231,7 +241,7 @@ function toggleAutograding(checkbox) {
   answerContainer.style.display = checkbox.checked ? "" : "none";
 }
 
-function updateOptions(input) {
+function updateQuizOptions(input) {
   const numberOfOptions = input.value;
   const questionElement = input.closest(".question");
 
@@ -284,18 +294,43 @@ function updateOptions(input) {
 }
 
 async function createQuiz() {
-  const quizTitleElement = document.getElementById("title");
-  const quizDeadlineElement = document.getElementById("deadline");
-  const timerHoursElement = document.getElementById("timer-hours");
-  const timerMinutesElement = document.getElementById("timer-minutes");
-  const timerSecondsElement = document.getElementById("timer-seconds");
-  const questions = document.querySelectorAll(".question");
+  const quizData = createQuizData();
+  console.log(JSON.stringify(quizData));
 
-  const quizTitle = quizTitleElement.value.trim();
-  const quizDeadline = quizDeadlineElement.value.trim();
-  const timerHours = timerHoursElement.value.trim();
-  const timerMinutes = timerMinutesElement.value.trim();
-  const timerSeconds = timerSecondsElement.value.trim();
+  try {
+    const response = await fetch("/quiz/createquiz", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(quizData),
+    });
+
+    if (response.ok) {
+      console.log("Quiz successfully created!");
+      await fetch("/quiz/savequiz", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(quizData),
+      });
+      document.getElementById("quizLink").style.display = "block";
+    } else {
+      console.log("Error creating quiz", response.statusText);
+    }
+  } catch (error) {
+    console.log("Error creating quiz", error);
+  }
+}
+
+function createQuizData() {
+  const quizTitle = document.getElementById("title").value.trim();
+  const quizDeadline = document.getElementById("deadline").value.trim();
+  const timerHours = document.getElementById("timer-hours").value.trim();
+  const timerMinutes = document.getElementById("timer-minutes").value.trim();
+  const timerSeconds = document.getElementById("timer-seconds").value.trim();
+  const questions = document.querySelectorAll(".question");
 
   if (!quizTitle) {
     alert("Quiz title is required");
@@ -390,41 +425,13 @@ async function createQuiz() {
   if (timerMinutes) totalSeconds += parseInt(timerMinutes, 10) * 60;
   if (timerSeconds) totalSeconds += parseInt(timerSeconds, 10);
 
-  const quizData = {
+  return {
     title: quizTitle,
     professorId: 1,
     deadline: quizDeadline || null,
     timer: totalSeconds || null,
     questions: JSON.stringify(quiz),
   };
-
-  console.log(JSON.stringify(quizData));
-
-  try {
-    const response = await fetch("/quiz/createquiz", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(quizData),
-    });
-
-    if (response.ok) {
-      console.log("Quiz successfully created!");
-      await fetch("/quiz/savequiz", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(quizData),
-      });
-      document.getElementById("quizLink").style.display = "block";
-    } else {
-      console.log("Error creating quiz", response.statusText);
-    }
-  } catch (error) {
-    console.log("Error creating quiz", error);
-  }
 }
 
 function validateQuestion(question) {

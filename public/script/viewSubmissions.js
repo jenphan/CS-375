@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const urlParams = new URLSearchParams(window.location.search);
-  const quizId = url.get("quizId");
+  const quizId = urlParams.get("quizID");
 
   if (!quizId) {
     console.log("Quiz ID is missing");
