@@ -1,5 +1,5 @@
 
-let {addCourse} = require('../app/query');
+let {addCourse, enroll, getCourses} = require('../app/query');
 
 const generateRandomCode = () => {
     return Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -14,9 +14,14 @@ const createCourse = async (req, res) => {
     return res.status(400).json({ message: "All fields are required" });
   }
 
-
-    addCourse(crn, subjectCode, courseNumber, courseName, req.session.user.userid, generateRandomCode(), req, res);
+    let courseCode = generateRandomCode()
+    addCourse(crn, subjectCode, courseNumber, courseName, req.session.user.userid, courseCode, req, res);
+    //enroll(req.session.user.userid, courseCode, req, res);
 
 };
 
-module.exports = { createCourse };
+const courseList = async (req, res) => {
+  getCourses(req.session.user.userid, req, res);
+}
+
+module.exports = { createCourse, courseList };

@@ -1,23 +1,24 @@
 {
-  "scripts": {
-    "start": "node app/server.js",
-    "setup": "fly postgres connect -a cs375blueboard-db < setup-2.sql",
-    "start-local": "cd app && node server.js",
-    "setup-local": "psql -U postgres -f setup.sql",
-    "setup-2-local": "psql -U postgres -f setup-2.sql"
-  },
-  "dependencies": {
-    "axios": "^1.7.2",
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.20.2",
-    "dotenv": "^16.4.5",
-    "express": "^4.19.2",
-    "express-session": "^1.18.0",
-    "i": "^0.3.7",
-    "jsonwebtoken": "^9.0.2",
-    "pg": "^8.12.0"
-  },
-  "devDependencies": {
-    "@flydotio/dockerfile": "^0.5.8"
-  }
+    "scripts": {
+        "start": "node app/server.js",
+        "setup": "fly postgres connect -a cs375blueboard-db < setup-2.sql",
+        "start-local": "cd app && node server.js",
+        "setup-local": "psql -U postgres -f setup.sql",
+        "setup-2-local": "psql -U postgres -f setup-2.sql"
+    },
+    "dependencies": {
+        "argon2": "^0.40.3",
+        "axios": "^1.7.2",
+        "bcryptjs": "^2.4.3",
+        "body-parser": "^1.20.2",
+        "dotenv": "^16.4.5",
+        "express": "^4.19.2",
+        "express-session": "^1.18.0",
+        "i": "^0.3.7",
+        "jsonwebtoken": "^9.0.2",
+        "pg": "^8.12.0"
+    },
+    "devDependencies": {
+        "@flydotio/dockerfile": "^0.5.8"
+    }
 }
