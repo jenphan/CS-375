@@ -14,9 +14,14 @@
             console.log(document.cookie);
             const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
             console.log('User Cookie:', userCookie);
-        
+
+            if (userCookie) {
+              const user = JSON.parse(decodeURIComponent(userCookie.split('=')[1]));
+              if (user.role !== 'professor') {
+                window.location.href = "/";
+              }
             // If user cookie is missing, redirect to the home page
-            if (!userCookie) {
+            } else {
               window.location.href = "/"; // Redirect to login page if not logged in
             }
         });
@@ -24,6 +29,7 @@
     <div class="navbar">
       <a href="/auth/home"> Home </a>
       <a href="./credits.html"> About Us </a>
+      <a href="./createQuiz.html"> Create Quiz </a>
       <a href="./calendar.html"> Calendar </a>
       <a href="./faqs.html"> FAQs </a>
       <a href="./tutorial.html"> Where to start</a>
