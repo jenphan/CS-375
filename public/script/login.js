@@ -17,29 +17,24 @@ document
       password: password,
     };
 
-    fetch("auth/login", {
+    fetch("/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     })
-      .then((response) => response.json())
+      .then(response => {
+        if (response.redirected) {
+          // If the server redirects, follow the redirect
+          window.location.href = response.url;
+          return;
+        }
+        return response.json(); // Try to parse JSON if not redirected
+      })
       .then((data) => {
-        if (data.message === "Login successful") {
-          alert("Login successful");
-          console.log("Success:", data);
-
-          const role = data.user.role;
-          if (role === "professor") {
-            window.location.href = "../html/professor.html";
-          } else if (role === "student") {
-            window.location.href = "../html/student.html";
-          } else {
-            alert("Invalid role");
-          }
-        } else {
-          alert(data.message);
+        if (data && data.message) {
+          alert(data.message); // Show error message if any
         }
       })
       .catch((error) => {

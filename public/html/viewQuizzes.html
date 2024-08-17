@@ -8,11 +8,27 @@
     <link href="../styles/quizCards.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+          // Retrieve and log the cookie via js
+          console.log(document.cookie);
+          const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+          console.log('User Cookie:', userCookie);
+      
+          // If user cookie is present, show the logout button
+          if (userCookie) {
+            document.getElementById("logout-button").style.display = "inline-block";
+          }
+      });
+    </script>
     <div class="navbar">
-      <a href="/"> Home </a>
+      <a href="/auth/home"> Home </a>
       <a href="./credits.html"> About Us </a>
+      <a href="./createQuiz.html"> Create Quiz </a>
+      <a href="./calendar.html"> Calendar </a>
       <a href="./faqs.html"> FAQs </a>
       <a href="./tutorial.html"> Where to start</a>
+      <a href="./announcements.html"> Announcements</a>
       <button id="logout-button" style="display: none; float: right">
         Logout
       </button>

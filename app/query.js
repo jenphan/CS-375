@@ -149,12 +149,12 @@ const pool = new Pool({
         return res.status(400).json({ message: 'Invalid username or password' });
       }
       req.session.user = { userid: user.usrid, username: user.username, role: user.role };
-      res.status(200).json({ message: 'Login successful', user: { username: user.username, role: user.role } });
+      return { username: user.username, role: user.role, usrid: user.usrid };
     } catch (error) {
       console.log("Error during login:", error);
-      res.status(500).json({ message: 'User not found' });
+      return res.status(500).json({ message: 'User not found' });
     }
- }
+  }
   
   function getUsers(role = 0){
     //0: all accounts 
