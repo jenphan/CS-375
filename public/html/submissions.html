@@ -5,20 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BlueBoard</title>
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
-    <style>
-      #container {
-        max-width: 800px;
-        margin: 40px auto;
-        padding: 20px;
-        background-color: rgba(255, 255, 255, 0.6);
-        border-radius: 10px;
-      }
-      #container h1 {
-        text-align: center;
-        color: #022c87;
-        font-size: 40px;
-      }
-    </style>
+    <link href="../styles/submissions.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
     <div class="navbar">
@@ -37,13 +24,13 @@
       </b>
     </div>
     <div id="container">
-      <h1>Quick Feature Access</h1>
-      <a href="./createQuiz.html"> <h2>Create Quiz</h2> </a>
-      <a href="./quizzes.html"> <h2>View All Quizzes</h2> </a>
-      <a href="./grading.html"> <h2>Grading</h2> </a>
-      <a href="./calendar.html"> <h2>Calendar</h2> </a>
+      <h1 id="courseTitle">Course</h1>
+      <h2 id="quizTitle">Quiz</h2>
+      <p id="deadline">Deadline: </p>
+      <div id="submissionsContainer"></div>
     </div>
     <script src="../script/app.js"></script>
+    <script src="../script/viewSubmissions.js"></script>
     <script src="../script/dark-mode.js"></script>
     <script src="../script/logout.js"></script>
   </body>

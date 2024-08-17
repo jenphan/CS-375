@@ -104,6 +104,7 @@ function generateQuizForm(quiz, quizQuestions) {
       }
     });
 
+    // hardcoded studentid
     const submissionData = {
       studentid: 2,
       submission: JSON.stringify(submission),

@@ -207,4 +207,20 @@ router.post("/edit/:quizID", async (req, res) => {
   }
 });
 
+router.get("/get-submissions/:quizID", async (req, res) => {
+  const quizID = req.params.quizID;
+  try {
+    let result = await pool.query(`
+      SELECT s.submitID, u.username AS studentName, s.submissionDate, s.submission, q.deadline
+      FROM submissions s
+      JOIN users u ON s.student = u.usrid
+      JOIN quizzes q ON s.quizVersion = q.quizID
+      WHERE s.quizVersion = $1
+    `, [quizID]);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching submissions" });
+  }
+});
+
 module.exports = router;
