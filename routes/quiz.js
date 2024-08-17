@@ -50,14 +50,13 @@ router.post("/savequiz", (req, res) => {
   });
 });
 
-router.get("/getquiz", (req, res) => {
-  fs.readFile(quizFilePath, "utf-8", (err, data) => {
-    if (err) {
-      res.status(500).send("Error while reading quiz from file");
-    } else {
-      res.setHeader("Content-Type", "application/json");
-      res.status(200).json(JSON.parse(data));
-    }
+router.get("/getquiz/:quizID", (req, res) => {
+  const quizID = req.params.quizID;
+  pool.query(`SELECT * FROM quizzes WHERE quizid = $1`, [quizID]).then(result =>{
+    return res.status(200).json(result.rows);
+  }).catch(error => {
+    console.error("Error querying database", err);
+    return res.status(500).json({ error: "Failed to fetch quiz data" });
   });
 });
 
@@ -160,6 +159,17 @@ router.get("/getSubmissions/:quizID", async (req, res) =>{
     return res.status(200).json(result.rows);
   }).catch(error => {
     console.error("Error querying database", err);
+    return res.status(500).json({ error: "Failed to fetch quiz data" });
+  });
+
+});
+
+router.get("/getSubmissionByID/:submitID", async (req, res) =>{
+  const submitID = req.params.submitID;
+  pool.query(`SELECT * FROM submissions WHERE submitid = $1`, [submitID]).then(result =>{
+    return res.status(200).json(result.rows);
+  }).catch(error => {
+    console.error("Error querying database", error);
     return res.status(500).json({ error: "Failed to fetch quiz data" });
   });
 

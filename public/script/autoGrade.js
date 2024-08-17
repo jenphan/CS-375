@@ -1,5 +1,13 @@
 let button = document.getElementById("grade");
 let submit = document.getElementById("submitGrades");
+let totalGradeDisplay = document.getElementById("totalGrade"); 
+let commentInput = document.getElementById("comment"); 
+
+const url = new URLSearchParams(window.location.search);
+const quizID = url.get("quizID");
+const submitID = url.get("submitID");
+
+console
 
 submit.disabled = true;
 submit.style.visibility = "hidden";
@@ -10,17 +18,17 @@ button.addEventListener("click", async () => {
   button.style.visibility = "hidden";
   button.disabled = true;
   try {
-    const quizResponse = await fetch("/quiz/getquiz");
+    const quizResponse = await fetch(`/quiz/getquiz/${quizID}`);
     const quiz = await quizResponse.json();
 
-    const submissionResponse = await fetch("/quiz/getsubmit");
+    const submissionResponse = await fetch(`/quiz/getSubmissionByID/${submitID}`);
     const submission = await submissionResponse.json();
 
-    const autoScore = autoGrade(quiz, submission);
+    const autoScore = autoGrade(quiz[0], submission[0]);
 
-    manualGrade(quiz, submission).then((manualScore) => {
+    manualGrade(quiz[0], submission[0]).then((manualScore) => {
       const totalScore = autoScore + manualScore;
-      console.log(`Total Score: ${totalScore}`);
+      totalGradeDisplay.textContent = `Total Grade: ${totalScore}`;
       clicked = true;
     });
   } catch (error) {
@@ -30,10 +38,10 @@ button.addEventListener("click", async () => {
 
 function autoGrade(quizData, submission) {
   let totalScore = 0;
-
-  quizData.questions.forEach((question, index) => {
+  console.log(submission);
+  quizData.quiz.forEach((question, index) => {
     if (question.autograding) {
-      const response = submission.response[`question-${index}`];
+      const response = submission.submission[`question-${index}`];
       if (response && response[0] === question.correctAnswer) {
         totalScore += parseInt(question.points);
       }
@@ -48,10 +56,10 @@ function manualGrade(quizData, submission) {
     let totalScore = 0;
     let manualGradingRequired = false;
 
-    quizData.questions.forEach((question, index) => {
+    quizData.quiz.forEach((question, index) => {
       if (!question.autograding) {
         manualGradingRequired = true;
-        const response = submission.response[`question-${index}`];
+        const response = submission.submission[`question-${index}`];
 
         createGradingForm(question, response, index);
       }
@@ -69,7 +77,8 @@ function manualGrade(quizData, submission) {
             totalScore += grade;
           }
         });
-
+        const comment = commentInput.value;
+        // Save grading and comment (e.g., send to server or process further)
         resolve(totalScore);
       });
     } else {

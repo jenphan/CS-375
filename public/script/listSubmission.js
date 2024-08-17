@@ -32,6 +32,10 @@ document.addEventListener("DOMContentLoaded", async function () {
                 cell2.textContent = submission.student;
                 if(submission.submission){
                     cell3.textContent = "Submitted";
+                    cell3.classList.add("clickable"); // Add a CSS class for styling
+                    cell3.addEventListener("click", function() {
+                        window.location.href = `/html/grading.html?quizID=${quizID}&submitID=${submission.submitid}`;
+                    });
                 }
                 else{
                     cell3.textContent = "No submission";
@@ -49,3 +53,4 @@ document.addEventListener("DOMContentLoaded", async function () {
         console.error('Error fetching submissions:', error);
     }
 });
+
