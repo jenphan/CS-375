@@ -72,9 +72,9 @@ router.get("/get-quizzes-calendar", async (req, res) => {
 });
 
 router.post("/submit", async (req, res) => {
-  const { quizID, submission } = req.body;
+  const { quizID, quizData: submission } = req.body;
   const studentID = req.session.user.userid;
-  console.log(studentID);
+  console.log(submission);
   try {
     await pool.query(
       "INSERT INTO submissions (quizVersion, student, submission) VALUES ($1, $2, $3)",
@@ -116,17 +116,6 @@ router.get("/export-quiz/:quizID", async (req, res) => {
   }
 });
 
-router.get("/getsubmit", (req, res) => {
-  fs.readFile(submissionFilePath, "utf-8", (err, data) => {
-    if (err) {
-      res.status(500).send("Error while reading submission from file");
-    } else {
-      res.setHeader("Content-Type", "application/json");
-      res.status(200).json(JSON.parse(data));
-    }
-  });
-});
-
 router.get("/get-quizzes", async (req, res) => {
   try {
     const result = await pool.query(`
@@ -162,6 +151,18 @@ router.get("/take/:quizID", async (req, res) => {
     console.error("Error while fetching quizzes", error);
     res.status(500).json({ message: "Error while fetching quizzes" });
   }
+});
+
+router.get("/getSubmissions/:quizID", async (req, res) =>{
+  const quizID = req.params.quizID;
+  pool.query(`SELECT * FROM submissions WHERE quizVersion = $1`, [quizID]).then(result =>{
+    console.log(result.rows);
+    return res.status(200).json(result.rows);
+  }).catch(error => {
+    console.error("Error querying database", err);
+    return res.status(500).json({ error: "Failed to fetch quiz data" });
+  });
+
 });
 
 router.get("/edit/:quizID", async (req, res) => {});

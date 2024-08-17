@@ -79,13 +79,15 @@ function generateQuizForm(quiz, quizQuestions) {
       quizData[key].push(value);
     }
 
+    console.log(quizData);
+
     try {
       const response = await fetch("/quiz/submit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ quizID, response: quizData }),
+        body: JSON.stringify({ quizID, quizData }),
       });
 
       if (response.ok) {

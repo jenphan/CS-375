@@ -1,30 +1,33 @@
 :root {
-  --background-color: #ffffff;
+  --background-color: #fdf5f59c;
   --text-color: #242424;
   --primary-color: #00a8ea; /* Example primary color */
-  --secondary-color: #03dac6; /* Example secondary color */
+  --secondary-color: #da990d; /* Example secondary color */
+  --nav-hover: #b67f09;
   --background-image: url("../picture/day.jpg");
 }
 
 .dark-mode {
-  --background-color: #121212;
+  --background-color: #3a3939b4;
   --text-color: #ffffff;
   --primary-color: #8886fc; /* Dark mode primary color */
-  --secondary-color: #03dac6; /* Dark mode secondary color */
+  --secondary-color: #032ada; /* Dark mode secondary color */
+  --nav-hover: #04209c;
   --background-image: url("../picture/night.jpg");
 }
 
 /* change navigation style */
 .navbar {
   overflow: hidden;
-  background-color: #0b41b6;
+  background-color: var(--secondary-color);
 }
 
 .navbar a {
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   float: left;
   font-size: 18px;
-  color: white;
+  font-weight: bold;
+  color: var(--text-color);
   padding: 18px 20px;
   text-decoration: none;
 }
@@ -32,12 +35,13 @@
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   float: right;
   font-size: 24px;
-  color: white;
+  font-weight: bold;
+  color: var(--text-color);
   padding: 14px 16px;
   text-decoration: none;
 }
 .navbar a:hover {
-  background-color: #1d0087;
+  background-color: var(--nav-hover);
 }
 
 /* style the logout button */
@@ -45,7 +49,8 @@
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   float: right;
   font-size: 18px;
-  color: white;
+  font-weight: bold;
+  color: var(--text-color);
   padding: 18px 20px;
   background: none;
   border: none;
@@ -158,4 +163,20 @@ input:checked + .slider {
 input:checked + .slider:before {
   background-image: url("../picture/moon.png"); /* Change to moon image for dark mode */
   transform: translateX(26px);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+table, th, td {
+  border: 1px solid black;
+  background-color: var(--background-color);
+}
+th, td {
+  padding: 8px;
+  text-align: left;
+}
+.centered {
+  text-align: center;
 }
