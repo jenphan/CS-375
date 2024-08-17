@@ -127,7 +127,7 @@ function createQuestionElement(index) {
             </div>
             <div class="answer-checkboxes" style="display: none"></div>
             <div class="answer-radios" style="display: none"></div>
-            <div class="answer-dropdown" style="display: none"><select></select></div>
+            <div class="answer-dropdown" style="display: none"></div>
         </div>
         <button id="deleteQuestionButton" onclick="deleteQuestion(this)">Delete</button>
     </div>
@@ -235,13 +235,13 @@ function updateOptions(input) {
   const numberOfOptions = input.value;
   const questionElement = input.closest(".question");
 
-  const options = [
+  const optionClasses = [
     "options-container",
     "answer-checkboxes",
     "answer-radios",
     "answer-dropdown",
   ];
-  options.forEach((optionClass) => {
+  optionClasses.forEach((optionClass) => {
     const container = questionElement.querySelector(`.${optionClass}`);
     container.innerHTML = "";
   });
@@ -270,12 +270,16 @@ function updateOptions(input) {
         `;
     questionElement.querySelector(".answer-radios").appendChild(radioDiv);
 
+    const dropdownContainer = questionElement.querySelector(".answer-dropdown");
+    if (!dropdownContainer.querySelector("select")) {
+      const selectElement = document.createElement("select");
+      dropdownContainer.appendChild(selectElement);
+    }
+
     const optionElement = document.createElement("option");
     optionElement.value = i + 1;
     optionElement.text = `Option ${i + 1}`;
-    questionElement
-      .querySelector(".answer-dropdown select")
-      .appendChild(optionElement);
+    questionElement.querySelector(".answer-dropdown select").appendChild(optionElement);
   }
 }
 
