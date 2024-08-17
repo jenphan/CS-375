@@ -5,15 +5,23 @@ const { register } = require('module');
 const argon2 = require('argon2'); // linh changed
 
 // Load environment configuration
-const envConfig = JSON.parse(fs.readFileSync('../env.json', 'utf8'));
+//const envConfig = JSON.parse(fs.readFileSync('../env.json', 'utf8'));
+let pool;
+// fly.io sets NODE_ENV to production automatically, otherwise it's unset when running locally
 
-const pool = new Pool({
+if (process.env.NODE_ENV == "production") {
+	let databaseConfig = { connectionString: process.env.DATABASE_URL };
+  pool = new Pool(databaseConfig);
+} else {
+  const envConfig = JSON.parse(fs.readFileSync('../env.json', 'utf8'));
+  pool = new Pool({
     user: envConfig.DATABASE_USER,
     host: envConfig.DATABASE_HOST,
     database: envConfig.DATABASE_NAME,
     password: envConfig.DATABASE_PASSWORD,
     port: envConfig.DATABASE_PORT,
-});
+  });
+}
 
 /* QUERY FUNCTIONS */
   // linh changed - async await juust for wait while waiting for a process of database query to complete

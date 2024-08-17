@@ -2,6 +2,7 @@ let axios = require("axios");
 const { response } = require("express");
 let express = require("express");
 let session = require("express-session");
+const fs = require('fs');
 
 const bodyParser = require("body-parser");
 const crypto = require("crypto"); // Import crypto for generating a random string
@@ -12,20 +13,18 @@ const calendarRoutes = require("../routes/calendar");
 
 const ensureAuthenticated = require('../middleware/authMiddleware'); // Import the auth middleware
 
+
 let app = express();
 let port = 3000;
 let hostname;
 
-let databaseConfig;
 // fly.io sets NODE_ENV to production automatically, otherwise it's unset when running locally
 if (process.env.NODE_ENV == "production") {
 	hostname = "0.0.0.0";
-	databaseConfig = { connectionString: process.env.DATABASE_URL };
 } else {
 	hostname = "localhost";
-	let { PGUSER, PGPASSWORD, PGDATABASE, PGHOST, PGPORT } = process.env;
-	databaseConfig = { PGUSER, PGPASSWORD, PGDATABASE, PGHOST, PGPORT };
 }
+
 
 // Generate a random secret key
 const secretKey = crypto.randomBytes(64).toString("hex");
@@ -42,7 +41,7 @@ app.use(
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("../public"));
+app.use(express.static("public"));
 
 // Routes
 app.use("/auth", authRoutes);
@@ -59,3 +58,4 @@ app.use((err, req, res, next) => {
 app.listen(port, hostname, () => {
   console.log(`http://${hostname}:${port}`);
 });
+

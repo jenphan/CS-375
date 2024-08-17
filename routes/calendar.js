@@ -3,16 +3,7 @@ const router = express.Router();
 const { Pool } = require("pg");
 const fs = require("fs");
 
-// Load environment configuration
-const envConfig = JSON.parse(fs.readFileSync("../env.json", "utf8"));
-
-const pool = new Pool({
-  user: envConfig.DATABASE_USER,
-  host: envConfig.DATABASE_HOST,
-  database: envConfig.DATABASE_NAME,
-  password: envConfig.DATABASE_PASSWORD,
-  port: envConfig.DATABASE_PORT,
-});
+let {pool} = require("../app/query");
 
 router.post("/appointments", async (req, res) => {
   try {
