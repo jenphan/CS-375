@@ -2,7 +2,6 @@ let axios = require("axios");
 const { response } = require("express");
 let express = require("express");
 let session = require("express-session");
-const fs = require('fs');
 
 const bodyParser = require("body-parser");
 const crypto = require("crypto"); // Import crypto for generating a random string
