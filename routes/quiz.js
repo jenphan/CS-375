@@ -177,4 +177,18 @@ router.get("/getSubmissionByID/:submitID", async (req, res) =>{
 
 router.get("/edit/:quizID", async (req, res) => {});
 
+router.post("/addGrade", async (req, res) => {
+  const { submitID: id, totalScore: grade } = req.body;
+  try {
+    await pool.query(
+      "UPDATE submissions SET grade = $1 WHERE submitid = $2",
+      [grade, id]
+    );
+    return res.status(200).json({ message: "Grade was submitted successfully" });
+  } catch (error) {
+    console.log("Error while submitting grade:", error);
+    return res.status(500).json({ message: "Error while submitting grade" });
+  }
+});
+
 module.exports = router;

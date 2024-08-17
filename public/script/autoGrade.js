@@ -7,8 +7,6 @@ const url = new URLSearchParams(window.location.search);
 const quizID = url.get("quizID");
 const submitID = url.get("submitID");
 
-console
-
 submit.disabled = true;
 submit.style.visibility = "hidden";
 
@@ -25,20 +23,36 @@ button.addEventListener("click", async () => {
     const submission = await submissionResponse.json();
 
     const autoScore = autoGrade(quiz[0], submission[0]);
-
     manualGrade(quiz[0], submission[0]).then((manualScore) => {
       const totalScore = autoScore + manualScore;
       totalGradeDisplay.textContent = `Total Grade: ${totalScore}`;
+      fetch("/quiz/addGrade", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ submitID: submitID, totalScore: totalScore })
+      })
+      .then(result => {
+        return result.json();
+      })
+      .then(data => {
+        console.log(data);
+      })
+      .catch(error => {
+        console.log(error);
+      })
       clicked = true;
     });
   } catch (error) {
     console.error("Error fetching quiz or submission data:", error);
-  }
+  };
+
+
 });
 
 function autoGrade(quizData, submission) {
   let totalScore = 0;
-  console.log(submission);
   quizData.quiz.forEach((question, index) => {
     if (question.autograding) {
       const response = submission.submission[`question-${index}`];

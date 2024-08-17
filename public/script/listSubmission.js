@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", async function () {
-    const quizID = 1; // Replace with the actual quizID you want to check
+    const quizID = 3; // Replace with the actual quizID you want to check
     try {
         const response = await fetch(`/quiz/getSubmissions/${quizID}`);
         const submissions = await response.json();
