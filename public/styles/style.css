@@ -1,6 +1,6 @@
 :root {
   --background-color: #ffffff;
-  --text-color: #242424;
+  --text-color: #093384;
   --primary-color: #00a8ea; /* Example primary color */
   --secondary-color: #03dac6; /* Example secondary color */
   --background-image: url("../picture/day.jpg");
@@ -9,7 +9,7 @@
 .dark-mode {
   --background-color: #121212;
   --text-color: #ffffff;
-  --primary-color: #8886fc; /* Dark mode primary color */
+  --primary-color: #4896f6; /* Dark mode primary color */
   --secondary-color: #03dac6; /* Dark mode secondary color */
   --background-image: url("../picture/night.jpg");
 }
@@ -17,11 +17,11 @@
 /* change navigation style */
 .navbar {
   overflow: hidden;
-  background-color: #0b41b6;
+  background-color: #093384;
 }
 
 .navbar a {
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  font-family: "Baskerville", serif;
   float: left;
   font-size: 18px;
   color: white;
@@ -29,7 +29,7 @@
   text-decoration: none;
 }
 .navbar b {
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  font-family: "Baskerville", serif;
   float: right;
   font-size: 24px;
   color: white;
@@ -37,12 +37,12 @@
   text-decoration: none;
 }
 .navbar a:hover {
-  background-color: #1d0087;
+  background-color: #000056;
 }
 
 /* style the logout button */
 .navbar button {
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  font-family: "Baskerville", serif;
   float: right;
   font-size: 18px;
   color: white;
@@ -54,12 +54,12 @@
 }
 
 .navbar button:hover {
-  background-color: #1d0087;
+  background-color: #000056;
 }
 
 /* body style affects whole page */
 body {
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  font-family: "Baskerville", serif;
   background-color: var(--background-color);
   background-image: var(--background-image);
   color: var(--text-color);
@@ -74,6 +74,8 @@ body {
   margin: 0;
 }
 .banner {
+  font-family: "Baskerville", serif;
+  font-style: semi-bold;
   color: white;
   padding: 30px 40px;
   border-radius: 12px;
@@ -100,9 +102,11 @@ body {
 }
 
 .banner p {
+  font-family: "Baskerville", serif;
+  font-style: regular;
   margin-top: 10px;
   color: var(--text-color);
-  font-size: 2.2rem;
+  font-size: 2rem;
   opacity: 0.9;
 }
 /* Change footer style */
