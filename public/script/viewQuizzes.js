@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       card.addEventListener("click", () => {
         window.location.href = `/html/takeQuiz.html?quizID=${quiz.quizid}`;
       });
-      
+
       const editButton = document.createElement("button");
       editButton.textContent = "Edit";
       editButton.addEventListener("click", (event) => {

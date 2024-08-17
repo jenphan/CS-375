@@ -71,70 +71,70 @@ function generateQuizForm(quiz, quizQuestions) {
   quizFormContainer.appendChild(quizForm);
 
   document
-  .getElementById("submitQuizButton")
-  .addEventListener("click", async () => {
-    const url = new URLSearchParams(window.location.search);
-    const quizID = url.get("quizID");
+    .getElementById("submitQuizButton")
+    .addEventListener("click", async () => {
+      const url = new URLSearchParams(window.location.search);
+      const quizID = url.get("quizID");
 
-    const inputs = quizForm.querySelectorAll("input, textarea, select");
-    let submission = {};
+      const inputs = quizForm.querySelectorAll("input, textarea, select");
+      let submission = {};
 
-    inputs.forEach(input => {
-      const name = input.name;
-      const type = input.type;
-      let value;
-      if (type === "checkbox") {
-        if (input.checked) {
+      inputs.forEach((input) => {
+        const name = input.name;
+        const type = input.type;
+        let value;
+        if (type === "checkbox") {
+          if (input.checked) {
+            value = input.value;
+          }
+        } else if (type == "radio" && input.checked) {
+          value = input.value;
+        } else {
           value = input.value;
         }
-      } else if (type == "radio" && input.checked) {
-        value = input.value;
-      } else {
-        value = input.value;
-      }
 
-      if (name in submission) {
-        if (Array.isArray(submission[name])) {
-          submission[name].push(value);
+        if (name in submission) {
+          if (Array.isArray(submission[name])) {
+            submission[name].push(value);
+          } else {
+            submission[name] = [submission[name], value];
+          }
         } else {
-          submission[name] = [submission[name], value];
+          submission[name] = value;
         }
-      } else {
-        submission[name] = value;
-      }
-    });
-
-    // hardcoded studentid
-    const submissionData = {
-      studentid: 2,
-      submission: JSON.stringify(submission),
-      quizVersion: quizID,
-      submissionDate: new Date(),
-    }
-
-    try {
-      const response = await fetch("/quiz/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(submissionData),
       });
-  
-      if (response.ok) {
-        console.log("Quiz successfully submitted!");
-        await fetch("/quiz/savesubmission", {
+
+      // hardcoded studentid
+      const submissionData = {
+        studentid: 2,
+        submission: JSON.stringify(submission),
+        quizVersion: quizID,
+        submissionDate: new Date(),
+      };
+
+      try {
+        const response = await fetch("/quiz/submit", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(submissionData),
         });
-      } else {
-        console.log("Error submitting quiz", response.statusText);
+
+        if (response.ok) {
+          console.log("Quiz successfully submitted!");
+          await fetch("/quiz/savesubmission", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(submissionData),
+          });
+        } else {
+          console.log("Error submitting quiz", response.statusText);
+        }
+      } catch (error) {
+        console.log("Error submitting quiz", error);
       }
-    } catch (error) {
-      console.log("Error submitting quiz", error);
-    }
-  });
+    });
 }
