@@ -9,24 +9,32 @@
     <link href="../styles/views.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <div class="navbar">
-      <a href="/auth/home"> Home </a>
-      <a href="./credits.html"> About Us </a>
-      <a href="./faqs.html"> FAQs </a>
-      <a href="./tutorial.html"> Where to start</a>
-      <button id="logout-button" style="display: none; float: right">
-        Logout
-      </button>
-      <b>
-        <label class="theme-switch">
-          <input type="checkbox" id="theme-toggle" />
-          <span class="slider"></span>
-        </label>
-      </b>
-    </div>
+    <header>
+      <a href="/auth/home" class="logo">Blueboard</a>
+      <nav class="nav-bar">
+        <ul class="nav-center">
+          <li><a href="./credits.html">About Us</a></li>
+          <li><a href="./tutorial.html">Where to Start</a></li>
+          <li><a href="./faqs.html">FAQ</a></li>
+        </ul>
+        <ul class="nav-right">
+          <li>
+            <b>
+              <label class="theme-switch">
+                <input type="checkbox" id="theme-toggle" />
+                <span class="slider"></span>
+              </label>
+            </b>
+          </li>
+          <li>
+            <button id="logout-button" style="display: none;">Logout</button>
+          </li>
+        </ul>
+      </nav>
+    </header>
     <div>
       <a href="./createQuiz.html">
-        <button type="button" class="button-container">Create New Quiz</button>
+        <button id="create-new-quiz" type="button" class="button-container">Create New Quiz</button>
       </a>
     </div>
     <div id="quizContainer">
