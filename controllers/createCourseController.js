@@ -1,4 +1,3 @@
-
 let {addCourse, enroll, getCourses} = require('../app/query');
 
 const generateRandomCode = () => {
