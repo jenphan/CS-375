@@ -16,6 +16,20 @@
   --background-image: url("../picture/night.jpg");
 }
 
+/* change navigation style */
+.navbar {
+  overflow: hidden;
+  background-color: var(--secondary-color);
+}
+
+.navbar a {
+  font-family: "Baskerville", serif;
+  float: left;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--text-color);
+  padding: 18px 20px;
+
 * {
   margin: 0;
   padding: 0;
@@ -23,7 +37,7 @@
   text-decoration: none;
 }
 .navbar b {
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  font-family: "Baskerville", serif;
   float: right;
   font-size: 24px;
   font-weight: bold;
@@ -37,7 +51,7 @@
 
 /* style the logout button */
 .navbar button {
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  font-family: "Baskerville", serif;
   float: right;
   font-size: 18px;
   font-weight: bold;
