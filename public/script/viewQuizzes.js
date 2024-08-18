@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", async () => {
+  const userRole = localStorage.getItem("userRole");
+  if (userRole === "student") {
+    document.getElementById("create-new-quiz").style.display = "none";
+  }
   try {
     const response = await fetch("/quiz/get-quizzes");
     const quizzes = await response.json();
