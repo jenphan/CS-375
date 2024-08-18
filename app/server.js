@@ -40,7 +40,7 @@ app.use(
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("public"));
+app.use(express.static("../public"));
 
 // Routes
 app.use("/auth", authRoutes);
