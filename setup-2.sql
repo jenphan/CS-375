@@ -49,7 +49,8 @@ CREATE TABLE submissions (
     student INT REFERENCES users(usrid),
     submission JSON,
     quizVersion INT REFERENCES quizzes(quizID),
-    submissionDate TIMESTAMPTZ
+    submissionDate TIMESTAMPTZ,
+    grade INT
 );
 
 CREATE TABLE appointments (

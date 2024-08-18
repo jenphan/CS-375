@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BlueBoard</title>
+    <link href="../styles/style.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/views.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/grade.css" rel="stylesheet" type="text/css" />
+    <style>
+  </style>
+  </head>
+  <body>
+    <div class="navbar">
+      <a href="/auth/home"> Home </a>
+      <a href="./credits.html"> About Us </a>
+      <a href="./faqs.html"> FAQs </a>
+      <a href="./tutorial.html"> Where to start</a>
+      <button id="logout-button" style="display: none; float: right">
+        Logout
+      </button>
+      <b>
+        <label class="theme-switch">
+          <input type="checkbox" id="theme-toggle" />
+          <span class="slider"></span>
+        </label>
+      </b>
+    </div>
+    <div class="sidebar">
+      <!-- implement sidebar?-->
+    </div>
+    <table id="submissionsTable">
+      
+    </table>
+
+    <div class="main-content">
+      <div id="courseList">
+        <!-- Courses will be listed here -->
+      </div>
+    </div>
+
+    <script src="../script/app.js"></script>
+    <script src="../script/dark-mode.js"></script>
+    <script src="../script/logout.js"></script>
+    <script src="../script/listSubmission.js"></script>
+  </body>
+</html>

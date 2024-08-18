@@ -17,11 +17,11 @@ clearQuizFile();
 
 router.post("/createquiz", async (req, res) => {
   const { title, professorId, deadline, timer, questions } = req.body;
-
+  console.log(req.session.user.userid);
   try {
     const result = await pool.query(
       "INSERT INTO quizzes (title, creator, quiz, deadline, timer) VALUES ($1, $2, $3, $4, $5) RETURNING quizID",
-      [title, professorId, questions, deadline, timer],
+      [title, req.session.user.userid, questions, deadline, timer],
     );
     const quizID = result.rows[0].quizID;
     res.status(200).json({ quizID });
@@ -59,6 +59,16 @@ router.get("/getquiz", (req, res) => {
       res.setHeader("Content-Type", "application/json");
       res.status(200).json(JSON.parse(data));
     }
+  });
+});
+
+router.get("/getquiz/:quizID", (req, res) => {
+  const quizID = req.params.quizID;
+  pool.query(`SELECT * FROM quizzes WHERE quizid = $1`, [quizID]).then(result =>{
+    return res.status(200).json(result.rows);
+  }).catch(error => {
+    console.error("Error querying database", err);
+    return res.status(500).json({ error: "Failed to fetch quiz data" });
   });
 });
 
@@ -115,17 +125,6 @@ router.get("/export-quiz/:quizID", async (req, res) => {
   }
 });
 
-router.get("/getsubmit", (req, res) => {
-  fs.readFile(submissionFilePath, "utf-8", (err, data) => {
-    if (err) {
-      res.status(500).send("Error while reading submission from file");
-    } else {
-      res.setHeader("Content-Type", "application/json");
-      res.status(200).json(JSON.parse(data));
-    }
-  });
-});
-
 router.get("/get-quizzes", async (req, res) => {
   try {
     const result = await pool.query(`
@@ -161,6 +160,28 @@ router.get("/take/:quizID", async (req, res) => {
     console.error("Error while fetching quizzes", error);
     res.status(500).json({ message: "Error while fetching quizzes" });
   }
+});
+
+router.get("/getSubmissions/:quizID", async (req, res) =>{
+  const quizID = req.params.quizID;
+  pool.query(`SELECT * FROM submissions WHERE quizVersion = $1`, [quizID]).then(result =>{
+    return res.status(200).json(result.rows);
+  }).catch(error => {
+    console.error("Error querying database", err);
+    return res.status(500).json({ error: "Failed to fetch quiz data" });
+  });
+
+});
+
+router.get("/getSubmissionByID/:submitID", async (req, res) =>{
+  const submitID = req.params.submitID;
+  pool.query(`SELECT * FROM submissions WHERE submitid = $1`, [submitID]).then(result =>{
+    return res.status(200).json(result.rows);
+  }).catch(error => {
+    console.error("Error querying database", error);
+    return res.status(500).json({ error: "Failed to fetch quiz data" });
+  });
+
 });
 
 router.get("/edit/:quizID", async (req, res) => {
@@ -214,6 +235,20 @@ router.get("/get-submissions/:quizID", async (req, res) => {
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ message: "Error fetching submissions" });
+  }
+});
+
+router.post("/addGrade", async (req, res) => {
+  const { submitID: id, totalScore: grade } = req.body;
+  try {
+    await pool.query(
+      "UPDATE submissions SET grade = $1 WHERE submitid = $2",
+      [grade, id]
+    );
+    return res.status(200).json({ message: "Grade was submitted successfully" });
+  } catch (error) {
+    console.log("Error while submitting grade:", error);
+    return res.status(500).json({ message: "Error while submitting grade" });
   }
 });
 
