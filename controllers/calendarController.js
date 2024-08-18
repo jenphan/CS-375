@@ -2,15 +2,7 @@ const { Pool } = require("pg");
 const fs = require("fs");
 
 // Load environment configuration
-const envConfig = JSON.parse(fs.readFileSync("../env.json", "utf8"));
-
-const pool = new Pool({
-  user: envConfig.DATABASE_USER,
-  host: envConfig.DATABASE_HOST,
-  database: "cs375",
-  password: "password",
-  port: envConfig.DATABASE_PORT,
-});
+let {pool} = require("../app/query");
 
 const addAppointment = async (title, date) => {
   const query = "INSERT INTO appointments (title, date) VALUES ($1, $2)";

@@ -3,17 +3,8 @@ const router = express.Router();
 const path = require("path");
 const fs = require("fs");
 
-const { Pool } = require("pg");
-const { resourceLimits } = require("worker_threads");
-const envConfig = JSON.parse(fs.readFileSync("../env.json", "utf8"));
+let {pool} = require('../app/query');
 
-const pool = new Pool({
-  user: envConfig.DATABASE_USER,
-  host: envConfig.DATABASE_HOST,
-  database: envConfig.DATABASE_NAME,
-  password: envConfig.DATABASE_PASSWORD,
-  port: envConfig.DATABASE_PORT,
-});
 
 const quizFilePath = path.join(__dirname, "quiz.json");
 const submissionFilePath = path.join(__dirname, "submit.json");
