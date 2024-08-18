@@ -1,13 +1,15 @@
 let professorId;
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const response = await fetch("/quiz/get-user-id");
-    if (response.ok) {
-      const data = await response.json();
-      professorId = data.userID;
+    const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+    if (userCookie) {
+      const decodedCookie = decodeURIComponent(userCookie.split('=')[1]);
+      professorId = JSON.parse(decodedCookie).userid;
+    } else {
+      console.log("Not logged in – could not extract user id from cookie")
     }
   } catch (error) {
-    console.log("Not logged in")
+    console.log("Error while extracting user id from cookie", error)
   }
 
   const questionContainer = document.getElementById("questionsContainer");
@@ -359,9 +361,11 @@ function createQuizData() {
   }
 
   const quiz = [];
+  let alertShown = false;
 
   for (const question of questions) {
     if (!validateQuestion(question) && !alertShown) {
+      alertShown = true;
       return alert("Please fill out all required fields correctly.");
     }
   }
