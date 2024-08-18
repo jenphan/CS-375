@@ -1,6 +1,19 @@
 const url = new URLSearchParams(window.location.search);
 const quizID = url.get("quizID");
+let studentId;
+
 document.addEventListener("DOMContentLoaded", async () => {
+  try {
+    const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+    if (userCookie) {
+      const decodedCookie = decodeURIComponent(userCookie.split('=')[1]);
+      studentId = JSON.parse(decodedCookie).userid;
+    } else {
+      console.log("Not logged in – could not extract user id from cookie")
+    }
+  } catch (error) {
+    console.log("Error while extracting user id from cookie", error)
+  }
 
   if (!quizID) {
     console.log("Quiz ID is missing");
@@ -79,7 +92,12 @@ function generateQuizForm(quiz, quizQuestions) {
       quizData[key].push(value);
     }
 
-    console.log(quizData);
+    const submissionData = {
+      studentid: studentId,
+      submission: JSON.stringify(quizData),
+      quizVersion: quizID,
+      submissionDate: new Date(),
+    };
 
     try {
       const response = await fetch("/quiz/submit", {
@@ -87,7 +105,7 @@ function generateQuizForm(quiz, quizQuestions) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ quizID, quizData }),
+        body: JSON.stringify(submissionData),
       });
 
       if (response.ok) {

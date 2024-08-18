@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS courses CASCADE;
 DROP TABLE IF EXISTS enrollment CASCADE;
 DROP TABLE IF EXISTS quizzes CASCADE;
+DROP TABLE IF EXISTS submissions CASCADE;
 DROP TABLE IF EXISTS quiz_questions CASCADE;
 DROP TABLE IF EXISTS quiz_responses CASCADE;
 DROP TABLE IF EXISTS appointments CASCADE;
@@ -47,7 +48,7 @@ CREATE TABLE submissions (
     student INT REFERENCES users(usrid),
     submission JSON,
     quizVersion INT REFERENCES quizzes(quizID),
-    grade INT
+    submissionDate TIMESTAMPTZ
 );
 
 CREATE TABLE appointments (

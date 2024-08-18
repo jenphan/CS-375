@@ -3,17 +3,8 @@ const router = express.Router();
 const path = require("path");
 const fs = require("fs");
 
-const { Pool } = require("pg");
-const { resourceLimits } = require("worker_threads");
-const envConfig = JSON.parse(fs.readFileSync("../env.json", "utf8"));
+let {pool} = require('../app/query');
 
-const pool = new Pool({
-  user: envConfig.DATABASE_USER,
-  host: envConfig.DATABASE_HOST,
-  database: envConfig.DATABASE_NAME,
-  password: envConfig.DATABASE_PASSWORD,
-  port: envConfig.DATABASE_PORT,
-});
 
 const quizFilePath = path.join(__dirname, "quiz.json");
 const submissionFilePath = path.join(__dirname, "submit.json");
@@ -50,6 +41,27 @@ router.post("/savequiz", (req, res) => {
   });
 });
 
+router.post("/savesubmission", (req, res) => {
+  fs.writeFile(submissionFilePath, JSON.stringify(req.body, null, 2), (err) => {
+    if (err) {
+      res.status(500).send("Error while saving quiz submission to file");
+    } else {
+      res.status(200).send("Quiz submission was successfully saved!");
+    }
+  });
+});
+
+router.get("/getquiz", (req, res) => {
+  fs.readFile(quizFilePath, "utf-8", (err, data) => {
+    if (err) {
+      res.status(500).send("Error while reading quiz from file");
+    } else {
+      res.setHeader("Content-Type", "application/json");
+      res.status(200).json(JSON.parse(data));
+    }
+  });
+});
+
 router.get("/getquiz/:quizID", (req, res) => {
   const quizID = req.params.quizID;
   pool.query(`SELECT * FROM quizzes WHERE quizid = $1`, [quizID]).then(result =>{
@@ -71,13 +83,11 @@ router.get("/get-quizzes-calendar", async (req, res) => {
 });
 
 router.post("/submit", async (req, res) => {
-  const { quizID, quizData: submission } = req.body;
-  const studentID = req.session.user.userid;
-  console.log(submission);
+  const { studentid, submission, quizVersion, submissionDate } = req.body;
   try {
     await pool.query(
-      "INSERT INTO submissions (quizVersion, student, submission) VALUES ($1, $2, $3)",
-      [quizID, studentID, submission],
+      "INSERT INTO submissions (student, submission, quizversion, submissiondate) VALUES ($1, $2, $3, $4)",
+      [studentid, submission, quizVersion, submissionDate],
     );
     res.status(200).json({ message: "Quiz was submitted successfully" });
   } catch (error) {
@@ -175,19 +185,57 @@ router.get("/getSubmissionByID/:submitID", async (req, res) =>{
 
 });
 
-router.get("/edit/:quizID", async (req, res) => {});
+router.get("/edit/:quizID", async (req, res) => {
+  const quizID = req.params.quizID;
+  try {
+    const result = await pool.query(
+      `
+      SELECT * FROM quizzes WHERE quizID = $1
+      `,
+      [quizID],
+    );
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: "Quiz not found" });
+    }
+    res.status(200).json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ message: "Error while fetching quiz data" });
+  }
+});
 
-router.post("/addGrade", async (req, res) => {
-  const { submitID: id, totalScore: grade } = req.body;
+router.post("/edit/:quizID", async (req, res) => {
+  const quizID = req.params.quizID;
+  const { title, deadline, timer, questions } = req.body;
+
   try {
     await pool.query(
-      "UPDATE submissions SET grade = $1 WHERE submitid = $2",
-      [grade, id]
+      `
+    UPDATE quizzes SET title = $1, deadline = $2, timer = $3, quiz = $4 WHERE quizID = $5
+    `,
+      [title, deadline, timer, questions, quizID],
     );
-    return res.status(200).json({ message: "Grade was submitted successfully" });
+    res.status(200).json({ message: "Quiz updated successfully" });
   } catch (error) {
-    console.log("Error while submitting grade:", error);
-    return res.status(500).json({ message: "Error while submitting grade" });
+    res.status(500).json({ message: "Error while updating quiz" });
+  }
+});
+
+router.get("/get-submissions/:quizID", async (req, res) => {
+  const quizID = req.params.quizID;
+  try {
+    let result = await pool.query(
+      `
+      SELECT s.submitID, u.username AS studentName, s.submissionDate, s.submission, q.deadline
+      FROM submissions s
+      JOIN users u ON s.student = u.usrid
+      JOIN quizzes q ON s.quizVersion = q.quizID
+      WHERE s.quizVersion = $1
+    `,
+      [quizID],
+    );
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching submissions" });
   }
 });
 
