@@ -1,5 +1,5 @@
 button {
-  background-color: #0b41b6;
+  background-color: #093384;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -11,7 +11,7 @@ button {
 }
 
 button:hover {
-  background-color: #5c1818;
+  background-color: #000056;
 }
 
 .question {

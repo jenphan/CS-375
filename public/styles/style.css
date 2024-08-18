@@ -1,6 +1,6 @@
 :root {
   --background-color: #ffffff;
-  --text-color: #093384;
+  --text-color: #6c340d;
   --primary-color: #00a8ea; /* Example primary color */
   --secondary-color: #03dac6; /* Example secondary color */
   --background-image: url("../picture/day.jpg");
@@ -14,47 +14,13 @@
   --background-image: url("../picture/night.jpg");
 }
 
-/* change navigation style */
-.navbar {
-  overflow: hidden;
-  background-color: #093384;
-}
-
-.navbar a {
-  font-family: "Baskerville", serif;
-  float: left;
-  font-size: 18px;
-  color: white;
-  padding: 18px 20px;
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none;
   text-decoration: none;
-}
-.navbar b {
-  font-family: "Baskerville", serif;
-  float: right;
-  font-size: 24px;
-  color: white;
-  padding: 14px 16px;
-  text-decoration: none;
-}
-.navbar a:hover {
-  background-color: #000056;
-}
-
-/* style the logout button */
-.navbar button {
-  font-family: "Baskerville", serif;
-  float: right;
-  font-size: 18px;
-  color: white;
-  padding: 18px 20px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.navbar button:hover {
-  background-color: #000056;
+  font-family: "Baskerville";
+  box-sizing: border-box;
 }
 
 /* body style affects whole page */
@@ -73,6 +39,82 @@ body {
   background-size: cover;
   margin: 0;
 }
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  color: white;
+}
+
+header {
+  width: 100%;
+  height: 80px;
+  background: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(50px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 100px;
+}
+
+.nav-bar {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
+}
+
+.nav-center {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+}
+
+.nav-center li {
+  margin: 0 10px; /* Adjust spacing as needed */
+}
+
+.nav-bar ul {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-bar ul li {
+  list-style: none;
+}
+
+.nav-bar ul li a,
+.nav-bar ul li button {
+  display: block;
+  color: white;
+  font-size: 20px;
+  padding: 10px 25px;
+  border-radius: 50px;
+  transition: 0.2s;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.nav-bar ul li a:hover,
+.nav-bar ul li button:hover {
+  color: #1d0087;
+  background: white;
+}
+
+.nav-bar ul li a.active {
+  color: black;
+  background: white;
+}
+
+.nav-right {
+  margin-left: auto; /* Pushes the right-side items to the far right */
+}
+
+
+/* welcome */
 .banner {
   font-family: "Baskerville", serif;
   font-style: semi-bold;
@@ -109,13 +151,7 @@ body {
   font-size: 2rem;
   opacity: 0.9;
 }
-/* Change footer style */
-footer {
-  position: absolute;
-  bottom: 0;
-}
 
-/* Slider switch styles */
 .theme-switch {
   position: relative;
   display: inline-block;
@@ -136,7 +172,7 @@ footer {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background-color: #c6926e;
   transition: 0.4s;
   border-radius: 34px;
 }
