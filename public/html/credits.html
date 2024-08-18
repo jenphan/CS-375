@@ -7,29 +7,42 @@
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <header>
-        <a href="/auth/home" class="logo">Blueboard</a>
-        <nav class="nav-bar">
-          <ul class="nav-center">
-            <li><a href="./credits.html">About Us</a></li>
-            <li><a href="./tutorial.html">Where to Start</a></li>
-            <li><a href="./faqs.html">FAQ</a></li>
-          </ul>
-          <ul class="nav-right">
-            <li>
-              <b>
-                <label class="theme-switch">
-                  <input type="checkbox" id="theme-toggle" />
-                  <span class="slider"></span>
-                </label>
-              </b>
-            </li>
-            <li>
-              <button id="logout-button" style="display: none;">Logout</button>
-            </li>
-          </ul>
-        </nav>
-      </header>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+          // Retrieve and log the cookie via js
+          console.log(document.cookie);
+          const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+          console.log('User Cookie:', userCookie);
+      
+          // If user cookie is present, show the logout button
+          if (userCookie) {
+            document.getElementById("logout-button").style.display = "inline-block";
+          }
+      });
+    </script>
+      <a href="/auth/home" class="logo">Blueboard</a>
+      <nav class="nav-bar">
+        <ul class="nav-center">
+          <li><a href="./createQuiz.html">Create Quiz</a></li>
+          <li><a href="./calendar.html">Calendar</a></li>
+          <li><a href="./announcements.html">Announcements</a></li>
+          <li><a href="./tutorial.html">Where to Start</a></li>
+        </ul>
+        <ul class="nav-right">
+          <li>
+            <b>
+              <label class="theme-switch">
+                <input type="checkbox" id="theme-toggle" />
+                <span class="slider"></span>
+              </label>
+            </b>
+          </li>
+          <li>
+            <button id="logout-button" style="display: none;">Logout</button>
+          </li>
+        </ul>
+      </nav>
+    </header>
     <h1>Nothing yet</h1>
     <script src="../script/app.js"></script>
     <script src="../script/dark-mode.js"></script>

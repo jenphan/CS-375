@@ -5,15 +5,23 @@ const { register } = require('module');
 const argon2 = require('argon2'); // linh changed
 
 // Load environment configuration
-const envConfig = JSON.parse(fs.readFileSync('../env.json', 'utf8'));
+//const envConfig = JSON.parse(fs.readFileSync('../env.json', 'utf8'));
+let pool;
+// fly.io sets NODE_ENV to production automatically, otherwise it's unset when running locally
 
-const pool = new Pool({
+if (process.env.NODE_ENV == "production") {
+	let databaseConfig = { connectionString: process.env.DATABASE_URL };
+  pool = new Pool(databaseConfig);
+} else {
+  const envConfig = JSON.parse(fs.readFileSync('../env.json', 'utf8'));
+  pool = new Pool({
     user: envConfig.DATABASE_USER,
     host: envConfig.DATABASE_HOST,
     database: envConfig.DATABASE_NAME,
     password: envConfig.DATABASE_PASSWORD,
     port: envConfig.DATABASE_PORT,
-});
+  });
+}
 
 /* QUERY FUNCTIONS */
   // linh changed - async await juust for wait while waiting for a process of database query to complete
@@ -69,14 +77,31 @@ const pool = new Pool({
       else{
         pool.query(`INSERT INTO courses(crn, department, number, title, professorid, registrationcode) VALUES($1, $2, $3, $4, $5, $6)`, [crn, dept, num, title, profID, code]).then(result =>{
           console.log("successful course creation");
-          return res.status(200).json({
-            message: 'Course created successfully',
-            course: result.rows[0]});
+          enroll(profID, code, req, res);
         }).catch(error => {
         console.log("course creation error");
         return res.status(500).json({ message: 'course creation error' });
         });
       }
+    });
+  }
+
+  function enroll(userid, regCode, req, res){
+    console.log(regCode);
+    pool.query(`SELECT crn FROM courses WHERE registrationcode = $1`, [regCode]).then(result => {
+      let crn = result.rows[0].crn;
+      console.log("crn:" + crn);
+      pool.query(`INSERT INTO enrollment(usrid, courseCRN) VALUES ($1, $2)`, [userid, crn]).then(result =>{
+        console.log("sucessfully enrolled in course");
+        return res.status(200).json({message: 'user now in course'})
+        }).catch(error => {
+          console.log("course enrollment error");
+          console.log(error);
+          return res.status(500).json({message: 'course enrollment error'})
+        })
+    }).catch(error =>{
+      console.log("invalid registration code");
+      return res.status(500).json({message: 'invalid registration code'})
     });
   }
      
@@ -132,12 +157,12 @@ const pool = new Pool({
         return res.status(400).json({ message: 'Invalid username or password' });
       }
       req.session.user = { userid: user.usrid, username: user.username, role: user.role };
-      res.status(200).json({ message: 'Login successful', user: { username: user.username, role: user.role } });
+      return { username: user.username, role: user.role, usrid: user.usrid };
     } catch (error) {
       console.log("Error during login:", error);
-      res.status(500).json({ message: 'User not found' });
+      return res.status(500).json({ message: 'User not found' });
     }
- }
+  }
   
   function getUsers(role = 0){
     //0: all accounts 
@@ -168,47 +193,21 @@ const pool = new Pool({
     });
   }
 
-  function getCourses(department = "", profID = 0){
-    if ((department === "") && (profID === 0)){
-      //error
-      return "parameter error";
-    }
-    //search by department
-    if(profID === 0){
-      pool.query(`SELECT * FROM courses WHERE department = $1`, [department]).then(result => {
-        console.log(result.rows);
-        return result.rows;
-      })
-    }
-    //search by professor 
-    else if(department === ""){
-      pool.query(`SELECT * FROM courses WHERE professorID = $1`, [profID]).then(result => {
-        console.log(result.rows);
-        return result.rows;
-      })
-    }
-    else {
-    //search by both department and professor
-      pool.query(`SELECT * FROM courses WHERE department = $1 AND professorID = $2`, [department, profID]).then(result => {
-        console.log(result.rows);
-        return result.rows;
-      })
-    }
-  }
-  
-  function enroll(userid, regCode){
-    pool.query(`SELECT crn FROM courses WHERE registrationcode = $1`, [regCode]).then(result => {
-      let crn = result.rows;
-      console.log("crn:" + crn);
-      pool.query(`INSERT INTO enrollment(usrid, courseCRN) VALUES ($1, $2)`, [userid, crn]).then(result =>{
-        console.log("sucessfully enrolled in course");
-        }).catch(error => {
-          console.log("course enrollment error");
-        })
-    }).catch(error =>{
-      console.log("invalid registration code");
+  //add a toggle for all course information
+  function getCourses(userid, req, res){
+    //need to get the userid from the cookie data 
+    console.log(req.session.user);
+    console.log(userid);
+    pool.query(`SELECT title FROM courses JOIN enrollment ON crn = coursecrn WHERE usrid = $1`, [userid]).then(result => {
+      console.log(result.rows);
+      return res.status(200).json({'courses': result.rows});
+    }).catch(error => {
+      console.log("course retrieval error");
+      return res.status(500).json({message: 'Course retrieval error'});
     });
   }
+  
+  
   
   function unenroll(userid, crn){
     pool.query(`DELETE FROM enrollment WHERE usrid = $1 AND crn = $2`, [userid, crn]).then(result =>{
@@ -258,6 +257,8 @@ function testSuite(){
 }
 
 module.exports = {
+  //pool
+  pool,
   //users
   registerAccount,
   updateUsername,

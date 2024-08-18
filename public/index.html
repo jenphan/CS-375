@@ -8,6 +8,33 @@
     <link href="./styles/login.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
+    <script>
+      // Check if the user is logged in and redirect based on role
+      document.addEventListener("DOMContentLoaded", function() {
+        fetch("/auth/check-session", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            if (data.loggedIn) {
+              // Redirect based on user role
+              fetch("/auth/home")
+                .then((response) => {
+                  if (response.redirected) {
+                    window.location.href = response.url; // Redirect to the role-based page
+                  }
+                });
+            }
+          })
+          .catch((error) => {
+            console.error("Error checking login status:", error);
+          });
+      });
+    </script>
+    
     <header>
       <a href="./auth/home" class="logo">Blueboard</a>
       <nav class="nav-bar">

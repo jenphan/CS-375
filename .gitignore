@@ -4,3 +4,5 @@ env.json
 package-lock.json
 package.json
 questions.txt
+routes/quiz.json
+routes/submit.json

@@ -17,14 +17,21 @@ document
       password: password,
     };
 
-    fetch("auth/login", {
+    fetch("/auth/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     })
-      .then((response) => response.json())
+      .then(response => {
+        if (response.redirected) {
+          // If the server redirects, follow the redirect
+          window.location.href = response.url;
+          return;
+        }
+        return response.json(); // Try to parse JSON if not redirected
+      })
       .then((data) => {
         if (data.message === "Login successful") {
           alert("Login successful");

@@ -5,17 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BlueBoard</title>
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
-    <link href="../styles/quizCards.css" rel="stylesheet" type="text/css" />
-    <link href="../styles/views.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/cards.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+          // Retrieve and log the cookie via js
+          console.log(document.cookie);
+          const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+          console.log('User Cookie:', userCookie);
+      
+          // If user cookie is present, show the logout button
+          if (userCookie) {
+            document.getElementById("logout-button").style.display = "inline-block";
+          }
+      });
+    </script>
     <header>
       <a href="/auth/home" class="logo">Blueboard</a>
       <nav class="nav-bar">
         <ul class="nav-center">
-          <li><a href="./credits.html">About Us</a></li>
+          <li><a href="./calendar.html">Calendar</a></li>
+          <li><a href="./viewQuizzes.html">Quizzes</a></li>
+          <li><a href="./announcements.html">Announcements</a></li>
           <li><a href="./tutorial.html">Where to Start</a></li>
-          <li><a href="./faqs.html">FAQ</a></li>
         </ul>
         <ul class="nav-right">
           <li>
@@ -32,11 +45,6 @@
         </ul>
       </nav>
     </header>
-    <div>
-      <a href="./createQuiz.html">
-        <button id="create-new-quiz" type="button" class="button-container">Create New Quiz</button>
-      </a>
-    </div>
     <div id="quizContainer">
       <h1>All Quizzes</h1>
     </div>

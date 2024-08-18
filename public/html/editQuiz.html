@@ -6,17 +6,34 @@
     <title>BlueBoard</title>
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
     <link href="../styles/quiz.css" rel="stylesheet" type="text/css" />
+    <script>
+      const url = new URLSearchParams(window.location.search);
+      const quizID = url.get("quizID");
+    </script>
   </head>
   <body>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+          // Retrieve and log the cookie via js
+          console.log(document.cookie);
+          const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+          console.log('User Cookie:', userCookie);
+      
+          // If user cookie is present, show the logout button
+          if (userCookie) {
+            document.getElementById("logout-button").style.display = "inline-block";
+          }
+      });
+    </script>
     <header>
       <a href="/auth/home" class="logo">Blueboard</a>
       <nav class="nav-bar">
         <ul class="nav-center">
-          <li><a href="./credits.html">About Us</a></li>
+          <li><a href="./createQuiz.html">Create Quiz</a></li>
+          <li><a href="./announcements.html">Announcements</a></li>
           <li><a href="./tutorial.html">Where to Start</a></li>
-          <li><a href="./faqs.html">FAQ</a></li>
         </ul>
-        <ul class="nav-right">
+      <ul class="nav-right">
           <li>
             <b>
               <label class="theme-switch">
@@ -31,14 +48,59 @@
         </ul>
       </nav>
     </header>
-    <div id="editQuizForm">
-      <h1>Edit Quiz</h1>
-      <form id="quizForm">
-        <label>Quiz Title:</label>
-      </form>
+    <div id="quizForm">
+      <h1>Quiz Editor</h1>
+      <div id="quizTitle">
+        <label for="title">Quiz Title<span style="color: red">*</span></label>
+        <input type="text" id="title" name="title" required />
+      </div>
+      <div id="quizDetails">
+        <label for="deadline">Deadline<span style="color: red">*</span></label>
+        <input type="datetime-local" id="deadline" name="deadline" required />
+        <br />
+        <label>Quiz Timer:</label>
+        <div>
+          <input
+            type="number"
+            id="timer-hours"
+            name="timer-hours"
+            min="0"
+            placeholder="00"
+          />
+          Hr
+          <input
+            type="number"
+            id="timer-minutes"
+            name="timer-minutes"
+            min="0"
+            max="59"
+            placeholder="00"
+          />
+          Min
+          <input
+            type="number"
+            id="timer-seconds"
+            name="timer-seconds"
+            min="0"
+            max="59"
+            placeholder="00"
+          />
+          Sec
+        </div>
+      </div>
+      <div id="questionsContainer"></div>
+      <button id="addQuestionButton">Add Question</button>
+      <button id="updateQuizButton">Update Quiz</button>
+    </div>
+    <div id="quizLink" style="display: none">
+      <p>
+        Quiz edited successfully!
+        <a href="./quizzes.html">Return to Quizzes</a>
+      </p>
     </div>
     <script src="../script/app.js"></script>
-    <script src="../script/takeQuiz.js"></script>
+    <script src="../script/createQuiz.js"></script>
+    <script src="../script/editQuiz.js"></script>
     <script src="../script/dark-mode.js"></script>
     <script src="../script/logout.js"></script>
   </body>

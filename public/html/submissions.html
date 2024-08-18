@@ -3,8 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Data Structures</title>
+    <title>BlueBoard</title>
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/cards.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
     <div class="navbar">
@@ -21,14 +22,10 @@
           }
       });
     </script>
-    <div class="navbar">
       <a href="/auth/home"> Home </a>
       <a href="./credits.html"> About Us </a>
-      <a href="./createQuiz.html"> Create Quiz </a>
-      <a href="./calendar.html"> Calendar </a>
       <a href="./faqs.html"> FAQs </a>
       <a href="./tutorial.html"> Where to start</a>
-      <a href="./announcements.html"> Announcements</a>
       <button id="logout-button" style="display: none; float: right">
         Logout
       </button>
@@ -39,11 +36,14 @@
         </label>
       </b>
     </div>
-    <center>
-      <h1>Welcome to Data Structures</h1>
-    </center>
-
+    <div id="container">
+      <h1 id="courseTitle">Course</h1>
+      <h2 id="quizTitle">Quiz</h2>
+      <p id="deadline">Deadline:</p>
+      <div id="submissionsContainer"></div>
+    </div>
     <script src="../script/app.js"></script>
+    <script src="../script/viewSubmissions.js"></script>
     <script src="../script/dark-mode.js"></script>
     <script src="../script/logout.js"></script>
   </body>

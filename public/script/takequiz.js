@@ -1,6 +1,19 @@
+const url = new URLSearchParams(window.location.search);
+const quizID = url.get("quizID");
+let studentId;
+
 document.addEventListener("DOMContentLoaded", async () => {
-  const url = new URLSearchParams(window.location.search);
-  const quizID = url.get("quizID");
+  try {
+    const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+    if (userCookie) {
+      const decodedCookie = decodeURIComponent(userCookie.split('=')[1]);
+      studentId = JSON.parse(decodedCookie).userid;
+    } else {
+      console.log("Not logged in – could not extract user id from cookie")
+    }
+  } catch (error) {
+    console.log("Error while extracting user id from cookie", error)
+  }
 
   if (!quizID) {
     console.log("Quiz ID is missing");
@@ -60,19 +73,17 @@ function generateQuizForm(quiz, quizQuestions) {
 
     quizForm.appendChild(questionElement);
   });
+
   const quizSubmitButton = document.createElement("button");
   quizSubmitButton.innerText = "Submit Quiz";
   quizSubmitButton.setAttribute("id", "submitQuizButton");
   quizForm.appendChild(quizSubmitButton);
-}
 
-document
-  .getElementById("submitQuizButton")
-  .addEventListener("click", async () => {
+  quizSubmitButton.addEventListener("click", async () => {
+    event.preventDefault();
     const quizForm = document.getElementById("quizForm");
     const formData = new FormData(quizForm);
     const quizData = {};
-    const quizId = 4141;
 
     for (let [key, value] of formData.entries()) {
       if (!quizData[key]) {
@@ -81,13 +92,20 @@ document
       quizData[key].push(value);
     }
 
+    const submissionData = {
+      studentid: studentId,
+      submission: JSON.stringify(quizData),
+      quizVersion: quizID,
+      submissionDate: new Date(),
+    };
+
     try {
       const response = await fetch("/quiz/submit", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ quizId, response: quizData }),
+        body: JSON.stringify(submissionData),
       });
 
       if (response.ok) {
@@ -99,3 +117,4 @@ document
       console.log("Error while submitting quiz", error);
     }
   });
+}
