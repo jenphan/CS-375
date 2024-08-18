@@ -1,3 +1,19 @@
+:root {
+  --background-color: #ffffff;
+  --brown-accent: #6c340d;
+  --primary-color: #00a8ea; /* Example primary color */
+  --secondary-color: #03dac6; /* Example secondary color */
+  --background-image: url("../picture/day.jpg");
+}
+
+.dark-mode {
+  --background-color: #121212;
+  --text-color: #ffffff;
+  --primary-color: #4896f6; /* Dark mode primary color */
+  --secondary-color: #03dac6; /* Dark mode secondary color */
+  --background-image: url("../picture/night.jpg");
+}
+
 .login-container {
   margin-top: 3%;
   width: 300px;
@@ -9,7 +25,7 @@
 
 h1 {
   text-align: center;
-  color: black;
+  color: var(--brown-accent);
   margin-bottom: 20px;
 }
 
@@ -19,7 +35,7 @@ h1 {
 
 .input-group label {
   display: block;
-  color: #3a3a3a;
+  color: var(--brown-accent);
   margin-bottom: 5px;
 }
 
@@ -37,9 +53,10 @@ h1 {
 }
 
 .login-button {
+  font-family: "Baskerville";
   width: 100%;
   padding: 10px;
-  background-color: #1205c9;
+  background-color: var(--brown-accent);
   color: white;
   border: none;
   border-radius: 4px;
@@ -49,13 +66,14 @@ h1 {
 }
 
 .login-button:hover {
-  background-color: #2000d6;
+  background-color: #000056;
 }
 
 .create-account-button {
+  font-family: "Baskerville";
   width: 100%;
   padding: 10px;
-  background-color: #1205c9;
+  background-color: var(--brown-accent);
   color: white;
   border: none;
   border-radius: 4px;
@@ -65,5 +83,5 @@ h1 {
 }
 
 .create-account-button:hover {
-  background-color: #2000d6;
+  background-color: #000056;
 }

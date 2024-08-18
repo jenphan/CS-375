@@ -33,8 +33,22 @@ document
         return response.json(); // Try to parse JSON if not redirected
       })
       .then((data) => {
-        if (data && data.message) {
-          alert(data.message); // Show error message if any
+        if (data.message === "Login successful") {
+          alert("Login successful");
+          console.log("Success:", data);
+          
+          const role = data.user.role;
+          localStorage.setItem("userRole", role); // Store the role in localStorage
+        
+          if (role === "professor") {
+            window.location.href = "../html/professor.html";
+          } else if (role === "student") {
+            window.location.href = "../html/student.html";
+          } else {
+            alert("Invalid role");
+          }
+        } else {
+          alert(data.message);
         }
       })
       .catch((error) => {
