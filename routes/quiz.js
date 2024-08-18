@@ -165,7 +165,6 @@ router.get("/take/:quizID", async (req, res) => {
 router.get("/getSubmissions/:quizID", async (req, res) =>{
   const quizID = req.params.quizID;
   pool.query(`SELECT * FROM submissions WHERE quizVersion = $1`, [quizID]).then(result =>{
-    console.log(result.rows);
     return res.status(200).json(result.rows);
   }).catch(error => {
     console.error("Error querying database", err);
@@ -236,6 +235,20 @@ router.get("/get-submissions/:quizID", async (req, res) => {
     res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ message: "Error fetching submissions" });
+  }
+});
+
+router.post("/addGrade", async (req, res) => {
+  const { submitID: id, totalScore: grade } = req.body;
+  try {
+    await pool.query(
+      "UPDATE submissions SET grade = $1 WHERE submitid = $2",
+      [grade, id]
+    );
+    return res.status(200).json({ message: "Grade was submitted successfully" });
+  } catch (error) {
+    console.log("Error while submitting grade:", error);
+    return res.status(500).json({ message: "Error while submitting grade" });
   }
 });
 
