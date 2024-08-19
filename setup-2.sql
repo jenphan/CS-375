@@ -60,14 +60,9 @@ CREATE TABLE appointments (
 );
 
 -- Insert initial data
-
 INSERT INTO users (username, password, role) VALUES
-('john_doe', 'password', 'student'), 
-('jane_doe', 'wordpass', 'professor');
-
-
-INSERT INTO users (username, password, role) VALUES
-('abc', '$argon2id$v=19$m=65536,t=3,p=4$T/3Mid5O4H2tdaTdIVV35w$4n6nPs2ANYiPz77w64biA1jN7uZMpxee2EqPwQbBAVE', 'student'); -- password: password
+('abc', '$argon2id$v=19$m=65536,t=3,p=4$T/3Mid5O4H2tdaTdIVV35w$4n6nPs2ANYiPz77w64biA1jN7uZMpxee2EqPwQbBAVE', 'student'), -- password: password
+('abcd', '$argon2id$v=19$m=65536,t=3,p=4$gduV6EhglX0LvaqObJL/4g$DRFnmqcz655SJqgbYXGpHNF4+U068uBSDv5jFt3FrVA', 'professor'); -- password: password
 
 INSERT INTO courses (crn, department, number, title, professorid, registrationcode) VALUES
 ('12345', 'CS', '375', 'Web Development', '1', 'WD375'),
