@@ -1,17 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  let courses = [
-    /*{
-      title: "Web Development",
-      image: "../picture/webDev.jpg",
-      link: "./webDev.html",
-    },
-    {
-      title: "Data Structures",
-      image: "../picture/dataStructures.jpg",
-      link: "./dataStructures.html",
-    }, */
-    // Add more courses as needed
-  ];
+  let courses = [];
 
   fetch("/course/current-courses" , {
     method: "POST",
@@ -27,14 +15,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     return response.json();
   }).then((data) => {
-    //console.log(data);
-    for (let i = 0; i < data.length; i++){
+    for (let i = 0; i < data.courses.length; i++){
       let obj = { 
-        title: data[i].title,
+        title: data.courses[i].title,
         image: "../picture/dataStructures.jpg",
         link: "./dataStructures.html"
       };
-      console.log("object: (inside fetch)" + object);
       courses.push(obj);
     }
     displayCourses();
@@ -43,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
     alert(`Course display error: ${error.message}`);
   });
   
-  
+  console.log("courses (outside function):" + courses);
   
   let courseList = document.getElementById("courseList");
 

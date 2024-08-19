@@ -15,7 +15,6 @@ const createCourse = async (req, res) => {
 
     let courseCode = generateRandomCode()
     addCourse(crn, subjectCode, courseNumber, courseName, req.session.user.userid, courseCode, req, res);
-    //enroll(req.session.user.userid, courseCode, req, res);
 
 };
 
@@ -23,4 +22,15 @@ const courseList = async (req, res) => {
   getCourses(req.session.user.userid, req, res);
 }
 
-module.exports = { createCourse, courseList };
+const studentEnroll = async(req, res) => {
+  const { code } = req.body;
+  console.log(code);
+  console.log(req.session.user);
+  if (!code){
+    return res.status(400).json({ message: "Course Code not provided"});
+  }
+
+  enroll(req.session.user.userid, code, req, res);
+}
+
+module.exports = { createCourse, courseList, studentEnroll };
