@@ -1,7 +1,1 @@
-{
-  "title": "Test",
-  "professorId": 2,
-  "deadline": "2024-08-17T22:32",
-  "timer": 10800,
-  "questions": "[{\"type\":\"true-false\",\"content\":\"Hello World\",\"points\":\"5\",\"autograding\":true,\"correctAnswer\":\"true\"}]"
-}
+[]
