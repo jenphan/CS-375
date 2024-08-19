@@ -38,10 +38,9 @@ h2 {
 }
 
 .create-account-button {
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
   width: 100%;
   padding: 10px;
-  background-color: #093384;
+  background-color: #1205c9;
   color: white;
   border: none;
   border-radius: 4px;
@@ -51,7 +50,7 @@ h2 {
 }
 
 .create-account-button:hover {
-  background-color: #000056;
+  background-color: #2000d6;
 }
 
 .checkbox-group {

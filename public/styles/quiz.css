@@ -42,7 +42,7 @@
 }
 
 button {
-  background-color: #093384;
+  background-color: #0b41b6;
   color: white;
   padding: 10px 20px;
   border: none;
@@ -75,7 +75,7 @@ button:hover {
 }
 
 #quizLink a {
-  color: #093384;
+  color: #0b41b6;
   text-decoration: none;
 }
 

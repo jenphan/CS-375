@@ -8,18 +8,14 @@
 }
 
 .button {
-  font-family: "Baskerville", serif;
-  background-color: #093384;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+  background-color: #0b41b6;
   color: white;
   padding: 10px 20px;
   border: none;
   cursor: pointer;
   font-size: 16px;
   border-radius: 25px;
-}
-
-.button:hover {
-  background-color: #000056;
 }
 
 .title {
