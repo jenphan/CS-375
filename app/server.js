@@ -2,6 +2,7 @@ let axios = require("axios");
 const { response } = require("express");
 let express = require("express");
 let session = require("express-session");
+let path = require("path");
 
 const bodyParser = require("body-parser");
 const crypto = require("crypto"); // Import crypto for generating a random string
@@ -38,9 +39,16 @@ app.use(
   }),
 );
 
+/*
+app.get("/", (req, res) => {
+  console.log("handled by server handler");
+  res.sendFile("index.html", {root: path.join(__dirname, '../public')});
+});
+*/
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static("../public"));
+app.use(express.static(path.join(__dirname, '../public')));
 
 // Routes
 app.use("/auth", authRoutes);

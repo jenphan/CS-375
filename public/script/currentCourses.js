@@ -15,15 +15,18 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     return response.json();
   }).then((data) => {
-    for (let i = 0; i < data.courses.length; i++){
-      let obj = { 
-        title: data.courses[i].title,
-        image: "../picture/dataStructures.jpg",
-        link: "./dataStructures.html"
-      };
-      courses.push(obj);
+    if(data.courses.length > 0){
+      for (let i = 0; i < data.courses.length; i++){
+        let obj = { 
+          title: data.courses[i].title,
+          image: "../picture/dataStructures.jpg",
+          link: "./dataStructures.html"
+        };
+        courses.push(obj);
+      }
+      displayCourses();
     }
-    displayCourses();
+    
   }).catch( (error) => {
     console.error("Error:", error);
     alert(`Course display error: ${error.message}`);
