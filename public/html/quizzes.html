@@ -6,6 +6,7 @@
     <title>BlueBoard</title>
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
     <link href="../styles/cards.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/views.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
     <script>
@@ -19,6 +20,10 @@
           if (userCookie) {
             document.getElementById("logout-button").style.display = "inline-block";
           }
+
+          if (userCookie.includes("student")) {
+            document.getElementById("add-new-post").style.display = "none";
+          }
       });
     </script>
     <header>
@@ -26,7 +31,7 @@
       <nav class="nav-bar">
         <ul class="nav-center">
           <li><a href="./calendar.html">Calendar</a></li>
-          <li><a href="./viewQuizzes.html">Quizzes</a></li>
+          <li><a href="./submissions.html">See Submissions</a></li>
           <li><a href="./announcements.html">Announcements</a></li>
           <li><a href="./tutorial.html">Where to Start</a></li>
         </ul>
@@ -47,6 +52,11 @@
     </header>
     <div id="quizContainer">
       <h1>All Quizzes</h1>
+    </div>
+    <div class="button-container">
+      <a href="./createQuiz.html">
+        <button id="add-new-post" type="button" class="button">Create New Quiz</button>
+      </a>
     </div>
     <script src="../script/app.js"></script>
     <script src="../script/viewQuizzes.js"></script>
