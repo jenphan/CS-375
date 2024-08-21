@@ -5,8 +5,7 @@ document
 
     const username = document.getElementById("username").value;
     const password = document.getElementById("password").value;
-    const confirmPassword = document.getElementById("confirm-password").value;
-    const role = document.getElementById("register-role").value;
+    const confirmPassword = document.getElementById("confirm-password").value; 
 
     if (!username || !password || !confirmPassword || !role) {
       alert("Please fill in all fields");
