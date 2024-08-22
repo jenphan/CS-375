@@ -108,21 +108,31 @@ header {
 }
 
 .nav-right {
-  margin-left: auto; /* Pushes the right-side items to the far right */
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.nav-right li {
+  margin-left: 30px;
 }
 
 /* style the logout button */
-.navbar button {
+#logout-button {
   font-family: "Baskerville", serif;
-  float: right;
   font-size: 18px;
   font-weight: bold;
   color: var(--text-color);
-  padding: 18px 20px;
-  background: none;
+  padding: 10px 20px;
+  background: var(--primary-color);
   border: none;
+  border-radius: 25px;
   cursor: pointer;
-  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+#logout-button:hover {
+  background-color: var(--secondary-color);
 }
 
 /* welcome */

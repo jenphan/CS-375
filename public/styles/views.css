@@ -26,6 +26,23 @@ textarea {
   border-radius: 8px;
 }
 
+/* Input container styling */
+.input-container {
+  position: absolute;
+  top: 150px; 
+  right: 110px; 
+  display: flex;
+  align-items: center;
+}
+
+.input-box {
+  width: 125px;
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
 /* display current courses */
 .course-box {
   display: inline-block;
