@@ -1,3 +1,7 @@
+function showInputBox() {
+  document.getElementById("addCourse").style.display = "block";
+}
+
 document.getElementById("enrollSubmit").addEventListener("click", () => {
     let courseCode = document.getElementById("courseCode").value.trim();
     console.log(courseCode);
