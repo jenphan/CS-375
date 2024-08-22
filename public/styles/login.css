@@ -1,3 +1,11 @@
+:root {
+  --text-color: #765742;
+}
+
+.dark-mode {
+  --text-color: #ffffff;
+}
+
 .login-container {
   margin-top: 3%;
   width: 300px;
@@ -9,7 +17,7 @@
 
 h1 {
   text-align: center;
-  color: black;
+  color: var(--text-color);
   margin-bottom: 20px;
 }
 
@@ -19,7 +27,7 @@ h1 {
 
 .input-group label {
   display: block;
-  color: #3a3a3a;
+  color: #765742;
   margin-bottom: 5px;
 }
 
@@ -32,38 +40,6 @@ h1 {
 }
 
 .input-group input:focus {
-  border-color: #1700ea;
+  border-color: #0b41b6;
   outline: none;
-}
-
-.login-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #1205c9;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-}
-
-.login-button:hover {
-  background-color: #2000d6;
-}
-
-.create-account-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #1205c9;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-}
-
-.create-account-button:hover {
-  background-color: #2000d6;
 }

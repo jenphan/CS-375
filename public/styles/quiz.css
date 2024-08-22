@@ -1,3 +1,11 @@
+:root {
+  --text-color: #765742;
+}
+
+.dark-mode {
+  --text-color: #ffffff;
+}
+
 #quizForm {
   max-width: 800px;
   margin: 40px auto;
@@ -8,7 +16,13 @@
 
 #quizForm h1 {
   text-align: center;
-  color: #022c87;
+  color: var(--text-color);
+  font-size: 40px;
+}
+
+h1 {
+  text-align: center;
+  color: var(--text-color);
   font-size: 40px;
 }
 
@@ -33,24 +47,12 @@
 #questionsContainer .question {
   margin-bottom: 20px;
   padding: 15px;
-  border: 2px solid #022c87;
+  border: 2px solid #093384;
   border-radius: 5px;
 }
 
 #questionsContainer .question label {
   font-weight: bold;
-}
-
-button {
-  background-color: #0b41b6;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: background-color 0.25s ease;
 }
 
 #deleteQuestionButton {
@@ -63,10 +65,6 @@ button {
   border-radius: 25px;
   cursor: pointer;
   transition: background-color 0.25s ease;
-}
-
-button:hover {
-  background-color: #5c1818;
 }
 
 #quizLink {

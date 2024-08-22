@@ -1,26 +1,7 @@
-/* interactive buttons in top right corner */
-.button-container {
-  position: absolute;
-  top: 85px;
-  right: 20px;
-  display: flex;
-  gap: 10px; /* Space between buttons */
-}
-
-.button {
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-  background-color: #0b41b6;
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 25px;
-}
-
 .title {
-  font-size: 24px;
+  font-size: 35px;
   font-weight: bold;
+  margin-top: 30px;
   margin-bottom: 20px;
   text-align: center;
 }
@@ -35,6 +16,7 @@ textarea {
   resize: vertical;
 }
 
+/* made wider than normal container */
 .post-container {
   margin-top: 10%;
   width: 700px;
@@ -42,6 +24,23 @@ textarea {
   background-color: rgba(255, 255, 255, 0.6);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+}
+
+/* Input container styling */
+.input-container {
+  position: absolute;
+  top: 150px; 
+  right: 110px; 
+  display: flex;
+  align-items: center;
+}
+
+.input-box {
+  width: 125px;
+  padding: 10px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 /* display current courses */

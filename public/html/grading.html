@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BlueBoard</title>
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
-    <link href="../styles/views.css" rel="stylesheet" type="text/css" />
     <link href="../styles/grade.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <div class="navbar">
       <script>
       document.addEventListener("DOMContentLoaded", function() {
           // Retrieve and log the cookie via js
@@ -20,6 +18,10 @@
           // If user cookie is present, show the logout button
           if (userCookie) {
             document.getElementById("logout-button").style.display = "inline-block";
+          }
+
+          if (userCookie.includes("student")) {
+            document.getElementById("grade").style.display = "none";
           }
       });
     </script>
@@ -48,7 +50,7 @@
       </nav>
     </header>
     <div class="button-container">
-      <button type="button" id="grade" class="create-course-button">
+      <button type="button" id="grade" class="button">
         AutoGrade
       </button>
     </div>
@@ -62,7 +64,7 @@
       <!-- Questions will be dynamically inserted here -->
     </form>
 
-    <button type="button" id="submitGrades" class="create-course-button">
+    <button type="button" id="submitGrades" class="button">
       Submit Grades
     </button>
     <div>

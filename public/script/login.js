@@ -38,7 +38,6 @@ document
           console.log("Success:", data);
           
           const role = data.user.role;
-          localStorage.setItem("userRole", role); // Store the role in localStorage
         
           if (role === "professor") {
             window.location.href = "../html/professor.html";

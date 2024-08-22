@@ -51,21 +51,21 @@
       </nav>
     </header>
     <div class="button-container">
-      <button class="button">Add New Course</button>
+      <button class="button" id="add-course-btn" onclick="showInputBox()">Add New Course</button>
       <a href="./scheduleAppointment.html">
         <button type="button" class="button">Schedule Appointment</button>
       </a>
     </div>
+    
     <div class="main-content">
       <div id="courseList">
         <!-- Courses will be listed here -->
       </div>
-      <div id="addCourse">
-        <input type="text" id="courseCode" placeholder="Enter Course Code" required />
-        <button type="submit" id="enrollSubmit">Add Course</button>
+      <div id="addCourse" class="input-container" style="display: none;">
+        <input type="text" id="courseCode" class="input-box" placeholder="Enter Course Code" required />
+        <button type="submit" id="enrollSubmit" class="button">Submit</button>
       </div>
     </div>
-
     <script src="../script/app.js"></script>
     <script src="../script/dark-mode.js"></script>
     <script src="../script/logout.js"></script>

@@ -1,13 +1,4 @@
-:root {
-  --text-color: #765742;
-}
-
-.dark-mode {
-  --text-color: #ffffff;
-}
-
-#quizContainer,
-#container {
+#quizContainer {
   max-width: 800px;
   margin: 40px auto;
   padding: 20px;
@@ -15,10 +6,9 @@
   border-radius: 10px;
 }
 
-#quizContainer h1,
-#container h1 {
+#quizContainer h1 {
   text-align: center;
-  color: var(--text-color);
+  color: #022c87;
   font-size: 40px;
 }
 
@@ -32,4 +22,21 @@
 
 .card:hover {
   background-color: rgba(182, 178, 255, 0.6);
+}
+
+button {
+  background-color: #093384;
+  font-family: "Baskerville", serif;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+}
+
+button:hover {
+  background-color: #5588f6;
 }
