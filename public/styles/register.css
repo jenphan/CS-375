@@ -1,4 +1,11 @@
-/* styles.css */
+:root {
+  --text-color: #765742;
+}
+
+.dark-mode {
+  --text-color: #ffffff;
+}
+
 .account-container {
   margin-top: 10%;
   width: 320px;
@@ -10,7 +17,7 @@
 
 h2 {
   text-align: center;
-  color: #333;
+  color: var(--text-color);
   margin-bottom: 20px;
 }
 
@@ -20,7 +27,7 @@ h2 {
 
 .input-group label {
   display: block;
-  color: #555;
+  color: var(--text-color);
   margin-bottom: 5px;
 }
 
@@ -35,22 +42,6 @@ h2 {
 .input-group input:focus {
   border-color: #1205c9;
   outline: none;
-}
-
-.create-account-button {
-  width: 100%;
-  padding: 10px;
-  background-color: #1205c9;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s ease;
-}
-
-.create-account-button:hover {
-  background-color: #2000d6;
 }
 
 .checkbox-group {

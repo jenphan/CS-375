@@ -1,3 +1,11 @@
+:root {
+  --text-color: #765742;
+}
+
+.dark-mode {
+  --text-color: #ffffff;
+}
+
 #quizContainer,
 #container {
   max-width: 800px;
@@ -10,7 +18,7 @@
 #quizContainer h1,
 #container h1 {
   text-align: center;
-  color: #022c87;
+  color: var(--text-color);
   font-size: 40px;
 }
 

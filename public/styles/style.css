@@ -1,34 +1,18 @@
-.root {
+:root {
   --background-color: #fdf5f59c;
-  --text-color: #242424;
-  --primary-color: #00a8ea; /* Example primary color */
-  --secondary-color: #da990d; /* Example secondary color */
-  --nav-hover: #b67f09;
+  --text-color: #765742;
+  --primary-color: #c6926e;
+  --secondary-color: #765742; 
   --background-image: url("../picture/day.jpg");
 }
 
 .dark-mode {
   --background-color: #3a3939b4;
   --text-color: #ffffff;
-  --primary-color: #4896f6; /* Dark mode primary color */
-  --secondary-color: #032ada; /* Dark mode secondary color */
-  --nav-hover: #04209c;
+  --slider-color: #4896f6;
+  --primary-color: #093384;
+  --secondary-color: #000056; 
   --background-image: url("../picture/night.jpg");
-}
-
-/* change navigation style */
-.navbar {
-  overflow: hidden;
-  background-color: var(--secondary-color);
-}
-
-.navbar a {
-  font-family: "Baskerville", serif;
-  float: left;
-  font-size: 18px;
-  font-weight: bold;
-  color: var(--text-color);
-  padding: 18px 20px;
 }
 
 * {
@@ -36,36 +20,6 @@
   padding: 0;
   list-style: none;
   text-decoration: none;
-}
-.navbar b {
-  font-family: "Baskerville", serif;
-  float: right;
-  font-size: 24px;
-  font-weight: bold;
-  color: var(--text-color);
-  padding: 14px 16px;
-  text-decoration: none;
-}
-.navbar a:hover {
-  background-color: var(--nav-hover);
-}
-
-/* style the logout button */
-.navbar button {
-  font-family: "Baskerville", serif;
-  float: right;
-  font-size: 18px;
-  font-weight: bold;
-  color: var(--text-color);
-  padding: 18px 20px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-}
-
-.navbar button:hover {
-  background-color: #1d0087;
 }
 
 /* body style affects whole page */
@@ -145,8 +99,7 @@ header {
 
 .nav-bar ul li a:hover,
 .nav-bar ul li button:hover {
-  color: #1d0087;
-  background: white;
+  background: var(--secondary-color);
 }
 
 .nav-bar ul li a.active {
@@ -158,6 +111,19 @@ header {
   margin-left: auto; /* Pushes the right-side items to the far right */
 }
 
+/* style the logout button */
+.navbar button {
+  font-family: "Baskerville", serif;
+  float: right;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--text-color);
+  padding: 18px 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
 
 /* welcome */
 .banner {
@@ -217,7 +183,7 @@ header {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #c6926e;
+  background-color: #e2c8b6;
   transition: 0.4s;
   border-radius: 34px;
 }
@@ -237,7 +203,7 @@ header {
 }
 
 input:checked + .slider {
-  background-color: var(--primary-color);
+  background-color: var(--slider-color);
 }
 
 input:checked + .slider:before {
@@ -267,16 +233,56 @@ th, td {
   top: 95px;
   right: 20px;
   display: flex;
-  gap: 10px; /* Space between buttons */
+  gap: 10px; 
 }
 
 .button {
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-  background-color: #0b41b6;
+  font-family: "Baskerville", serif;
+  background-color: var(--primary-color);
   color: white;
   padding: 10px 20px;
   border: none;
   cursor: pointer;
   font-size: 16px;
   border-radius: 25px;
+}
+
+.button:hover {
+  background-color: var(--secondary-color);
+}
+
+/* login/create account buttons */
+.login-button {
+  font-family: "Baskerville", serif;
+  width: 100%;
+  padding: 10px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: var(--secondary-color);
+}
+
+/* for the tutorial page */
+.tutorial-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  color: var(--text-color);
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
+}
+
+.tutorial-container h1 {
+  text-align: center;
+}
+
+.tutorial-container h2 {
+  color: var(--text-color);
 }
