@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let obj = { 
           title: data.courses[i].title,
           image: "../picture/dataStructures.jpg",
-          link: "./dataStructures.html"
+          link: "../html/dataStructures.html"
         };
         courses.push(obj);
       }
