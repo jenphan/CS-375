@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BlueBoard</title>
+    <title>BlueBoard - Student</title>
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
     <link href="../styles/views.css" rel="stylesheet" type="text/css" />
   </head>
@@ -31,10 +31,11 @@
       <nav class="nav-bar">
         <ul class="nav-center">
           <li><a href="./calendar.html">Calendar</a></li>
-          <li><a href="./viewQuizzes.html">Quizzes</a></li>
+          <li><a href="./quizzes.html">Quizzes</a></li>
+          <li><a id="grade-link" href="#">Grades</a></li>
           <li><a href="./announcements.html">Announcements</a></li>
           <li><a href="./tutorial.html">Where to Start</a></li>
-      </ul>
+        </ul>
         <ul class="nav-right">
           <li>
             <b>
@@ -50,13 +51,14 @@
         </ul>
       </nav>
     </header>
+    
     <div class="button-container">
       <button class="button" id="add-course-btn" onclick="showInputBox()">Add New Course</button>
       <a href="./scheduleAppointment.html">
         <button type="button" class="button">Schedule Appointment</button>
       </a>
     </div>
-    
+
     <div class="main-content">
       <div id="courseList">
         <!-- Courses will be listed here -->
@@ -66,10 +68,12 @@
         <button type="submit" id="enrollSubmit" class="button">Submit</button>
       </div>
     </div>
+
     <script src="../script/app.js"></script>
     <script src="../script/dark-mode.js"></script>
     <script src="../script/logout.js"></script>
     <script src="../script/currentCourses.js"></script>
     <script src="../script/enroll.js"></script>
+    <script src="../script/navbar.js"></script>
   </body>
 </html>

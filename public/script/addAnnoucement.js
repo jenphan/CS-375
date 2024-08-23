@@ -1,5 +1,5 @@
 document
-  .getElementById("create-course-form")
+  .getElementById("create-announcement-form")
   .addEventListener("submit", function (e) {
     e.preventDefault();
 

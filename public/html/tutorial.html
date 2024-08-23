@@ -8,28 +8,15 @@
   </head>
   <body>
     <header>
-      <script>
-      document.addEventListener("DOMContentLoaded", function() {
-          // Retrieve and log the cookie via js
-          console.log(document.cookie);
-          const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
-          console.log('User Cookie:', userCookie);
-      
-          // If user cookie is present, show the logout button
-          if (userCookie) {
-            document.getElementById("logout-button").style.display = "inline-block";
-          }
-      });
-    </script>
       <a href="/auth/home" class="logo">Blueboard</a>
       <nav class="nav-bar">
         <ul class="nav-center">
-          <ul class="nav-center">
-            <li><a href="./calendar.html">Calendar</a></li>
-            <li><a href="./quizzes.html">Quizzes</a></li>
-            <li><a href="./announcements.html">Announcements</a></li>
-            <li><a href="./tutorial.html">Where to Start</a></li>
-          </ul>
+          <li><a href="./calendar.html">Calendar</a></li>
+          <li><a href="./quizzes.html">Quizzes</a></li>
+          <li><a id="grade-link" href="#">Grades</a></li>
+          <li><a href="./announcements.html">Announcements</a></li>
+          <li><a href="./tutorial.html">Where to Start</a></li>
+        </ul>
         <ul class="nav-right">
           <li>
             <b>
@@ -45,15 +32,19 @@
         </ul>
       </nav>
     </header>
-    <div class="tutorial-container">
+    
+    <div id="tutorial-container">
       <h1>Quick Feature Access</h1>
       <a href="./createQuiz.html"> <h2>Create Quiz</h2> </a>
       <a href="./quizzes.html"> <h2>View All Quizzes</h2> </a>
-      <a href="./grading.html"> <h2>Grading</h2> </a>
+      <a id="grade-link-container" href="#"> <h2>Grading/Student's Grades</h2> </a>
       <a href="./calendar.html"> <h2>Calendar</h2> </a>
+      <a href="./announcements.html"> <h2>Announcements</h2> </a>
     </div>
+
     <script src="../script/app.js"></script>
     <script src="../script/dark-mode.js"></script>
     <script src="../script/logout.js"></script>
+    <script src="../script/navbar.js"></script>
   </body>
 </html>

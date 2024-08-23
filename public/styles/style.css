@@ -15,6 +15,13 @@
   --background-image: url("../picture/night.jpg");
 }
 
+/* Ensure box-sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -295,4 +302,38 @@ th, td {
 
 .tutorial-container h2 {
   color: var(--text-color);
+}
+
+/* Grade table styles */
+.grades-container {
+  max-width: 60%; 
+  margin: 20px auto; 
+  padding: 10px;
+}
+
+.grades-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.grades-container th, 
+.grades-container td {
+  padding: 12px 15px;
+  text-align: left;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border: 1px solid var(--primary-color);
+}
+
+.grades-container th {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.grades-container tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.grades-container tr:hover {
+  background-color: rgba(0, 168, 234, 0.3);
 }

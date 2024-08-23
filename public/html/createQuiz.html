@@ -3,30 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BlueBoard</title>
+    <title>Create Quiz</title>
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
     <link href="../styles/quiz.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
     <header>
-      <script>
-      document.addEventListener("DOMContentLoaded", function() {
-          // Retrieve and log the cookie via js
-          console.log(document.cookie);
-          const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
-          console.log('User Cookie:', userCookie);
-      
-          // If user cookie is present, show the logout button
-          if (userCookie) {
-            document.getElementById("logout-button").style.display = "inline-block";
-          }
-      });
-    </script>
       <a href="/auth/home" class="logo">Blueboard</a>
       <nav class="nav-bar">
         <ul class="nav-center">
-          <li><a href="./quizzes.html">Quizzes</a></li>
           <li><a href="./calendar.html">Calendar</a></li>
+          <li><a href="./quizzes.html">Quizzes</a></li>
+          <li><a id="grade-link" href="#">Grade</a></li>
           <li><a href="./announcements.html">Announcements</a></li>
           <li><a href="./tutorial.html">Where to Start</a></li>
         </ul>
@@ -45,6 +33,7 @@
         </ul>
       </nav>
     </header>
+    
     <div id="quizForm">
       <h1>Quiz Creator (Temporary)</h1>
       <div id="quizTitle">
@@ -86,18 +75,21 @@
         </div>
       </div>
       <div id="questionsContainer"></div>
-      <button id="addQuestionButton" class="button">Add Question</button>
-      <button id="createQuizButton" class="button">Create Quiz</button>
+      <button id="addQuestionButton">Add Question</button>
+      <button id="createQuizButton">Create Quiz</button>
     </div>
+    
     <div id="quizLink" style="display: none">
       <p>
         Quiz created successfully!
         <a href="./quizzes.html">Take the quiz here!</a>
       </p>
     </div>
+    
     <script src="../script/app.js"></script>
-    <script src="../script/createQuiz.js"></script>
     <script src="../script/dark-mode.js"></script>
     <script src="../script/logout.js"></script>
+    <script src="../script/navbar.js"></script> 
+    <script src="../script/createQuiz.js"></script>
   </body>
 </html>

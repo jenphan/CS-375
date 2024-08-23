@@ -3,34 +3,43 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BlueBoard</title>
+    <title>Submission</title>
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
     <link href="../styles/views.css" rel="stylesheet" type="text/css" />
     <link href="../styles/grade.css" rel="stylesheet" type="text/css" />
-    <style>
-  </style>
   </head>
   <body>
-    <div class="navbar">
-      <a href="/auth/home"> Home </a>
-      <a href="./credits.html"> About Us </a>
-      <a href="./faqs.html"> FAQs </a>
-      <a href="./tutorial.html"> Where to start</a>
-      <button id="logout-button" style="display: none; float: right">
-        Logout
-      </button>
-      <b>
-        <label class="theme-switch">
-          <input type="checkbox" id="theme-toggle" />
-          <span class="slider"></span>
-        </label>
-      </b>
-    </div>
+    <header>
+      <a href="/auth/home" class="logo">Blueboard</a>
+      <nav class="nav-bar">
+        <ul class="nav-center">
+          <li><a href="./calendar.html">Calendar</a></li>
+          <li><a href="./quizzes.html">Quizzes</a></li>
+          <li><a id="grade-link" href="#">Grades</a></li>
+          <li><a href="./announcements.html">Announcements</a></li>
+          <li><a href="./tutorial.html">Where to Start</a></li>
+        </ul>
+        <ul class="nav-right">
+          <li>
+            <b>
+              <label class="theme-switch">
+                <input type="checkbox" id="theme-toggle" />
+                <span class="slider"></span>
+              </label>
+            </b>
+          </li>
+          <li>
+            <button id="logout-button" style="display: none;">Logout</button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    
     <div class="sidebar">
       <!-- implement sidebar?-->
     </div>
     <table id="submissionsTable">
-      
+      <!-- Submission data will be loaded here -->
     </table>
 
     <div class="main-content">
@@ -43,5 +52,6 @@
     <script src="../script/dark-mode.js"></script>
     <script src="../script/logout.js"></script>
     <script src="../script/listSubmission.js"></script>
+    <script src="../script/navbar.js"></script>
   </body>
 </html>
