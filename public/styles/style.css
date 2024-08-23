@@ -129,7 +129,7 @@ header {
   font-family: "Baskerville", serif;
   font-size: 18px;
   font-weight: bold;
-  color: var(--text-color);
+  color: white;
   padding: 10px 20px;
   background: var(--primary-color);
   border: none;
