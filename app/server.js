@@ -10,6 +10,7 @@ const authRoutes = require("../routes/auth");
 const quizRoutes = require("../routes/quiz");
 const createCourse = require("../routes/course");
 const calendarRoutes = require("../routes/calendar");
+const gradeRoutes = require("../routes/grades");
 
 const ensureAuthenticated = require('../middleware/authMiddleware'); // Import the auth middleware
 
@@ -55,6 +56,7 @@ app.use("/auth", authRoutes);
 app.use("/quiz", ensureAuthenticated, quizRoutes); // Protecting quiz routes
 app.use("/course", ensureAuthenticated, createCourse); // Protecting course routes
 app.use("/calendar", ensureAuthenticated, calendarRoutes); // Protecting calendar routes
+app.use("/grades", ensureAuthenticated, gradeRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
