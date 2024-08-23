@@ -42,26 +42,3 @@
   #announcementList li:last-child {
     border-bottom: none;
   }
-  
-  /* Button styles */
-  .button-container {
-    margin-bottom: 20px;
-    display: flex;
-    justify-content: center;
-  }
-  
-  .button {
-    font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-    background-color: #0b41b6;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 25px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .button:hover {
-    background-color: #083d8a;
-  }  
