@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
     img.alt = course.title;
 
     let title = document.createElement("div");
-    title.className = "title";
+    title.className = "course-title";
     title.textContent = course.title;
 
     courseBox.appendChild(img);
