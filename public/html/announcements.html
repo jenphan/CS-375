@@ -50,6 +50,15 @@
       </div>
     </div>
 
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+        if (userCookie && userCookie.includes("student")) {
+          document.getElementById("add-new-post").style.display = "none";
+        }
+      });
+    </script>
+
     <script src="../script/app.js"></script>
     <script src="../script/dark-mode.js"></script>
     <script src="../script/logout.js"></script>
