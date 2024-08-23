@@ -1,3 +1,11 @@
+:root {
+  --text-color: #765742;
+}
+
+.dark-mode {
+  --text-color: #ffffff;
+}
+
 .title {
   font-size: 35px;
   font-weight: bold;
@@ -65,10 +73,11 @@ textarea {
   height: 80%;
   object-fit: cover;
 }
-.course-box .title {
+.course-box .course-title {
   padding: 10px;
   font-size: 18px;
   font-weight: bold;
+  color: var(--text-color);
 }
 .course-box:hover {
   transform: scale(1.05);
