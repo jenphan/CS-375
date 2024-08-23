@@ -3,28 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BlueBoard</title>
+    <title>Credits</title>
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <script>
-      document.addEventListener("DOMContentLoaded", function() {
-          // Retrieve and log the cookie via js
-          console.log(document.cookie);
-          const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
-          console.log('User Cookie:', userCookie);
-      
-          // If user cookie is present, show the logout button
-          if (userCookie) {
-            document.getElementById("logout-button").style.display = "inline-block";
-          }
-      });
-    </script>
+    <header>
       <a href="/auth/home" class="logo">Blueboard</a>
       <nav class="nav-bar">
         <ul class="nav-center">
-          <li><a href="./createQuiz.html">Create Quiz</a></li>
           <li><a href="./calendar.html">Calendar</a></li>
+          <li><a href="./quizzes.html">Quizzes</a></li>
+          <li><a id="grade-link" href="#">Grade</a></li>
           <li><a href="./announcements.html">Announcements</a></li>
           <li><a href="./tutorial.html">Where to Start</a></li>
         </ul>
@@ -43,9 +32,12 @@
         </ul>
       </nav>
     </header>
+
     <h1>Nothing yet</h1>
+
     <script src="../script/app.js"></script>
     <script src="../script/dark-mode.js"></script>
     <script src="../script/logout.js"></script>
+    <script src="../script/navbar.js"></script>
   </body>
 </html>
