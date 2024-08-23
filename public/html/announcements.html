@@ -6,35 +6,20 @@
     <title>Announcements</title>
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
     <link href="../styles/views.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/announcements.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <script>
-      document.addEventListener("DOMContentLoaded", function() {
-          // Retrieve and log the cookie via js
-          console.log(document.cookie);
-          const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
-          console.log('User Cookie:', userCookie);
-      
-          // If user cookie is present, show the logout button
-          if (userCookie) {
-            document.getElementById("logout-button").style.display = "inline-block";
-          }
-
-          if (userCookie.includes("student")) {
-            document.getElementById("add-new-post").style.display = "none";
-          }
-      });
-    </script>
     <header>
       <a href="/auth/home" class="logo">Blueboard</a>
       <nav class="nav-bar">
         <ul class="nav-center">
           <li><a href="./calendar.html">Calendar</a></li>
           <li><a href="./quizzes.html">Quizzes</a></li>
+          <li><a id="grade-link" href="#">Grade</a></li>
           <li><a href="./announcements.html">Announcements</a></li>
           <li><a href="./tutorial.html">Where to Start</a></li>
         </ul>
-      <ul class="nav-right">
+        <ul class="nav-right">
           <li>
             <b>
               <label class="theme-switch">
@@ -50,20 +35,25 @@
       </nav>
     </header>
 
-    <div class="main-content">
-      <h2 class="title">Welcome to the Annoucements Page!</h2>
-      <ul id="announcementList">
-        <!-- Announcements will be listed here -->
-      </ul>
-    </div>
     <div class="button-container">
       <a href="./addAnnouncement.html">
-        <button id="add-new-post" type="button" class="button">Add New Post</button>
+        <button id="add-new-post" type="button" class="button">Add New Announcement</button>
       </a>
     </div>
+
+    <div class="page-container">
+      <h1>Announcements</h1>
+      <div class="announcement-section">
+        <ul id="announcementList">
+          <!-- Announcements will be listed here -->
+        </ul>
+      </div>
+    </div>
+
     <script src="../script/app.js"></script>
     <script src="../script/dark-mode.js"></script>
     <script src="../script/logout.js"></script>
+    <script src="../script/navbar.js"></script>
     <script src="../script/announcements.js"></script>
   </body>
 </html>
