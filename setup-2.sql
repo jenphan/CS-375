@@ -75,3 +75,15 @@ INSERT INTO quizzes (title, creator, deadline, timer) VALUES
 INSERT INTO appointments (title, date) VALUES
 ('Meeting with John', '2024-08-05 10:00:00'),
 ('Project Discussion', '2024-08-06 15:00:00');
+
+INSERT INTO submissions (student, submission, quizVersion, submissionDate, grade) VALUES
+    ((SELECT usrid FROM users WHERE username = 'abc'), 
+    '{"answers": {"Q1": "A", "Q2": "B", "Q3": "C"}}', 
+    (SELECT quizID FROM quizzes WHERE title = 'Web Development Quiz 1'), 
+    '2024-08-08 14:30:00', 
+    85),
+    ((SELECT usrid FROM users WHERE username = 'abc'), 
+    '{"answers": {"Q1": "B", "Q2": "C", "Q3": "A"}}', 
+    (SELECT quizID FROM quizzes WHERE title = 'Data Structures Quiz 1'), 
+    '2024-08-09 15:00:00', 
+    90);
