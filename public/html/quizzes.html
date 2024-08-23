@@ -14,10 +14,10 @@
       <nav class="nav-bar">
         <ul class="nav-center">
           <li><a href="./calendar.html">Calendar</a></li>
-          <li><a href="./quizzes.html">Quizzes</a></li>
+          <li><a href="./submission.html" id="see-submissions">See Submissions</a></li>
+          <li><a id="see-quizzes" href="./quizzes.html">Quizzes</a></li>
           <li><a id="grade-link" href="#">Grades</a></li>
           <li><a href="./announcements.html">Announcements</a></li>
-          <li><a href="./tutorial.html">Where to Start</a></li>
         </ul>
         <ul class="nav-right">
           <li>
@@ -47,13 +47,16 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", function() {
-        const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
-        if (userCookie && userCookie.includes("student")) {
-          document.getElementById("create-quiz-button").style.display = "none";
-        }
+          const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+          if (userCookie.includes("student")) {
+            document.getElementById("add-new-post").style.display = "none";
+            document.getElementById("see-submissions").style.display = "none";
+          }
+          if (userCookie.includes("professor")) {
+            document.getElementById("see-quizzes").style.display = "none";
+          }
       });
     </script>
-
     <script src="../script/app.js"></script>
     <script src="../script/viewQuizzes.js"></script>
     <script src="../script/dark-mode.js"></script>

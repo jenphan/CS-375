@@ -1,8 +1,4 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  const userRole = localStorage.getItem("userRole");
-  if (userRole === "student") {
-    document.getElementById("create-new-quiz").style.display = "none";
-  }
   try {
     const response = await fetch("/quiz/get-quizzes");
     const quizzes = await response.json();
@@ -38,23 +34,28 @@ function displayQuizzes(quizzes) {
     deadline.textContent = `Deadline: ${new Date(quiz.deadline).toLocaleString()}`;
     card.appendChild(deadline);
 
-    // create and append edit button
-    const editButton = document.createElement("button");
-    editButton.textContent = "Edit";
-    editButton.addEventListener("click", (event) => {
-      event.stopPropagation();
-      window.location.href = `editQuiz.html?quizID=${quiz.quizid}`;
-    });
-    card.appendChild(editButton);
+    // Only show Edit and Submissions buttons if the user is not a student
+    const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+    if (userCookie.includes("professor")) {
+      const editButton = document.createElement("button");
+      editButton.textContent = "Edit";
+      editButton.className = "small-button";
+      editButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        window.location.href = `editQuiz.html?quizID=${quiz.quizid}`;
+      });
+      card.appendChild(editButton);
 
-    // create and append view submissions button
-    const viewSubmissionsButton = document.createElement("button");
-    viewSubmissionsButton.textContent = "Submissions";
-    viewSubmissionsButton.addEventListener("click", (event) => {
-      event.stopPropagation();
-      window.location.href = `submissions.html?quizID=${quiz.quizid}`;
-    });
-    card.append(viewSubmissionsButton);
+      // create and append view submissions button
+      const viewSubmissionsButton = document.createElement("button");
+      viewSubmissionsButton.textContent = "Submissions";
+      viewSubmissionsButton.className = "small-button";
+      viewSubmissionsButton.addEventListener("click", (event) => {
+        event.stopPropagation();
+        window.location.href = `submissions.html?quizID=${quiz.quizid}`;
+      });
+      card.append(viewSubmissionsButton);
+    }
 
     // append complete card to container
     container.appendChild(card);
