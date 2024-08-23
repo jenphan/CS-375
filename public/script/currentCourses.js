@@ -56,9 +56,4 @@ document.addEventListener("DOMContentLoaded", function () {
     courseList.appendChild(courseBox);
   });
   }
-  
-
-
-
-
 });
