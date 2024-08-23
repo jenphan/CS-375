@@ -9,29 +9,17 @@
     <link href="../styles/views.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
-    <script>
-      document.addEventListener("DOMContentLoaded", function() {
-          // Retrieve and log the cookie via js
-          console.log(document.cookie);
-          const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
-          console.log('User Cookie:', userCookie);
-      
-          // If user cookie is present, show the logout button
-          if (userCookie) {
-            document.getElementById("logout-button").style.display = "inline-block";
-          }
-      });
-    </script>
     <header>
       <a href="/auth/home" class="logo">Blueboard</a>
       <nav class="nav-bar">
         <ul class="nav-center">
           <li><a href="./calendar.html">Calendar</a></li>
           <li><a href="./quizzes.html">Quizzes</a></li>
+          <li><a id="grade-link" href="#">Grade</a></li>
           <li><a href="./announcements.html">Announcements</a></li>
           <li><a href="./tutorial.html">Where to Start</a></li>
         </ul>
-      <ul class="nav-right">
+        <ul class="nav-right">
           <li>
             <b>
               <label class="theme-switch">
@@ -46,26 +34,30 @@
         </ul>
       </nav>
     </header>
+
     <center>
       <div class="post-container">
         <h2>Add New Announcement</h2>
-        <form id="create-course-form">
+        <form id="create-announcement-form">
           <div class="input-group">
-            <label for="Title">Title</label>
+            <label for="title">Title</label>
             <input type="text" id="title" name="title" required />
           </div>
           <div class="input-group">
             <label for="body">Enter text...</label>
             <textarea id="body" name="body" required></textarea>
           </div>
-          <button type="submit" class="login-button">
+          <button type="submit" class="create-account-button">
             Create Post
           </button>
-      </form>
-    </div>
+        </form>
+      </div>
+    </center>
+
     <script src="../script/app.js"></script>
     <script src="../script/dark-mode.js"></script>
     <script src="../script/logout.js"></script>
-    <script src="../script/addAnnoucement.js"></script>
+    <script src="../script/navbar.js"></script>
+    <script src="../script/addAnnouncement.js"></script>
   </body>
 </html>
