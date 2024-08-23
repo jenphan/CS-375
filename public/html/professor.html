@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>BlueBoard</title>
+    <title>BlueBoard - Professor</title>
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
     <link href="../styles/views.css" rel="stylesheet" type="text/css" />
   </head>
@@ -32,6 +32,7 @@
         <ul class="nav-center">
           <li><a href="./calendar.html">Calendar</a></li>
           <li><a href="./quizzes.html">Quizzes</a></li>
+          <li><a id="grade-link" href="#">Grades</a></li>
           <li><a href="./announcements.html">Announcements</a></li>
           <li><a href="./tutorial.html">Where to Start</a></li>
         </ul>
@@ -45,17 +46,21 @@
             </b>
           </li>
           <li>
-            <button id="logout-button" class="logout-button">Logout</button>
+            <button id="logout-button" style="display: none;">Logout</button>
           </li>
         </ul>
       </nav>
     </header>
+    
     <div class="button-container">
       <a href="./createCourse.html">
         <button type="button" class="button">Create New Course</button>
       </a>
       <a href="./scheduleAppointment.html">
         <button type="button" class="button">Schedule Appointment</button>
+      </a>
+      <a href="./submission.html">
+        <button type="button" class="button">See Submissions</button>
       </a>
     </div>
 
@@ -69,6 +74,7 @@
     <script src="../script/app.js"></script>
     <script src="../script/dark-mode.js"></script>
     <script src="../script/logout.js"></script>
+    <script src="../script/navbar.js"></script>
     <script src="../script/currentCourses.js"></script>
   </body>
 </html>
