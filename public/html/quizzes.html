@@ -37,13 +37,22 @@
 
     <div class="button-container">
       <a href="./createQuiz.html">
-        <button type="button" class="button">Create New Quiz</button>
+        <button id="add-new-post" type="button" class="button">Create New Quiz</button>
       </a>
     </div>
 
     <div id="quizContainer">
       <h1>All Quizzes</h1>
     </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+        if (userCookie && userCookie.includes("student")) {
+          document.getElementById("create-quiz-button").style.display = "none";
+        }
+      });
+    </script>
 
     <script src="../script/app.js"></script>
     <script src="../script/viewQuizzes.js"></script>
