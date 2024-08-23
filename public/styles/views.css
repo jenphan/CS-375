@@ -30,13 +30,13 @@ textarea {
 .input-container {
   position: absolute;
   top: 150px; 
-  right: 110px; 
+  right: 100px; 
   display: flex;
   align-items: center;
 }
 
 .input-box {
-  width: 125px;
+  width: 160px;
   padding: 10px;
   margin-right: 10px;
   border: 1px solid #ccc;
