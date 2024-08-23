@@ -1,9 +1,13 @@
 :root {
   --text-color: #765742;
+  --primary-color: #c6926e;
+  --secondary-color: #c6926e; 
 }
 
 .dark-mode {
   --text-color: #ffffff;
+  --primary-color: #093384;
+  --secondary-color: #000056; 
 }
 
 #quizForm {
@@ -47,7 +51,7 @@ h1 {
 #questionsContainer .question {
   margin-bottom: 20px;
   padding: 15px;
-  border: 2px solid #093384;
+  border: 2px solid var(--primary-color);
   border-radius: 5px;
 }
 
@@ -56,31 +60,44 @@ h1 {
 }
 
 #deleteQuestionButton {
+  font-family: "Baskerville", serif;
   background-color: #b60b0b;
   color: white;
-  padding: 10px 20px;
+  padding: 8px 13px;
+  margin-top: 8px;
   border: none;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 15px;
   border-radius: 25px;
   cursor: pointer;
   transition: background-color 0.25s ease;
 }
 
-#quizLink {
-  max-width: 800px;
-  margin: 20px auto;
+#deleteQuestionButton:hover {
+  background-color: #7F0707;
 }
 
-#quizLink a {
-  color: #0b41b6;
-  text-decoration: none;
-}
-
-#quizlink a:hover {
-  text-decoration: underline;
-}
 
 .question {
   margin-bottom: 20px;
+}
+
+.edit-message {
+  color: var(--text-color);
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
+  margin-top: 20px;
+  border-radius: 5px;
+}
+
+.edit-message a {
+  color: var(--text-color);
+  text-decoration: underline;
+}
+
+.edit-message a:hover {
+  color: var(--secondary-color);
+  text-decoration: underline;
 }

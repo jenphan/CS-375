@@ -77,6 +77,7 @@ function generateQuizForm(quiz, quizQuestions) {
   const quizSubmitButton = document.createElement("button");
   quizSubmitButton.innerText = "Submit Quiz";
   quizSubmitButton.setAttribute("id", "submitQuizButton");
+  quizSubmitButton.className = "button"
   quizForm.appendChild(quizSubmitButton);
 
   quizSubmitButton.addEventListener("click", async () => {
