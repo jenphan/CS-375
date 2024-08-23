@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Student Grades</title>
+    <link href="../styles/style.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/views.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/grades.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <header>
+      <a href="/auth/home" class="logo">Blueboard</a>
+      <nav class="nav-bar">
+        <ul class="nav-center">
+          <li><a href="./calendar.html">Calendar</a></li>
+          <li><a href="./quizzes.html">Quizzes</a></li>
+          <li><a id="grade-link" href="#">Grade</a></li>
+          <li><a href="./announcements.html">Announcements</a></li>
+          <li><a href="./tutorial.html">Where to Start</a></li>
+        </ul>
+        <ul class="nav-right">
+          <li>
+            <b>
+              <label class="theme-switch">
+                <input type="checkbox" id="theme-toggle" />
+                <span class="slider"></span>
+              </label>
+            </b>
+          </li>
+          <li>
+            <button id="logout-button" style="display: none;">Logout</button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="main-content">
+        <div class="banner">
+            <h1>Grades</h1>
+            <p>Track your performance</p>
+        </div>
+
+        <div class="grades-container">
+            <table>
+                <thead>
+                  <tr>
+                    <th>Course Title</th>
+                    <th>Quiz Title</th>
+                    <th>Grade</th>
+                    <th>Submission Date</th>
+                    <th>Total Score</th>
+                  </tr>
+                </thead>
+                <tbody id="grades-body">
+                  <!-- Rows for grades -->
+                </tbody>
+              </table>                       
+        </div>
+    </div>
+
+    <script src="../script/app.js"></script>
+    <script src="../script/dark-mode.js"></script>
+    <script src="../script/logout.js"></script>
+    <script src="../script/grades.js"></script>
+    <script src="../script/navbar.js"></script> 
+  </body>
+</html>
