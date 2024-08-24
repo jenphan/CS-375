@@ -139,6 +139,16 @@ router.get("/get-quizzes", async (req, res) => {
   }
 });
 
+router.get("/getQuizzesByCreator/:creator", (req, res) =>{
+  const creator = req.params.creator;
+  pool.query(`SELECT * FROM quizzes WHERE creator = $1`, [creator]).then(result =>{
+    return res.status(200).json(result.rows);
+  }).catch(error => {
+    console.error("Error querying database", error);
+    return res.status(500).json({ error: "Failed to fetch quiz data" });
+  });
+})
+
 router.get("/take/:quizID", async (req, res) => {
   const quizID = req.params.quizID;
   try {
@@ -239,7 +249,7 @@ router.get("/get-submissions/:quizID", async (req, res) => {
 });
 
 router.post("/addGrade", async (req, res) => {
-  const { submitID: id, totalScore: grade } = req.body;
+  const { submitID: id, finalScore: grade } = req.body;
   try {
     await pool.query(
       "UPDATE submissions SET grade = $1 WHERE submitid = $2",
@@ -247,6 +257,30 @@ router.post("/addGrade", async (req, res) => {
     );
     return res.status(200).json({ message: "Grade was submitted successfully" });
   } catch (error) {
+    console.log("Error while submitting grade:", error);
+    return res.status(500).json({ message: "Error while submitting grade" });
+  }
+});
+
+router.get("/getUserByID/:userID", (req, res) =>{
+  const userID = req.params.userID;
+  pool.query(`SELECT * FROM users WHERE usrid = $1`, [userID]).then(result =>{
+    return res.status(200).json(result.rows[0]);
+  }).catch(error => {
+    console.error("Error querying database", error);
+    return res.status(500).json({ error: "Failed to fetch quiz data" });
+  });
+});
+
+router.post("/addComment", async(req, res) =>{
+  const {submitID: id, comment: words} = req.body;
+  try{
+    await pool.query(
+      "UPDATE submissions SET comment = $1 WHERE submitid = $2",
+      [words, id]
+    );
+    return res.status(200).json({ message: "Comment was submitted successfully"});
+  }catch (error) {
     console.log("Error while submitting grade:", error);
     return res.status(500).json({ message: "Error while submitting grade" });
   }

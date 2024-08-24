@@ -15,7 +15,7 @@
         <ul class="nav-center">
           <li><a href="./calendar.html">Calendar</a></li>
           <li><a href="./quizzes.html">Quizzes</a></li>
-          <li><a id="grade-link" href="#">Grade</a></li>
+          <li><a href="./submission.html">See Submissions</a></li>
           <li><a href="./announcements.html">Announcements</a></li>
         </ul>
         <ul class="nav-right">
@@ -39,7 +39,9 @@
         AutoGrade
       </button>
     </div>
-    
+    <br>
+    <br>
+    <br>
     <form id="gradingForm">
       <!-- Questions will be dynamically inserted here -->
     </form>
@@ -48,7 +50,8 @@
       Submit Grades
     </button>
     <div>
-      <h1 id="totalGrade">Total Grade: </h1>
+      <h1 id="autoGrade"></h1>
+      <h1 id="finalGrade"></h1>
       <label for="comment">Comments:</label>
       <textarea id="comment" rows="4" cols="50"></textarea>
     </div>

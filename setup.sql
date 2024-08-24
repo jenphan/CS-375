@@ -50,7 +50,9 @@ CREATE TABLE submissions (
     submission JSON,
     quizVersion INT REFERENCES quizzes(quizID),
     submissionDate TIMESTAMPTZ,
-    grade INT
+    grade INT,
+    comment VARCHAR(255)
+
 );
 
 CREATE TABLE appointments (
