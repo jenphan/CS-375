@@ -26,12 +26,17 @@ function displayQuizzes(quizzes) {
 
     // create and append professor name
     const professor = document.createElement("p");
-    professor.textContent = `Professor: ${quiz.professorname}`;
+    professor.innerHTML = `<strong>Professor:</strong> ${quiz.professorname}`;
     card.appendChild(professor);
+
+    // create and append course name
+    const course = document.createElement("p");
+    course.innerHTML = `<strong>Course:</strong> ${quiz.coursetitle} (${quiz.coursecrn})`;
+    card.appendChild(course);
 
     // create and append deadline
     const deadline = document.createElement("p");
-    deadline.textContent = `Deadline: ${new Date(quiz.deadline).toLocaleString()}`;
+    deadline.innerHTML = `<strong>Deadline:</strong> ${new Date(quiz.deadline).toLocaleString()}`;
     card.appendChild(deadline);
 
     // Only show Edit and Submissions buttons if the user is not a student

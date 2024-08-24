@@ -16,12 +16,12 @@ function clearQuizFile() {
 clearQuizFile();
 
 router.post("/createquiz", async (req, res) => {
-  const { title, professorId, deadline, timer, questions } = req.body;
+  const { title, course, deadline, timer, questions } = req.body;
   console.log(req.session.user.userid);
   try {
     const result = await pool.query(
-      "INSERT INTO quizzes (title, creator, quiz, deadline, timer) VALUES ($1, $2, $3, $4, $5) RETURNING quizID",
-      [title, req.session.user.userid, questions, deadline, timer],
+      "INSERT INTO quizzes (title, creator, course, quiz, deadline, timer) VALUES ($1, $2, $3, $4, $5, $6) RETURNING quizID",
+      [title, req.session.user.userid, course, questions, deadline, timer],
     );
     const quizID = result.rows[0].quizID;
     res.status(200).json({ quizID });
@@ -128,9 +128,16 @@ router.get("/export-quiz/:quizID", async (req, res) => {
 router.get("/get-quizzes", async (req, res) => {
   try {
     const result = await pool.query(`
-      SELECT q.quizID, q.title AS quizTitle, u.username AS professorName, q.deadline
+      SELECT
+        q.quizID,
+        q.title AS quizTitle,
+        u.username AS professorName,
+        q.course AS courseCRN,
+        c.title AS courseTitle,
+        q.deadline
       FROM quizzes q
       JOIN users u ON q.creator = u.usrid
+      JOIN courses c ON q.course = c.crn
     `);
     res.status(200).json(result.rows);
   } catch (error) {
