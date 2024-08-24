@@ -1,5 +1,6 @@
 const express = require("express");
 const { registerUser, loginUser } = require("../controllers/authController");
+const { pool } = require("../app/query");
 const router = express.Router();
 
 router.post("/register", registerUser);
@@ -41,6 +42,17 @@ router.get("/home", (req, res) => {
   } else {
     return res.redirect("/"); // redirect to home if not logged in
   }
+});
+
+router.get("/getUserByID/:userID", (req, res) =>{
+  const userID = req.params.userID;
+  console.log(userID);
+  pool.query(`SELECT * FROM users WHERE usrid = $1`, [userID]).then(result =>{
+    return res.status(200).json(result.rows);
+  }).catch(error => {
+    console.error("Error querying database", error);
+    return res.status(500).json({ error: "Failed to fetch quiz data" });
+  });
 });
 
 module.exports = router;

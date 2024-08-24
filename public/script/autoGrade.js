@@ -1,6 +1,7 @@
 let button = document.getElementById("grade");
 let submit = document.getElementById("submitGrades");
-let totalGradeDisplay = document.getElementById("totalGrade"); 
+let totalGradeDisplay = document.getElementById("autoGrade"); 
+let finalGradeDisplay = document.getElementById("finalGrade"); 
 let commentInput = document.getElementById("comment"); 
 
 const url = new URLSearchParams(window.location.search);
@@ -12,9 +13,7 @@ submit.style.visibility = "hidden";
 
 button.disabled = false;
 
-button.addEventListener("click", async () => {
-  button.style.visibility = "hidden";
-  button.disabled = true;
+window.addEventListener("load", async () => {
   try {
     const quizResponse = await fetch(`/quiz/getquiz/${quizID}`);
     const quiz = await quizResponse.json();
@@ -22,89 +21,106 @@ button.addEventListener("click", async () => {
     const submissionResponse = await fetch(`/quiz/getSubmissionByID/${submitID}`);
     const submission = await submissionResponse.json();
 
-    const autoScore = autoGrade(quiz[0], submission[0]);
-    manualGrade(quiz[0], submission[0]).then((manualScore) => {
-      const totalScore = autoScore + manualScore;
-      totalGradeDisplay.textContent = `Total Grade: ${totalScore}`;
-      fetch("/quiz/addGrade", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ submitID: submitID, totalScore: totalScore })
-      })
-      .then(result => {
-        return result.json();
-      })
-      .then(data => {
-        console.log(data);
-      })
-      .catch(error => {
-        console.log(error);
-      })
-      clicked = true;
+    quiz[0].quiz.forEach((question, index) => {
+      createGradingForm(question, submission[0].submission[`question-${index}`], index);
     });
   } catch (error) {
     console.error("Error fetching quiz or submission data:", error);
-  };
-
-
+  }
 });
 
-function autoGrade(quizData, submission) {
+button.addEventListener("click", () => {
+  button.style.visibility = "hidden";
+  button.disabled = true;
+
+  const quizData = document.querySelectorAll(".question");
   let totalScore = 0;
-  quizData.quiz.forEach((question, index) => {
-    if (question.autograding) {
-      const response = submission.submission[`question-${index}`];
-      if (response && response[0] === question.correctAnswer) {
-        totalScore += parseInt(question.points);
+
+  quizData.forEach((questionDiv, index) => {
+    const isAutoGrade = questionDiv.dataset.autograding === "true";
+    const responseTextarea = questionDiv.querySelector("textarea");
+    const correctAnswer = questionDiv.dataset.correctAnswer;
+    const points = parseInt(questionDiv.dataset.points);
+
+    if (isAutoGrade) {
+      const response = responseTextarea.value;
+      const result = response === correctAnswer ? "Correct" : "Incorrect";
+      responseTextarea.nextElementSibling.textContent = result;
+
+      if (response === correctAnswer) {
+        totalScore += points;
       }
     }
   });
 
-  return totalScore;
-}
+  totalGradeDisplay.textContent = `Total Auto Grade: ${totalScore}`;
+  submit.disabled = false;
+  submit.style.visibility = "visible";
+});
 
-function manualGrade(quizData, submission) {
-  return new Promise((resolve) => {
-    let totalScore = 0;
-    let manualGradingRequired = false;
+submit.addEventListener("click", () => {
+  const quizData = document.querySelectorAll(".question");
+  let finalScore = 0;
 
-    quizData.quiz.forEach((question, index) => {
-      if (!question.autograding) {
-        manualGradingRequired = true;
-        const response = submission.submission[`question-${index}`];
+  quizData.forEach((questionDiv, index) => {
+    const isAutoGrade = questionDiv.dataset.autograding === "true";
+    const points = parseInt(questionDiv.dataset.points);
 
-        createGradingForm(question, response, index);
+    if (isAutoGrade) {
+      const responseTextarea = questionDiv.querySelector("textarea");
+      const correctAnswer = questionDiv.dataset.correctAnswer;
+      if (responseTextarea.value === correctAnswer) {
+        finalScore += points;
       }
-    });
-
-    if (manualGradingRequired) {
-      submit.disabled = false;
-      submit.style.visibility = "visible";
-
-      submit.addEventListener("click", () => {
-        quizData.questions.forEach((question, index) => {
-          if (!question.autograding) {
-            const gradeInput = document.getElementById(`grade-${index}`);
-            const grade = gradeInput.value ? parseInt(gradeInput.value) : 0;
-            totalScore += grade;
-          }
-        });
-        const comment = commentInput.value;
-        // Save grading and comment (e.g., send to server or process further)
-        resolve(totalScore);
-      });
     } else {
-      resolve(totalScore);
+      const gradeInput = document.getElementById(`grade-${index}`);
+      const manualScore = gradeInput.value ? parseInt(gradeInput.value) : 0;
+      finalScore += manualScore;
     }
   });
-}
+
+  finalGradeDisplay.textContent = `Final Grade: ${finalScore}`;
+  fetch("/quiz/addGrade", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ submitID: submitID, finalScore: finalScore })
+  })
+  .then(result => {
+    return result.json();
+  })
+  .then(data => {
+    console.log(data);
+  })
+  .catch(error => {
+    console.log(error);
+  });
+  console.log(commentInput.value);
+  fetch("/quiz/addComment", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({submitID: submitID, comment: commentInput.value})
+  }).then(result => {
+    return result.json();
+  })
+  .then(data => {
+    console.log(data);
+  })
+  .catch(error => {
+    console.log(error);
+  });
+});
 
 function createGradingForm(question, response, index) {
   const form = document.getElementById("gradingForm");
   const questionDiv = document.createElement("div");
   questionDiv.className = "question";
+  questionDiv.dataset.autograding = question.autograding;
+  questionDiv.dataset.correctAnswer = question.correctAnswer;
+  questionDiv.dataset.points = question.points;
 
   const questionLabel = document.createElement("label");
   questionLabel.textContent = `Question ${index + 1}: ${question.content}`;
@@ -116,7 +132,7 @@ function createGradingForm(question, response, index) {
   questionDiv.appendChild(responseTextarea);
 
   const gradeLabel = document.createElement("label");
-  gradeLabel.textContent = `Grade (Max ${question.points}):`;
+  gradeLabel.textContent = "";
   questionDiv.appendChild(gradeLabel);
 
   const gradeInput = document.createElement("input");
