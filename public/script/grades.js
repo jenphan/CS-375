@@ -28,18 +28,33 @@ document.addEventListener("DOMContentLoaded", function() {
             row.innerHTML = `
               ${courseTitleCell}
               <td>${grade.quizTitle}</td>
-              <td>${grade.grade}</td>
+              <td class="grade-cell" data-quiz-title="${grade.quizTitle}">${grade.grade}</td>
               <td>${formattedDate}</td>
               <td>${grade.totalScore}</td>
             `;
 
             gradesBody.appendChild(row);
           });
+
+          document.querySelectorAll(".grade-cell").forEach(cell => {
+            cell.addEventListener("click", function() {
+              const quizTitle = this.getAttribute("data-quiz-title");
+              const modal = document.getElementById("grade-modal");
+              const modalText = document.getElementById("modal-text");
+
+              modalText.textContent = `${quizTitle}`;
+              modal.style.display = "block";
+            })
+          })
         }
       })
       .catch((error) => {
         console.error("Error fetching grades:", error);
         const gradesBody = document.getElementById("grades-body");
         gradesBody.innerHTML = "<tr><td colspan='5' class='centered'>Error loading grades</td></tr>";
-      });      
+      });
+      
+      document.getElementById("close-button").addEventListener("click", function() {
+        document.getElementById("grade-modal").style.display = "none";
+      })
 });
