@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function() {
       })
       .then((response) => response.json())
       .then((grades) => {
+
         console.log("Grades:", grades); // Debugging: Check what is being returned
         const gradesBody = document.getElementById("grades-body");
         
@@ -28,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function() {
             row.innerHTML = `
               ${courseTitleCell}
               <td>${grade.quizTitle}</td>
-              <td class="grade-cell" data-quiz-title="${grade.quizTitle}">${grade.grade}</td>
+              <td class="grade-cell" data-quiz-id="${grade.quizID}" data-submit-id="${grade.submitID}">${grade.grade}</td>
               <td>${formattedDate}</td>
               <td>${grade.totalScore}</td>
             `;
@@ -37,13 +38,29 @@ document.addEventListener("DOMContentLoaded", function() {
           });
 
           document.querySelectorAll(".grade-cell").forEach(cell => {
-            cell.addEventListener("click", function() {
-              const quizTitle = this.getAttribute("data-quiz-title");
+            cell.addEventListener("click", async function() {
+              const quizID = this.getAttribute("data-quiz-id");
+              const submitID = this.getAttribute("data-submit-id");
+              
+              const quizResponse = await fetch(`/quiz/getquiz/${quizID}`);
+              const quiz = await quizResponse.json();
+              const quizData = quiz[0].quiz;
+              
+              const submissionResponse = await fetch(`/quiz/getSubmissionByID/${submitID}`);
+              const submission = await submissionResponse.json();
+              const submissionData = submission[0].submission;
+
               const modal = document.getElementById("grade-modal");
               const modalText = document.getElementById("modal-text");
 
-              modalText.textContent = `${quizTitle}`;
-              modal.style.display = "block";
+              modalText.innerHTML =`<h1>Quiz Questions</h1>`;
+              quizData.forEach((question, index) => {
+                const questionIndex = `question-${index}`;
+                modalText.innerHTML += `<p>${index + 1}. ${question.content}</p>`;
+                modalText.innerHTML += `<p><strong>Your answer: </strong> ${submissionData[questionIndex]}</p>`
+                modalText.innerHTML += `<p><strong>Graded: </strong> Incomplete</p><br>`
+              });
+              modal.style.display= "block";
             })
           })
         }

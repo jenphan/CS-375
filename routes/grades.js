@@ -19,6 +19,8 @@ router.get("/", async (req, res) => {
             q.title AS "quizTitle", 
             s.grade, 
             s.submissionDate,
+            s.quizVersion AS "quizID",
+            s.submitID AS "submitID",
             SUM(s.grade) OVER (PARTITION BY c.title) AS "totalScore"
         FROM 
             submissions s
@@ -28,7 +30,6 @@ router.get("/", async (req, res) => {
             s.student = $1
         ORDER BY c.title, s.submissionDate DESC
         `, [studentId]);
-
     // If no grades found
     if (result.rows.length === 0) {
       return res.status(404).json({ message: "No grades found" });
