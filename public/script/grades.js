@@ -56,9 +56,17 @@ document.addEventListener("DOMContentLoaded", function() {
               modalText.innerHTML =`<h1>Quiz Questions</h1>`;
               quizData.forEach((question, index) => {
                 const questionIndex = `question-${index}`;
+                const studentAnswer = submissionData[questionIndex];
+                // console.log("Student Answer: " + studentAnswer);
+                const correctAnswer = question.correctAnswer;
+                // console.log("Correct Answer: " + correctAnswer);
+                let gradingStatus = "Incomplete";
+
+                // ADD IMPLEMENTATION FOR GRADING STATUS
+
                 modalText.innerHTML += `<p>${index + 1}. ${question.content}</p>`;
-                modalText.innerHTML += `<p><strong>Your answer: </strong> ${submissionData[questionIndex]}</p>`
-                modalText.innerHTML += `<p><strong>Graded: </strong> Incomplete</p><br>`
+                modalText.innerHTML += `<p><strong>Your answer: </strong> ${studentAnswer}</p>`
+                modalText.innerHTML += `<p><strong>Graded: </strong> ${gradingStatus}</p><br>`
               });
               modal.style.display= "block";
             })

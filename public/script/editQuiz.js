@@ -98,7 +98,7 @@ function populateQuestion(questionElement, questionData) {
       questionData.maxCharacters || "";
   } else if (questionData.type === "true-false") {
     questionElement.querySelector(
-      `.true-false-topions input[value='${questionData.correctAnswer}']`,
+      `.true-false-options input[value='${questionData.correctAnswer}']`,
     ).checked = true;
   } else if (
     ["multiple-choice", "checkboxes", "dropdown"].includes(questionData.type)

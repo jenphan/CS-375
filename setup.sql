@@ -39,6 +39,7 @@ CREATE TABLE quizzes (
     quizID SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     creator INT REFERENCES users(usrid),
+    course VARCHAR(10) references courses(crn),
     quiz JSON,
     deadline TIMESTAMPTZ,
     timer INT
@@ -68,9 +69,9 @@ INSERT INTO courses (crn, department, number, title, professorid, registrationco
 ('12345', 'CS', '375', 'Web Development', '1', 'WD375'),
 ('54321', 'CS', '260', 'Data Structures', '1', 'DS260');
 
-INSERT INTO quizzes (title, creator, deadline, timer) VALUES
-('Web Development Quiz 1', 1, '2024-08-07 23:59:00', 60),
-('Data Structures Quiz 1', 1, '2024-08-10 23:59:00', 60);
+INSERT INTO quizzes (title, creator, course, deadline, timer) VALUES
+('Web Development Quiz 1', 1, '12345', '2024-08-07 23:59:00', 60),
+('Data Structures Quiz 1', 1, '54321', '2024-08-10 23:59:00', 60);
 
 INSERT INTO appointments (title, date) VALUES
 ('Meeting with John', '2024-08-05 10:00:00'),

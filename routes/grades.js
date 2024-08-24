@@ -21,11 +21,11 @@ router.get("/", async (req, res) => {
             s.submissionDate,
             s.quizVersion AS "quizID",
             s.submitID AS "submitID",
-            SUM(s.grade) OVER (PARTITION BY c.title) AS "totalScore"
+            SUM(s.grade) OVER (PARTITION BY c.crn) AS "totalScore"
         FROM 
             submissions s
             JOIN quizzes q ON s.quizVersion = q.quizID
-            JOIN courses c ON q.creator = c.professorid
+            JOIN courses c ON q.course = c.crn
         WHERE 
             s.student = $1
         ORDER BY c.title, s.submissionDate DESC
