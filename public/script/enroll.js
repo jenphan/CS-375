@@ -31,7 +31,7 @@ document.getElementById("enrollSubmit").addEventListener("click", () => {
           window.location.href = "./student.html";
         }).catch((error) => {
             console.error("Error:", error);
-            alert(`Course creation failed: ${error.message}`);
+            alert(`Course enrollment failed: ${error.message}`);
         });
 
 });
