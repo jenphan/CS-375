@@ -9,7 +9,7 @@
 .dark-mode {
   --background-color: #3a3939b4;
   --text-color: #ffffff;
-  --slider-color: #4896f6;
+  --slider-color: #093384 ;
   --primary-color: #093384;
   --secondary-color: #000056; 
   --background-image: url("../picture/night.jpg");
@@ -200,7 +200,7 @@ header {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #e2c8b6;
+  background-color: #99b0bb; 
   transition: 0.4s;
   border-radius: 34px;
 }
@@ -208,10 +208,10 @@ header {
 .slider:before {
   position: absolute;
   content: "";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
+  height: 40px;
+  width: 40px;
+  left: -3px;
+  bottom: -4px;
   background-size: cover;
   background-repeat: no-repeat;
   transition: 0.4s;
@@ -355,4 +355,78 @@ th, td {
 
 .small-button:hover {
   background-color: var(--secondary-color);
+}
+
+/* For faqs and credits sections */
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  margin: 5% auto;
+}
+
+/* Title styling */
+.main h1 {
+  font-size: 36px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.faq-section {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 30px;
+  padding: 20px;
+  background-color: var(--background-color);
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+}
+
+.faq-section h2 {
+  font-size: 22px;
+  margin-bottom: 15px;
+  color: var(--primary-color);
+  font-weight: bold;
+  text-align: center;
+}
+
+.faq-section p,
+.faq-section ul li {
+  font-size: 16px;
+  margin-bottom: 15px;
+  line-height: 1.6;
+  color: var(--text-color);
+  text-align: left;
+  width: 100%;
+}
+
+.faq-section ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.faq-section strong {
+  color: var(--secondary-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .faq-section {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .faq-section h2 {
+    font-size: 20px;
+  }
+
+  .faq-section p,
+  .faq-section ul li {
+    font-size: 14px;
+  }
 }

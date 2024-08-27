@@ -6,6 +6,17 @@
     <title>Data Structures</title>
     <link href="../../styles/style.css" rel="stylesheet" type="text/css" />
     <link href="../../styles/views.css" rel="stylesheet" type="text/css" />
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+          // Check if the user is logged in by looking for a specific cookie
+          const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+
+          // If the cookie is not found, redirect to the home page
+          if (!userCookie) {
+              window.location.href = "/";
+          }
+      });
+    </script>
   </head>
   <body>
     <header>
@@ -14,7 +25,7 @@
         <ul class="nav-center">
           <li><a href="../calendar.html">Calendar</a></li>
           <li><a href="../quizzes.html">Quizzes</a></li>
-          <li><a id="grade-link" href="#">Grade</a></li>
+          <li><a id="grade-link" href="#">Grades</a></li>
           <li><a href="../announcements.html">Announcements</a></li>
         </ul>
         <ul class="nav-right">

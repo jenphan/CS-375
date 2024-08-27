@@ -1,16 +1,17 @@
-let creator;
 document.addEventListener("DOMContentLoaded", async function () {
+    let creator;
     try {
         const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
         if (userCookie) {
-          const decodedCookie = decodeURIComponent(userCookie.split('=')[1]);
-          creator = JSON.parse(decodedCookie).userid;
+            const decodedCookie = decodeURIComponent(userCookie.split('=')[1]);
+            creator = JSON.parse(decodedCookie).userid;
         } else {
-          console.log("Not logged in – could not extract user id from cookie")
+            console.log("Not logged in – could not extract user id from cookie");
         }
-      } catch (error) {
-        console.log("Error while extracting user id from cookie", error)
-      }
+    } catch (error) {
+        console.log("Error while extracting user id from cookie", error);
+    }
+
     try {
         const response = await fetch(`/quiz/getQuizzesByCreator/${creator}`);
         const quizzes = await response.json();
@@ -18,9 +19,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         const table = document.getElementById('submissionsTable');
 
         // Create the table header
-        const thead = table.createTHead();
+        const thead = table.querySelector('thead');
         const headerRow = thead.insertRow();
-
         const headers = ["Submission ID", "Student", "Student ID"];
         quizzes.forEach(quiz => {
             headers.push(`${quiz.title}`);
@@ -32,6 +32,8 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
 
         // Track the latest submission for each student
+        // Create the table body
+        const tbody = table.querySelector('tbody');
         const latestSubmissions = {};
 
         for (const quiz of quizzes) {
@@ -57,7 +59,6 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
         }
 
-        const tbody = table.createTBody();
         const studentIDs = Object.keys(latestSubmissions);
 
         if (studentIDs.length > 0) {

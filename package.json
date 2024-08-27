@@ -1,7 +1,7 @@
 {
     "scripts": {
         "start": "node app/server.js",
-        "setup": "fly postgres connect -a cs375blueboard-db < setup-2.sql",
+        "setup": "fly postgres connect -a cs375blueboard-db < setup.sql",
         "start-local": "cd app && node server.js",
         "setup-local": "psql -U postgres -f setup.sql"
     },

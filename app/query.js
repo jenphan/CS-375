@@ -91,17 +91,33 @@ if (process.env.NODE_ENV == "production") {
     pool.query(`SELECT crn FROM courses WHERE registrationcode = $1`, [regCode]).then(result => {
       let crn = result.rows[0].crn;
       console.log("crn:" + crn);
-      pool.query(`INSERT INTO enrollment(usrid, courseCRN) VALUES ($1, $2)`, [userid, crn]).then(result =>{
-        console.log("sucessfully enrolled in course");
-        return res.status(200).json({message: 'user now in course'})
-        }).catch(error => {
-          console.log("course enrollment error");
-          console.log(error);
-          return res.status(500).json({message: 'course enrollment error'})
-        })
+      pool.query(`SELECT * FROM enrollment WHERE usrid = $1 AND courseCRn = $2`, [userid, crn]).then(result => {
+        if (result.rows.length != 0) {
+          return res.status(500).json({message: 'already enrolled in course'});
+        }
+        else {
+          pool.query(`INSERT INTO enrollment(usrid, courseCRN) VALUES ($1, $2)`, [userid, crn]).then(result =>{
+          console.log("sucessfully enrolled in course");
+          return res.status(200).json({message: 'user now in course'})
+          }).catch(error => {
+            console.log("course enrollment error");
+            console.log(error);
+            return res.status(500).json({message: 'course enrollment error'})
+          });
+        }
+      });
+      
     }).catch(error =>{
       console.log("invalid registration code");
       return res.status(500).json({message: 'invalid registration code'})
+    });
+  }
+
+  function unenroll(userid, crn, req, res){
+    pool.query(`DELETE FROM enrollment WHERE usrid = $1 AND coursecrn = $2`, [userid, crn]).then(result => {
+      return res.status(200).json({message: 'sucessful unenroll from course'});
+    }).catch(error => {
+      return res.status(500).json({message: 'course unenrollment error'});
     });
   }
      
