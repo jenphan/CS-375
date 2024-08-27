@@ -236,6 +236,28 @@ router.post("/edit/:quizID", async (req, res) => {
   }
 });
 
+router.get("/get-submissions", async (req, res) => {
+  try {
+    if (!req.session.user || req.session.user.role !== 'student') {
+      return res.status(403).json({ message: "Unauthorized access" });
+    }
+  
+    // Retrieve the user's ID from the session
+    const studentId = req.session.user.userid;
+  
+    const result = await pool.query(`
+      SELECT s.quizVersion AS "quizID", s.student
+      FROM submissions s
+      WHERE s.student = $1
+    `, [studentId]);
+  
+    return res.status(200).json(result.rows);
+  } catch (error) {
+    console.log("Error while retrieving submissions:", error);
+    return res.status(500).json({ message: "Internal server error"});
+  }
+})
+
 router.get("/get-submissions/:quizID", async (req, res) => {
   const quizID = req.params.quizID;
   try {

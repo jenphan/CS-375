@@ -101,3 +101,28 @@ h1 {
   color: var(--secondary-color);
   text-decoration: underline;
 }
+
+.timer-red {
+  color: red;
+}
+
+#timer-warning {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  z-index: 1000;
+  padding: 10px;
+  border: 1px solid var(--primary-color);
+  background-color: var(--primary-color);
+  display: none;
+}
+
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.blink {
+  animation: blink 1s step-start infinite;
+}

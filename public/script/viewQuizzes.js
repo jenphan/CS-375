@@ -2,20 +2,26 @@ document.addEventListener("DOMContentLoaded", async () => {
   try {
     const response = await fetch("/quiz/get-quizzes");
     const quizzes = await response.json();
-    displayQuizzes(quizzes);
+
+    const submissionsResponse = await fetch("/quiz/get-submissions");
+    const submissions = await submissionsResponse.json();
+
+    displayQuizzes(quizzes, submissions);
   } catch (error) {
     console.log("Error fetching quizzes", error);
   }
 });
 
 // Creates and appends quiz cards to the quiz container
-function displayQuizzes(quizzes) {
+function displayQuizzes(quizzes, submissions) {
   let userRole;
   try {
     const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
     if (userCookie) {
       const decodedCookie = decodeURIComponent(userCookie.split('=')[1]);
-      userRole = JSON.parse(decodedCookie).role;
+      const userData = JSON.parse(decodedCookie)
+      userRole = userData.role;
+      userId = userData.userid;
     } else {
       console.log("Not logged in – could not extract role from cookie")
     }
@@ -29,7 +35,11 @@ function displayQuizzes(quizzes) {
   let upcomingQuizzes;
 
   if (userRole === 'student') {
-    upcomingQuizzes = quizzes.filter(quiz => new Date(quiz.deadline) > now);
+    
+    const submittedQuizIds = submissions.filter(sub => sub.student === userId).map(sub => sub.quizID);
+    upcomingQuizzes = quizzes.filter(quiz => 
+      new Date(quiz.deadline) > now && !submittedQuizIds.includes(quiz.quizid)
+    );
   } else {
     upcomingQuizzes = quizzes;
   }
