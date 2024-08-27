@@ -161,7 +161,7 @@ router.get("/take/:quizID", async (req, res) => {
   try {
     const result = await pool.query(
       `
-      SELECT q.title AS quizTitle, u.username AS professorName, q.deadline, q.quiz
+      SELECT q.title AS quizTitle, u.username AS professorName, q.deadline, q.quiz, q.timer
       FROM quizzes q
       JOIN users u ON q.creator = u.usrid
       WHERE q.quizID = $1

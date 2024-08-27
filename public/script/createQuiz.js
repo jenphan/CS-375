@@ -443,6 +443,7 @@ function createQuizData() {
   return {
     title: quizTitle,
     professorId: professorId,
+    course: 11111,
     deadline: quizDeadline || null,
     timer: totalSeconds || null,
     questions: JSON.stringify(quiz),

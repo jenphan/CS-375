@@ -33,11 +33,26 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
+let timer;
+let timerId;
+let timerElement;
+
 function generateQuizForm(quiz, quizQuestions) {
+  timer = quiz.timer;
+  timerId = setInterval(tickClock, 1000);
   const quizForm = document.getElementById("quizForm");
   const quizTitle = document.createElement("h1");
   quizTitle.textContent = quiz.quiztitle;
   quizForm.appendChild(quizTitle);
+
+  const timerDiv = document.createElement("div");
+  const timerText = document.createElement("p");
+  timerText.innerHTML = `<strong>Time Left:</strong> <span id="timer">0</span>`;
+  timerDiv.appendChild(timerText);
+  quizForm.appendChild(timerDiv);
+
+  timerElement = document.querySelector("#timer");
+  timerElement.textContent = convertSeconds(timer);
 
   quizQuestions.forEach((question, index) => {
     const questionElement = document.createElement("div");
@@ -81,41 +96,75 @@ function generateQuizForm(quiz, quizQuestions) {
   quizForm.appendChild(quizSubmitButton);
 
   quizSubmitButton.addEventListener("click", async () => {
-    event.preventDefault();
-    const quizForm = document.getElementById("quizForm");
-    const formData = new FormData(quizForm);
-    const quizData = {};
-
-    for (let [key, value] of formData.entries()) {
-      if (!quizData[key]) {
-        quizData[key] = [];
-      }
-      quizData[key].push(value);
-    }
-
-    const submissionData = {
-      studentid: studentId,
-      submission: JSON.stringify(quizData),
-      quizVersion: quizID,
-      submissionDate: new Date(),
-    };
-
-    try {
-      const response = await fetch("/quiz/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(submissionData),
-      });
-
-      if (response.ok) {
-        console.log("Quiz was submitted successfully!");
-      } else {
-        console.log("Error while submitting quiz", response.statusText);
-      }
-    } catch (error) {
-      console.log("Error while submitting quiz", error);
-    }
+    endQuiz(getSubmissionData());
   });
+}
+
+function tickClock() {
+  timer--;
+  timerElement.textContent = convertSeconds(timer);
+  if (timer <= 0) {
+    endQuiz(getSubmissionData());
+  }
+}
+
+async function endQuiz(submissionData) {
+  clearInterval(timerId);
+
+  try {
+    const response = await fetch("/quiz/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(submissionData),
+    });
+
+    if (response.ok) {
+      console.log("Quiz was submitted successfully!");
+    } else {
+      console.log("Error while submitting quiz", response.statusText);
+    }
+  } catch (error) {
+    console.log("Error while submitting quiz", error);
+  }
+}
+
+function convertSeconds(seconds) {
+  const hours = Math.floor(seconds/3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const remainingSeconds = seconds % 60;
+
+  const hourText = hours > 0 ? `${hours} hour${hours > 1 ? 's' : ''}` : '';
+  const minuteText = minutes > 0 ? `${minutes} minute${minutes > 1 ? 's' : ''}` : '';
+  const secondText = remainingSeconds > 0 ? `${remainingSeconds} second${remainingSeconds > 1 ? 's' : ''}` : '';
+
+  if (hours > 0) {
+    return `${hourText} ${minuteText || '0 minutes'} ${secondText}`;
+  } else if (!hours && minutes > 0) {
+    return `${minuteText} ${secondText}`;
+  }
+  return secondText;
+}
+
+function getSubmissionData() {
+  const quizForm = document.getElementById("quizForm");
+  const formData = new FormData(quizForm);
+  const quizData = {};
+
+  for (let [key, value] of formData.entries()) {
+    if (!quizData[key]) {
+      quizData[key] = [];
+    }
+    quizData[key].push(value);
+  }
+
+  const submissionData = {
+    studentid: studentId,
+    submission: JSON.stringify(quizData),
+    quizVersion: quizID,
+    submissionDate: new Date(),
+  };
+
+  return submissionData;
 }
