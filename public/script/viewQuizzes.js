@@ -98,7 +98,6 @@ function displayQuizzes(quizzes, submissions) {
     container.appendChild(card);
   });
 
-  console.log(upcomingQuizzes);
   if (upcomingQuizzes.length === 0) {
     const emptyText = document.createElement("p");
     emptyText.innerText = "You have no upcoming quizzes at the moment!";

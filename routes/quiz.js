@@ -126,6 +126,8 @@ router.get("/export-quiz/:quizID", async (req, res) => {
 });
 
 router.get("/get-quizzes", async (req, res) => {
+  const userID = req.session.user.userid;
+
   try {
     const result = await pool.query(`
       SELECT
@@ -138,7 +140,9 @@ router.get("/get-quizzes", async (req, res) => {
       FROM quizzes q
       JOIN users u ON q.creator = u.usrid
       JOIN courses c ON q.course = c.crn
-    `);
+      JOIN enrollment e ON e.courseCRN = c.crn
+      WHERE e.usrid = $1
+    `, [userID]);
     res.status(200).json(result.rows);
   } catch (error) {
     console.error("Error while fetching quizzes", error);
@@ -158,7 +162,53 @@ router.get("/getQuizzesByCreator/:creator", (req, res) =>{
 
 router.get("/take/:quizID", async (req, res) => {
   const quizID = req.params.quizID;
+  const userID = req.session.user.userid;
+  
   try {
+    // check if user is registered for the course
+    const courseCheck = await pool.query(
+      `
+        SELECT c.crn
+        FROM courses c
+        JOIN quizzes q ON q.course = c.crn
+        JOIN enrollment e ON e.courseCRN = c.crn
+        WHERE q.quizID = $1 AND e.usrid = $2
+      `,
+      [quizID, userID]
+    );
+
+    if (courseCheck.rows.length === 0) {
+      return res.status(404).json({ message: "You are not registered for this course"});
+    }
+
+    // check if user has already taken the quiz
+    const submissionCheck = await pool.query(
+      `
+        SELECT submitID
+        FROM submissions
+        WHERE quizVersion = $1 AND student = $2
+      `,
+      [quizID, userID]
+    );
+
+    if (submissionCheck.rows.length > 0) {
+      return res.status(404).json({ message: "You have already taken this quiz."});
+    }
+
+    const deadlineCheck = await pool.query(
+      `
+        SELECT deadline
+        FROM quizzes
+        WHERE quizID = $1
+      `,
+      [quizID]
+    );
+
+    const currentDate = new Date();
+    if (deadlineCheck.rows[0].deadline < currentDate) {
+      return res.status(404).json({ message: "The quiz deadline has already passed."});
+    }
+
     const result = await pool.query(
       `
       SELECT q.title AS quizTitle, u.username AS professorName, q.deadline, q.quiz, q.timer

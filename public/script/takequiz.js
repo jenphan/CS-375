@@ -26,8 +26,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (response.ok) {
       const quiz = await response.json();
       generateQuizForm(quiz, quiz.quiz);
-    } else {
-      console.log("Error while fetching quiz data", response.statusText);
+    } else if (response.status === 404) {
+      window.location.href = "/html/quizzes.html";
     }
   } catch (error) {
     console.log("Error while fetching quiz data", error);
