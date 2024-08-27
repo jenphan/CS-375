@@ -6,6 +6,17 @@
     <title>BlueBoard - Student</title>
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
     <link href="../styles/views.css" rel="stylesheet" type="text/css" />
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+          // Check if the user is logged in by looking for a specific cookie
+          const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+
+          // If the cookie is not found, redirect to the home page
+          if (!userCookie) {
+              window.location.href = "/";
+          }
+      });
+    </script>
   </head>
   <body>
     <script>

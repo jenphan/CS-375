@@ -7,6 +7,17 @@
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
     <link href="../styles/views.css" rel="stylesheet" type="text/css" />
     <link href="../styles/cards.css" rel="stylesheet" type="text/css" />
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+          // Check if the user is logged in by looking for a specific cookie
+          const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+
+          // If the cookie is not found, redirect to the home page
+          if (!userCookie) {
+              window.location.href = "/";
+          }
+      });
+    </script>
   </head>
   <body>
     <header>
@@ -14,8 +25,7 @@
       <nav class="nav-bar">
         <ul class="nav-center">
           <li><a href="./calendar.html">Calendar</a></li>
-          <li><a href="./submission.html" id="see-submissions">See Submissions</a></li>
-          <li><a id="see-quizzes" href="./quizzes.html">Quizzes</a></li>
+          <li><a href="./quizzes.html">Quizzes</a></li>
           <li><a id="grade-link" href="#">Grades</a></li>
           <li><a href="./announcements.html">Announcements</a></li>
         </ul>
@@ -39,24 +49,15 @@
       <a href="./createQuiz.html">
         <button id="add-new-post" type="button" class="button">Create New Quiz</button>
       </a>
+      <a href="./submission.html">
+        <button id="see-submissions" type="button" class="button">See Submissions</button>
+      </a>
     </div>
 
     <div id="quizContainer">
       <h1>All Quizzes</h1>
     </div>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", function() {
-          const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
-          if (userCookie.includes("student")) {
-            document.getElementById("add-new-post").style.display = "none";
-            document.getElementById("see-submissions").style.display = "none";
-          }
-          if (userCookie.includes("professor")) {
-            document.getElementById("see-quizzes").style.display = "none";
-          }
-      });
-    </script>
     <script src="../script/app.js"></script>
     <script src="../script/viewQuizzes.js"></script>
     <script src="../script/dark-mode.js"></script>
