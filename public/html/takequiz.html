@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Take Quiz</title>
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/views.css" rel="stylesheet" type="text/css" />
     <link href="../styles/quiz.css" rel="stylesheet" type="text/css" />
   </head>
   <body>
@@ -35,6 +36,14 @@
     
     <div id="quizFormContainer">
       <form id="quizForm"></form>
+    </div>
+
+    <div id="grade-modal" class="modal">
+      <div class="modal-content">
+        <span id="modal-text"></span>
+        <button class="close-button" id="return-button">Return to Quizzes</button>
+        <button class="close-button" id="view-button">View My Grades</button>
+      </div>
     </div>
 
     <script src="../script/app.js"></script>

@@ -104,7 +104,7 @@ textarea {
   border: 1px solid var(--primary-color);
 }
 
-#close-button {
+.close-button {
   font-family: "Baskerville", serif;
   background-color: var(--primary-color);
   color: white;
@@ -115,7 +115,7 @@ textarea {
   border-radius: 25px;
 }
 
-#close-button:hover {
+.close-button:hover {
   background-color: var(--secondary-color);
 }
 

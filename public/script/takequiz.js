@@ -1,5 +1,5 @@
 const url = new URLSearchParams(window.location.search);
-const quizID = url.get("quizID");
+const quizID = url.get('quizID');
 let studentId;
 
 document.addEventListener("DOMContentLoaded", async () => {
@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   } catch (error) {
     console.log("Error while extracting user id from cookie", error)
+    return;
   }
 
   if (!quizID) {
@@ -95,8 +96,9 @@ function generateQuizForm(quiz, quizQuestions) {
   quizSubmitButton.className = "button"
   quizForm.appendChild(quizSubmitButton);
 
-  quizSubmitButton.addEventListener("click", async () => {
-    endQuiz(getSubmissionData());
+  quizSubmitButton.addEventListener("click", function(event) {
+    event.preventDefault();
+    endQuiz()
   });
 }
 
@@ -104,50 +106,12 @@ function tickClock() {
   timer--;
   timerElement.textContent = convertSeconds(timer);
   if (timer <= 0) {
-    endQuiz(getSubmissionData());
+    clearInterval(timerId);
+    endQuiz();
   }
 }
 
-async function endQuiz(submissionData) {
-  clearInterval(timerId);
-
-  try {
-    const response = await fetch("/quiz/submit", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(submissionData),
-    });
-
-    if (response.ok) {
-      console.log("Quiz was submitted successfully!");
-    } else {
-      console.log("Error while submitting quiz", response.statusText);
-    }
-  } catch (error) {
-    console.log("Error while submitting quiz", error);
-  }
-}
-
-function convertSeconds(seconds) {
-  const hours = Math.floor(seconds/3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
-  const remainingSeconds = seconds % 60;
-
-  const hourText = hours > 0 ? `${hours} hour${hours > 1 ? 's' : ''}` : '';
-  const minuteText = minutes > 0 ? `${minutes} minute${minutes > 1 ? 's' : ''}` : '';
-  const secondText = remainingSeconds > 0 ? `${remainingSeconds} second${remainingSeconds > 1 ? 's' : ''}` : '';
-
-  if (hours > 0) {
-    return `${hourText} ${minuteText || '0 minutes'} ${secondText}`;
-  } else if (!hours && minutes > 0) {
-    return `${minuteText} ${secondText}`;
-  }
-  return secondText;
-}
-
-function getSubmissionData() {
+async function endQuiz() {
   const quizForm = document.getElementById("quizForm");
   const formData = new FormData(quizForm);
   const quizData = {};
@@ -166,5 +130,49 @@ function getSubmissionData() {
     submissionDate: new Date(),
   };
 
-  return submissionData;
+  try {
+    await fetch("/quiz/submit", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(submissionData),
+    });
+  } catch (error) {
+    console.log("Error while submitting quiz", error);
+  }
+
+  const modal = document.getElementById("grade-modal");
+  const modalText = document.getElementById("modal-text");
+
+  const returnButton = document.getElementById("return-button");
+  returnButton.addEventListener("click", function () {
+    window.location.href = "../html/quizzes.html";
+  });
+
+  const viewButton = document.getElementById("view-button");
+  viewButton.addEventListener("click", function () {
+    window.location.href = "../html/grades.html";
+  });
+
+  modalText.innerHTML =`<h1>Quiz Submitted!</h1>`;
+  modalText.innerHTML += `<p>Your quiz has been submitted!</p><br>`;
+  modal.style.display= "block";
+}
+
+function convertSeconds(seconds) {
+  const hours = Math.floor(seconds/3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const remainingSeconds = seconds % 60;
+
+  const hourText = hours > 0 ? `${hours} hour${hours > 1 ? 's' : ''}` : '';
+  const minuteText = minutes > 0 ? `${minutes} minute${minutes > 1 ? 's' : ''}` : '';
+  const secondText = remainingSeconds > 0 ? `${remainingSeconds} second${remainingSeconds > 1 ? 's' : ''}` : '';
+
+  if (hours > 0) {
+    return `${hourText} ${minuteText || '0 minutes'} ${secondText}`;
+  } else if (!hours && minutes > 0) {
+    return `${minuteText} ${secondText}`;
+  }
+  return secondText;
 }
