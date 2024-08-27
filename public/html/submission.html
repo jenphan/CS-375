@@ -6,7 +6,17 @@
     <title>Submission</title>
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
     <link href="../styles/views.css" rel="stylesheet" type="text/css" />
-    <link href="../styles/grade.css" rel="stylesheet" type="text/css" />
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+          // Check if the user is logged in by looking for a specific cookie
+          const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+
+          // If the cookie is not found, redirect to the home page
+          if (!userCookie) {
+              window.location.href = "/";
+          }
+      });
+    </script>
   </head>
   <body>
     <header>
@@ -15,7 +25,7 @@
         <ul class="nav-center">
           <li><a href="./calendar.html">Calendar</a></li>
           <li><a href="./quizzes.html">Quizzes</a></li>
-          <li><a href="./submission.html">See Submissions</a></li>
+          <li><a id="grade-link" href="#">Grades</a></li>
           <li><a href="./announcements.html">Announcements</a></li>
         </ul>
         <ul class="nav-right">
@@ -34,16 +44,23 @@
       </nav>
     </header>
     
-    <div class="sidebar">
-      <!-- implement sidebar?-->
-    </div>
-    <table id="submissionsTable">
-      <!-- Submission data will be loaded here -->
-    </table>
-
     <div class="main-content">
-      <div id="courseList">
-        <!-- Courses will be listed here -->
+      <div class="banner">
+        <h1>Submissions</h1>
+        <p>Track submissions and grades</p>
+      </div>
+
+      <div class="grades-container">
+        <table id="submissionsTable">
+          <thead>
+            <tr>
+              <!-- Headers will be populated dynamically -->
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Submission data will be populated dynamically -->
+          </tbody>
+        </table>
       </div>
     </div>
 
