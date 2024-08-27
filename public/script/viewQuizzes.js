@@ -10,9 +10,31 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 // Creates and appends quiz cards to the quiz container
 function displayQuizzes(quizzes) {
-  const container = document.getElementById("quizContainer");
+  let userRole;
+  try {
+    const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+    if (userCookie) {
+      const decodedCookie = decodeURIComponent(userCookie.split('=')[1]);
+      userRole = JSON.parse(decodedCookie).role;
+    } else {
+      console.log("Not logged in – could not extract role from cookie")
+    }
+  } catch (error) {
+    console.log("Error while extracting role from cookie", error)
+    return;
+  }
 
-  quizzes.forEach((quiz) => {
+  const container = document.getElementById("quizContainer");
+  const now = new Date();
+  let upcomingQuizzes;
+
+  if (userRole === 'student') {
+    upcomingQuizzes = quizzes.filter(quiz => new Date(quiz.deadline) > now);
+  } else {
+    upcomingQuizzes = quizzes;
+  }
+
+  upcomingQuizzes.forEach((quiz) => {
     const card = document.createElement("div");
     card.className = "card";
     card.addEventListener("click", () => {
@@ -65,4 +87,11 @@ function displayQuizzes(quizzes) {
     // append complete card to container
     container.appendChild(card);
   });
+
+  console.log(upcomingQuizzes);
+  if (upcomingQuizzes.length === 0) {
+    const emptyText = document.createElement("p");
+    emptyText.innerText = "You have no upcoming quizzes at the moment!";
+    container.appendChild(emptyText);
+  }
 }

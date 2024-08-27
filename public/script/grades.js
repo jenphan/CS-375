@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
         } else {
           let lastCourseTitle = null;
 
-          grades.forEach((grade, index) => {
+          grades.forEach((grade) => {
             const row = document.createElement("tr");
 
             // Only show the course title if it's different from the last one
@@ -26,10 +26,16 @@ document.addEventListener("DOMContentLoaded", function() {
             // Convert the date to a readable format
             const formattedDate = new Date(grade.submissiondate).toLocaleDateString();
 
+            let gradeAmount = grade.grade;
+
+            if (!gradeAmount) {
+              gradeAmount = "In Progress";
+            }
+
             row.innerHTML = `
               ${courseTitleCell}
               <td>${grade.quizTitle}</td>
-              <td class="grade-cell" data-quiz-id="${grade.quizID}" data-submit-id="${grade.submitID}">${grade.grade}</td>
+              <td class="grade-cell" data-quiz-id="${grade.quizID}" data-submit-id="${grade.submitID}">${gradeAmount}</td>
               <td>${formattedDate}</td>
               <td>${grade.totalScore}</td>
             `;
@@ -61,8 +67,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 const correctAnswer = question.correctAnswer;
                 // console.log("Correct Answer: " + correctAnswer);
                 let gradingStatus = "Incomplete";
-
-                // ADD IMPLEMENTATION FOR GRADING STATUS
 
                 modalText.innerHTML += `<p>${index + 1}. ${question.content}</p>`;
                 modalText.innerHTML += `<p><strong>Your answer: </strong> ${studentAnswer}</p>`
