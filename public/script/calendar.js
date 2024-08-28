@@ -2,8 +2,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const appointmentsContainer = document.getElementById("appointments");
   const deadlinesContainer = document.getElementById("deadlines");
 
-  function addEvent(container, title, date, type) {
+  function addEvent(container, id, title, date, type) {
     const eventElement = document.createElement("div");
+    eventElement.addEventListener("click", () => {
+      window.location.href = `/html/takeQuiz.html?quizID=${id}`;
+    })
     eventElement.className = "calendar-event";
     eventElement.innerHTML = `
             <h3>${title}</h3>
@@ -39,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (Array.isArray(data)) {
         data.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
         data.forEach((quiz) => {
-          addEvent(deadlinesContainer, quiz.title, quiz.deadline, "Deadline");
+          addEvent(deadlinesContainer, quiz.quizid, quiz.title, quiz.deadline, "Deadline");
         });
       } else {
         console.error("Invalid data format for quizzes");

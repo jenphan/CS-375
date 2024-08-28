@@ -27,9 +27,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const response = await fetch(`/quiz/take/${quizID}`);
     if (response.ok) {
       const quiz = await response.json();
-      generateQuizForm(quiz, quiz.quiz);
+      confirmStartQuiz(quiz, quiz.quiz);
     } else if (response.status === 404) {
-      window.location.href = "/html/quizzes.html";
+      window.history.back();
     }
   } catch (error) {
     console.log("Error while fetching quiz data", error);
@@ -39,6 +39,25 @@ document.addEventListener("DOMContentLoaded", async () => {
 let timer;
 let timerId;
 let timerElement;
+
+function confirmStartQuiz(quiz, quizInfo) {
+  const modal = document.getElementById("confirm-modal");
+  const modalText = document.getElementById("confirm-modal-text");
+  modalText.innerHTML += `<h1>Start Quiz?</h1>`
+  modalText.innerHTML += `<p>You are about to start the <strong>${quiz.quiztitle}</strong> quiz.<br>You will have <strong>${convertSeconds(quiz.timer)}</strong> to complete ${quizInfo.length} question(s).</p><br>`;
+  modal.style.display = "block";
+
+  const returnButton = document.getElementById("confirm-return-button");
+  returnButton.addEventListener("click", function () {
+    window.history.back();
+  });
+
+  const startButton = document.getElementById("start-button");
+  startButton.addEventListener("click", function () {
+    modal.style.display = "none";
+    generateQuizForm(quiz, quizInfo);
+  });
+}
 
 function generateQuizForm(quiz, quizQuestions) {
   timer = quiz.timer;
@@ -181,9 +200,9 @@ async function endQuiz() {
   warningDiv.style.display = "none";
 
   const modal = document.getElementById("grade-modal");
-  const modalText = document.getElementById("modal-text");
+  const modalText = document.getElementById("grade-modal-text");
 
-  const returnButton = document.getElementById("return-button");
+  const returnButton = document.getElementById("grade-return-button");
   returnButton.addEventListener("click", function () {
     window.location.href = "../html/quizzes.html";
   });
