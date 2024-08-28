@@ -61,32 +61,3 @@ CREATE TABLE appointments (
     title VARCHAR(255) NOT NULL,
     date TIMESTAMPTZ NOT NULL
 );
-
--- Insert initial data
-INSERT INTO users (username, password, role) VALUES
-('abc', '$argon2id$v=19$m=65536,t=3,p=4$T/3Mid5O4H2tdaTdIVV35w$4n6nPs2ANYiPz77w64biA1jN7uZMpxee2EqPwQbBAVE', 'student'), -- password: password
-('abcd', '$argon2id$v=19$m=65536,t=3,p=4$gduV6EhglX0LvaqObJL/4g$DRFnmqcz655SJqgbYXGpHNF4+U068uBSDv5jFt3FrVA', 'professor'); -- password: password
-
-INSERT INTO courses (crn, department, number, title, professorid, registrationcode) VALUES
-('12345', 'CS', '375', 'Web Development', '1', 'WD375'),
-('54321', 'CS', '260', 'Data Structures', '1', 'DS260');
-
-INSERT INTO quizzes (title, creator, course, deadline, timer) VALUES
-('Web Development Quiz 1', 1, '12345', '2024-08-07 23:59:00', 60),
-('Data Structures Quiz 1', 1, '54321', '2024-08-10 23:59:00', 60);
-
-INSERT INTO appointments (title, date) VALUES
-('Meeting with John', '2024-08-05 10:00:00'),
-('Project Discussion', '2024-08-06 15:00:00');
-
-INSERT INTO submissions (student, submission, quizVersion, submissionDate, grade) VALUES
-    ((SELECT usrid FROM users WHERE username = 'abc'), 
-    '{"answers": {"Q1": "A", "Q2": "B", "Q3": "C"}}', 
-    (SELECT quizID FROM quizzes WHERE title = 'Web Development Quiz 1'), 
-    '2024-08-08 14:30:00', 
-    85),
-    ((SELECT usrid FROM users WHERE username = 'abc'), 
-    '{"answers": {"Q1": "B", "Q2": "C", "Q3": "A"}}', 
-    (SELECT quizID FROM quizzes WHERE title = 'Data Structures Quiz 1'), 
-    '2024-08-09 15:00:00', 
-    90);

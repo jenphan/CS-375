@@ -11,10 +11,11 @@ document.addEventListener("DOMContentLoaded", async () => {
     console.log("Error fetching quizzes", error);
   }
 });
+let userRole;
 
 // Creates and appends quiz cards to the quiz container
 function displayQuizzes(quizzes, submissions) {
-  let userRole;
+  
   try {
     const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
     if (userCookie) {
@@ -100,7 +101,12 @@ function displayQuizzes(quizzes, submissions) {
 
   if (upcomingQuizzes.length === 0) {
     const emptyText = document.createElement("p");
-    emptyText.innerText = "You have no upcoming quizzes at the moment!";
+    if (userRole === 'student') {
+      emptyText.innerText = "You have no upcoming quizzes at the moment!";
+    } else if (userRole === 'professor') {
+      emptyText.innerText = "You have not created any quizzes for this course!";
+    }
+    
     container.appendChild(emptyText);
   }
 }

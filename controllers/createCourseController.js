@@ -14,8 +14,8 @@ const createCourse = async (req, res) => {
   }
 
     let courseCode = generateRandomCode()
+    console.log(courseCode);
     addCourse(crn, subjectCode, courseNumber, courseName, req.session.user.userid, courseCode, req, res);
-
 };
 
 const courseList = async (req, res) => {

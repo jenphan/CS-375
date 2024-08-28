@@ -57,29 +57,41 @@ CRN: 12345
         <form id="create-course-form">
           <div class="input-group">
             <label for="course-name">Course Name</label>
-            <input type="text" id="course-name" name="course-name" required />
+            <input
+              type="text"
+              id="course-name"
+              name="course-name"
+              placeholder="ex: Web Development"
+              required />
           </div>
           <div class="input-group">
-            <label for="subject-code">Subject Code</label>
+            <label for="subject-code">Subject Code (1 - 6 characters)</label>
             <input
               type="subject-code"
               id="subject-code"
               name="subject-code"
+              placeholder="ex: PHYS, SE, CS"
               required
             />
           </div>
           <div class="input-group">
-            <label for="course-number">Course Number</label>
+            <label for="course-number">Course Number (3 digit number)</label>
             <input
               type="course-number"
               id="course-number"
               name="course-number"
+              placeholder="ex: 101, 181, 375"
               required
             />
           </div>
           <div class="input-group">
-            <label for="crn">CRN</label>
-            <input type="crn" id="crn" name="crn" required />
+            <label for="crn">CRN (5 digit number)</label>
+            <input
+              type="crn"
+              id="crn"
+              name="crn"
+              placeholder="ex: 11111, 12345"
+              required />
           </div>
           <button type="submit" class="login-button">
             Create Course

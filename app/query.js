@@ -68,7 +68,7 @@ if (process.env.NODE_ENV == "production") {
   }
   
   
-  function addCourse(crn, num, dept, title, profID, code, req, res){
+  function addCourse(crn, dept, num, title, profID, code, req, res){
     pool.query(`SELECT * FROM courses WHERE crn = $1`, [crn]).then(result => {
       console.log(result.rows);
       if (result.rows.length !== 0){
