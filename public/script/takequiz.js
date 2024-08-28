@@ -185,7 +185,7 @@ async function endQuiz() {
   };
 
   try {
-    await fetch("/quiz/submit", {
+    await fetch("/submission/submit", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

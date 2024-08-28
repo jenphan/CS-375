@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   }
 
   try {
-    const response = await fetch(`/quiz/getQuizzesByCreator/${creator}`);
+    const response = await fetch(`/quiz/get-all-by-creator/${creator}`);
     const quizzes = await response.json();
 
     const table = document.getElementById("submissionsTable");
@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     for (const quiz of quizzes) {
       try {
-        const response = await fetch(`/quiz/getSubmissions/${quiz.quizid}`);
+        const response = await fetch(`/submission/get-all-by-quizid/${quiz.quizid}`);
         const submissions = await response.json();
 
         // Iterate over the submissions and store only the latest one for each student

@@ -15,11 +15,11 @@ button.disabled = false;
 
 window.addEventListener("load", async () => {
   try {
-    const quizResponse = await fetch(`/quiz/getquiz/${quizID}`);
+    const quizResponse = await fetch(`/quiz/get/${quizID}`);
     const quiz = await quizResponse.json();
 
     const submissionResponse = await fetch(
-      `/quiz/getSubmissionByID/${submitID}`,
+      `/submission/get-all-by-submitid/${submitID}`,
     );
     const submission = await submissionResponse.json();
 
@@ -86,7 +86,7 @@ submit.addEventListener("click", () => {
   });
 
   finalGradeDisplay.textContent = `Final Grade: ${finalScore}`;
-  fetch("/quiz/addGrade", {
+  fetch("/submission/add-grade", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -103,7 +103,7 @@ submit.addEventListener("click", () => {
       console.log(error);
     });
   console.log(commentInput.value);
-  fetch("/quiz/addComment", {
+  fetch("/submission/add-comment", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

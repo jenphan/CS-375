@@ -34,12 +34,12 @@ document.addEventListener("DOMContentLoaded", function () {
       alert(`Course display error: ${error.message}`);
     });
 
-  console.log("courses (outside function):" + courses);
+  //console.log("courses (outside function):" + courses);
 
   let courseList = document.getElementById("courseList");
 
   function displayCourses() {
-    console.log("courses (inside function):" + courses);
+    //console.log("courses (inside function):" + courses);
     courses.forEach((course) => {
       let courseBox = document.createElement("div");
       courseBox.className = "course-box";

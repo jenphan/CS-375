@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       `Deadline: ${new Date(quiz.deadline).toLocaleString()}`;
 
     // fetch the submissions details
-    const submissionsResponse = await fetch(`/quiz/get-submissions/${quizId}`);
+    const submissionsResponse = await fetch(`/submission/list-all/${quizId}`);
     const submissionResult = await submissionsResponse.json();
     const submissions = submissionResult.rows;
 

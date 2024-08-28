@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 const crypto = require("crypto"); // Import crypto for generating a random string
 const authRoutes = require("../routes/auth");
 const quizRoutes = require("../routes/quiz");
+const submissionRoutes = require("../routes/submission");
 const createCourse = require("../routes/course");
 const calendarRoutes = require("../routes/calendar");
 const gradeRoutes = require("../routes/grades");
@@ -52,6 +53,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 // Routes
 app.use("/auth", authRoutes);
 app.use("/quiz", ensureAuthenticated, quizRoutes); // Protecting quiz routes
+app.use("/submission", ensureAuthenticated, submissionRoutes); // Protecting submission routes
 app.use("/course", ensureAuthenticated, createCourse); // Protecting course routes
 app.use("/calendar", ensureAuthenticated, calendarRoutes); // Protecting calendar routes
 app.use("/grades", ensureAuthenticated, gradeRoutes);

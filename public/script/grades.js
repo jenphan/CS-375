@@ -53,12 +53,12 @@ document.addEventListener("DOMContentLoaded", function () {
             const quizID = this.getAttribute("data-quiz-id");
             const submitID = this.getAttribute("data-submit-id");
 
-            const quizResponse = await fetch(`/quiz/getquiz/${quizID}`);
+            const quizResponse = await fetch(`/quiz/get/${quizID}`);
             const quiz = await quizResponse.json();
             const quizData = quiz[0].quiz;
 
             const submissionResponse = await fetch(
-              `/quiz/getSubmissionByID/${submitID}`,
+              `/submission/get-all-by-submitid/${submitID}`,
             );
             const submission = await submissionResponse.json();
             const submissionData = submission[0].submission;

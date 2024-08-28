@@ -1,16 +1,39 @@
 document.addEventListener("DOMContentLoaded", function () {
+  try {
+    const userCookie = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("user="));
+    if (userCookie) {
+      const decodedCookie = decodeURIComponent(userCookie.split("=")[1]);
+      const userData = JSON.parse(decodedCookie);
+      userRole = userData.role;
+      userId = userData.userid;
+    } else {
+      console.log("Not logged in – could not extract role from cookie");
+    }
+  } catch (error) {
+    console.log("Error while extracting role from cookie", error);
+    return;
+  }
+
   const appointmentsContainer = document.getElementById("appointments");
   const deadlinesContainer = document.getElementById("deadlines");
 
   function addEvent(container, id, title, date, type) {
     const eventElement = document.createElement("div");
-    eventElement.addEventListener("click", () => {
-      window.location.href = `/html/takeQuiz.html?quizID=${id}`;
-    })
     eventElement.className = "calendar-event";
+    if (type === 'Deadline') {
+      eventElement.addEventListener("click", () => {
+        if (userRole === 'student') {
+          window.location.href = `/html/takeQuiz.html?quizID=${id}`;
+        } else if (userRole === 'professor') {
+          window.location.href = `/html/editQuiz.html?quizID=${id}`;
+        }
+      })
+    }
     eventElement.innerHTML = `
             <h3>${title}</h3>
-            <p>${type}: ${new Date(date).toLocaleString()}</p>
+            <p><strong>${type}:</strong> ${new Date(date).toLocaleString()}</p>
         `;
     container.appendChild(eventElement);
   }
@@ -22,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
         data.sort((a, b) => new Date(a.date) - new Date(b.date));
         data.forEach((event) => {
           addEvent(
-            appointmentsContainer,
+            appointmentsContainer,'',
             event.title,
             event.date,
             "Appointment",
@@ -36,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function () {
       console.error("Error fetching appointments:", error);
     });
 
-  fetch("/quiz/get-quizzes-calendar")
+  fetch("/quiz/get-all")
     .then((response) => response.json())
     .then((data) => {
       if (Array.isArray(data)) {

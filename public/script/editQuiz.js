@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const response = await fetch(`/quiz/edit/${quizID}`);
     if (response.ok) {
       const quiz = await response.json();
-      loadQuizData(quiz);
+      loadQuizData(quiz[0]);
     } else {
       console.log("Error while fetching quiz data", response.statusText);
     }
@@ -87,14 +87,14 @@ function populateQuestion(questionElement, questionData) {
   handleQuestionTypeChange(questionElement.querySelector(".question-type"));
 
   if (questionData.type === "short-answer") {
-    questionElement.querySelector(".max-characters").value =
+    questionElement.querySelector(".short-max-characters").value =
       questionData.maxCharacters || "";
     questionElement.querySelector(".correct-answer").value =
       questionData.correctAnswer || "";
   } else if (questionData.type === "long-answer") {
     questionElement.querySelector(".min-characters").value =
       questionData.minCharacters || "";
-    questionElement.querySelector(".max-characters").value =
+    questionElement.querySelector(".long-max-characters").value =
       questionData.maxCharacters || "";
   } else if (questionData.type === "true-false") {
     questionElement.querySelector(
@@ -105,7 +105,7 @@ function populateQuestion(questionElement, questionData) {
   ) {
     const numOfOptions = questionElement.querySelector(".num-of-options");
     numOfOptions.value = questionData.options.length;
-
+    
     updateCorrectOptions(numOfOptions);
 
     questionData.options.forEach((option, index) => {
@@ -208,7 +208,7 @@ async function createQuiz() {
   console.log(JSON.stringify(quizData));
 
   try {
-    const response = await fetch("/quiz/createquiz", {
+    const response = await fetch("/quiz/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -252,8 +252,10 @@ function updateCorrectOptions(input) {
   optionsContainer.innerHTML = "";
   answerCheckboxes.innerHTML = "";
   answerRadios.innerHTML = "";
-  answerDropdown.innerHTML = "";
-
+  if (answerDropdown) {
+    answerDropdown.innerHTML = "";
+  }
+  
   for (let i = 0; i < numberOfOptions; i++) {
     const option = document.createElement("div");
     option.innerHTML = `
@@ -275,11 +277,12 @@ function updateCorrectOptions(input) {
             <input type="radio" name="correct-answer-${questionCount}" class="answer-radio" value=${i}>
         `;
     answerRadios.appendChild(answerRadio);
-
-    const answerDropdownOption = document.createElement("option");
-    answerDropdownOption.value = i + 1;
-    answerDropdownOption.text = `Option ${i + 1}`;
-    answerDropdown.appendChild(answerDropdownOption);
+    if (answerDropdown) {
+      const answerDropdownOption = document.createElement("option");
+      answerDropdownOption.value = i + 1;
+      answerDropdownOption.text = `Option ${i + 1}`;
+      answerDropdown.appendChild(answerDropdownOption);
+    }
   }
 }
 

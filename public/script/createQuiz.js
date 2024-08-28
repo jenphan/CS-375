@@ -126,13 +126,13 @@ function createQuestionElement(index) {
         <div class="validation-settings" style="display: none">
             <div class="short-answer-validation" style="display: none">
                 <label>Max Characters:</label>
-                <input type="number" class="max-characters">
+                <input type="number" class="short-max-characters">
             </div>
             <div class="long-answer-validation" style="display: none">
                 <label>Min Characters:</label>
                 <input type="number" class="min-characters">
                 <label>Max Characters:</label>
-                <input type="number" class="max-characters">
+                <input type="number" class="long-max-characters">
             </div>
         </div>
         <div class="options-input" style="display: none">
@@ -149,7 +149,7 @@ function createQuestionElement(index) {
             </div>
             <div class="answer-checkboxes" style="display: none"></div>
             <div class="answer-radios" style="display: none"></div>
-            <div class="answer-dropdown" style="display: none"></div>
+            <div class="answer-dropdown" style="display: none"><select></select></div>
         </div>
         <button id="deleteQuestionButton" onclick="deleteQuestion(this)">Delete</button>
     </div>
@@ -316,7 +316,7 @@ async function createQuiz() {
   console.log(JSON.stringify(quizData));
 
   try {
-    const response = await fetch("/quiz/createquiz", {
+    const response = await fetch("/quiz/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -326,13 +326,6 @@ async function createQuiz() {
 
     if (response.ok) {
       console.log("Quiz successfully created!");
-      await fetch("/quiz/savequiz", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(quizData),
-      });
       document.getElementById("quizLink").style.display = "block";
     } else {
       console.log("Error creating quiz", response.statusText);
@@ -390,12 +383,12 @@ function createQuizData() {
 
     if (questionType === "short-answer") {
       questionData.maxCharacters =
-        question.querySelector(".max-characters").value || null;
+        question.querySelector(".short-max-characters").value || null;
     } else if (questionType === "long-answer") {
       questionData.minCharacters =
         question.querySelector(".min-characters").value || null;
       questionData.maxCharacters =
-        question.querySelector(".max-characters").value || null;
+        question.querySelector(".long-max-characters").value || null;
     }
 
     if (questionType === "short-answer") {

@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const response = await fetch("/quiz/get-quizzes");
+    const response = await fetch("/quiz/get-all-by-user");
     const quizzes = await response.json();
 
-    const submissionsResponse = await fetch("/quiz/get-submissions");
+    const submissionsResponse = await fetch("/submission/get-all-by-user");
     const submissions = await submissionsResponse.json();
 
     displayQuizzes(quizzes, submissions);
