@@ -10,7 +10,7 @@
   <body>
     <script>
       // Check if the user is logged in and redirect based on role
-      document.addEventListener("DOMContentLoaded", function() {
+      document.addEventListener("DOMContentLoaded", function () {
         fetch("/auth/check-session", {
           method: "GET",
           headers: {
@@ -21,12 +21,11 @@
           .then((data) => {
             if (data.loggedIn) {
               // Redirect based on user role
-              fetch("/auth/home")
-                .then((response) => {
-                  if (response.redirected) {
-                    window.location.href = response.url; // Redirect to the role-based page
-                  }
-                });
+              fetch("/auth/home").then((response) => {
+                if (response.redirected) {
+                  window.location.href = response.url; // Redirect to the role-based page
+                }
+              });
             }
           })
           .catch((error) => {
@@ -34,7 +33,7 @@
           });
       });
     </script>
-    
+
     <header>
       <a href="./auth/home" class="logo">Blueboard</a>
       <nav class="nav-bar">
@@ -52,7 +51,7 @@
             </b>
           </li>
           <li>
-            <button id="logout-button" style="display: none;">Logout</button>
+            <button id="logout-button" style="display: none">Logout</button>
           </li>
         </ul>
       </nav>
@@ -76,7 +75,9 @@
           <button type="submit" class="login-button">Login</button>
           or
           <a href="./html/register.html">
-            <button type="button" class="login-button">Create New Account</button>
+            <button type="button" class="login-button">
+              Create New Account
+            </button>
           </a>
         </form>
       </div>

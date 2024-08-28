@@ -8,14 +8,16 @@
     <link href="../styles/views.css" rel="stylesheet" type="text/css" />
     <link href="../styles/announcements.css" rel="stylesheet" type="text/css" />
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
-          // Check if the user is logged in by looking for a specific cookie
-          const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+      document.addEventListener("DOMContentLoaded", function () {
+        // Check if the user is logged in by looking for a specific cookie
+        const userCookie = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("user="));
 
-          // If the cookie is not found, redirect to the home page
-          if (!userCookie) {
-              window.location.href = "/";
-          }
+        // If the cookie is not found, redirect to the home page
+        if (!userCookie) {
+          window.location.href = "/";
+        }
       });
     </script>
   </head>
@@ -39,7 +41,7 @@
             </b>
           </li>
           <li>
-            <button id="logout-button" style="display: none;">Logout</button>
+            <button id="logout-button" style="display: none">Logout</button>
           </li>
         </ul>
       </nav>
@@ -47,7 +49,9 @@
 
     <div class="button-container">
       <a href="./addAnnouncement.html">
-        <button id="add-new-post" type="button" class="button">Add New Announcement</button>
+        <button id="add-new-post" type="button" class="button">
+          Add New Announcement
+        </button>
       </a>
     </div>
 
@@ -61,8 +65,10 @@
     </div>
 
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+      document.addEventListener("DOMContentLoaded", function () {
+        const userCookie = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("user="));
         if (userCookie && userCookie.includes("student")) {
           document.getElementById("add-new-post").style.display = "none";
         }

@@ -3,8 +3,7 @@ const router = express.Router();
 const path = require("path");
 const fs = require("fs");
 
-let {pool} = require('../app/query');
-
+let { pool } = require("../app/query");
 
 const quizFilePath = path.join(__dirname, "quiz.json");
 const submissionFilePath = path.join(__dirname, "submit.json");
@@ -64,12 +63,15 @@ router.get("/getquiz", (req, res) => {
 
 router.get("/getquiz/:quizID", (req, res) => {
   const quizID = req.params.quizID;
-  pool.query(`SELECT * FROM quizzes WHERE quizid = $1`, [quizID]).then(result =>{
-    return res.status(200).json(result.rows);
-  }).catch(error => {
-    console.error("Error querying database", err);
-    return res.status(500).json({ error: "Failed to fetch quiz data" });
-  });
+  pool
+    .query(`SELECT * FROM quizzes WHERE quizid = $1`, [quizID])
+    .then((result) => {
+      return res.status(200).json(result.rows);
+    })
+    .catch((error) => {
+      console.error("Error querying database", err);
+      return res.status(500).json({ error: "Failed to fetch quiz data" });
+    });
 });
 
 router.get("/get-quizzes-calendar", async (req, res) => {
@@ -129,7 +131,8 @@ router.get("/get-quizzes", async (req, res) => {
   const userID = req.session.user.userid;
 
   try {
-    const result = await pool.query(`
+    const result = await pool.query(
+      `
       SELECT
         q.quizID,
         q.title AS quizTitle,
@@ -142,7 +145,9 @@ router.get("/get-quizzes", async (req, res) => {
       JOIN courses c ON q.course = c.crn
       JOIN enrollment e ON e.courseCRN = c.crn
       WHERE e.usrid = $1
-    `, [userID]);
+    `,
+      [userID],
+    );
     res.status(200).json(result.rows);
   } catch (error) {
     console.error("Error while fetching quizzes", error);
@@ -150,20 +155,23 @@ router.get("/get-quizzes", async (req, res) => {
   }
 });
 
-router.get("/getQuizzesByCreator/:creator", (req, res) =>{
+router.get("/getQuizzesByCreator/:creator", (req, res) => {
   const creator = req.params.creator;
-  pool.query(`SELECT * FROM quizzes WHERE creator = $1`, [creator]).then(result =>{
-    return res.status(200).json(result.rows);
-  }).catch(error => {
-    console.error("Error querying database", error);
-    return res.status(500).json({ error: "Failed to fetch quiz data" });
-  });
-})
+  pool
+    .query(`SELECT * FROM quizzes WHERE creator = $1`, [creator])
+    .then((result) => {
+      return res.status(200).json(result.rows);
+    })
+    .catch((error) => {
+      console.error("Error querying database", error);
+      return res.status(500).json({ error: "Failed to fetch quiz data" });
+    });
+});
 
 router.get("/take/:quizID", async (req, res) => {
   const quizID = req.params.quizID;
   const userID = req.session.user.userid;
-  
+
   try {
     // check if user is registered for the course
     const courseCheck = await pool.query(
@@ -174,11 +182,13 @@ router.get("/take/:quizID", async (req, res) => {
         JOIN enrollment e ON e.courseCRN = c.crn
         WHERE q.quizID = $1 AND e.usrid = $2
       `,
-      [quizID, userID]
+      [quizID, userID],
     );
 
     if (courseCheck.rows.length === 0) {
-      return res.status(404).json({ message: "You are not registered for this course"});
+      return res
+        .status(404)
+        .json({ message: "You are not registered for this course" });
     }
 
     // check if user has already taken the quiz
@@ -188,11 +198,13 @@ router.get("/take/:quizID", async (req, res) => {
         FROM submissions
         WHERE quizVersion = $1 AND student = $2
       `,
-      [quizID, userID]
+      [quizID, userID],
     );
 
     if (submissionCheck.rows.length > 0) {
-      return res.status(404).json({ message: "You have already taken this quiz."});
+      return res
+        .status(404)
+        .json({ message: "You have already taken this quiz." });
     }
 
     const deadlineCheck = await pool.query(
@@ -201,12 +213,14 @@ router.get("/take/:quizID", async (req, res) => {
         FROM quizzes
         WHERE quizID = $1
       `,
-      [quizID]
+      [quizID],
     );
 
     const currentDate = new Date();
     if (deadlineCheck.rows[0].deadline < currentDate) {
-      return res.status(404).json({ message: "The quiz deadline has already passed."});
+      return res
+        .status(404)
+        .json({ message: "The quiz deadline has already passed." });
     }
 
     const result = await pool.query(
@@ -229,26 +243,30 @@ router.get("/take/:quizID", async (req, res) => {
   }
 });
 
-router.get("/getSubmissions/:quizID", async (req, res) =>{
+router.get("/getSubmissions/:quizID", async (req, res) => {
   const quizID = req.params.quizID;
-  pool.query(`SELECT * FROM submissions WHERE quizVersion = $1`, [quizID]).then(result =>{
-    return res.status(200).json(result.rows);
-  }).catch(error => {
-    console.error("Error querying database", err);
-    return res.status(500).json({ error: "Failed to fetch quiz data" });
-  });
-
+  pool
+    .query(`SELECT * FROM submissions WHERE quizVersion = $1`, [quizID])
+    .then((result) => {
+      return res.status(200).json(result.rows);
+    })
+    .catch((error) => {
+      console.error("Error querying database", err);
+      return res.status(500).json({ error: "Failed to fetch quiz data" });
+    });
 });
 
-router.get("/getSubmissionByID/:submitID", async (req, res) =>{
+router.get("/getSubmissionByID/:submitID", async (req, res) => {
   const submitID = req.params.submitID;
-  pool.query(`SELECT * FROM submissions WHERE submitid = $1`, [submitID]).then(result =>{
-    return res.status(200).json(result.rows);
-  }).catch(error => {
-    console.error("Error querying database", error);
-    return res.status(500).json({ error: "Failed to fetch quiz data" });
-  });
-
+  pool
+    .query(`SELECT * FROM submissions WHERE submitid = $1`, [submitID])
+    .then((result) => {
+      return res.status(200).json(result.rows);
+    })
+    .catch((error) => {
+      console.error("Error querying database", error);
+      return res.status(500).json({ error: "Failed to fetch quiz data" });
+    });
 });
 
 router.get("/edit/:quizID", async (req, res) => {
@@ -288,25 +306,28 @@ router.post("/edit/:quizID", async (req, res) => {
 
 router.get("/get-submissions", async (req, res) => {
   try {
-    if (!req.session.user || req.session.user.role !== 'student') {
+    if (!req.session.user || req.session.user.role !== "student") {
       return res.status(403).json({ message: "Unauthorized access" });
     }
-  
+
     // Retrieve the user's ID from the session
     const studentId = req.session.user.userid;
-  
-    const result = await pool.query(`
+
+    const result = await pool.query(
+      `
       SELECT s.quizVersion AS "quizID", s.student
       FROM submissions s
       WHERE s.student = $1
-    `, [studentId]);
-  
+    `,
+      [studentId],
+    );
+
     return res.status(200).json(result.rows);
   } catch (error) {
     console.log("Error while retrieving submissions:", error);
-    return res.status(500).json({ message: "Internal server error"});
+    return res.status(500).json({ message: "Internal server error" });
   }
-})
+});
 
 router.get("/get-submissions/:quizID", async (req, res) => {
   const quizID = req.params.quizID;
@@ -330,36 +351,43 @@ router.get("/get-submissions/:quizID", async (req, res) => {
 router.post("/addGrade", async (req, res) => {
   const { submitID: id, finalScore: grade } = req.body;
   try {
-    await pool.query(
-      "UPDATE submissions SET grade = $1 WHERE submitid = $2",
-      [grade, id]
-    );
-    return res.status(200).json({ message: "Grade was submitted successfully" });
+    await pool.query("UPDATE submissions SET grade = $1 WHERE submitid = $2", [
+      grade,
+      id,
+    ]);
+    return res
+      .status(200)
+      .json({ message: "Grade was submitted successfully" });
   } catch (error) {
     console.log("Error while submitting grade:", error);
     return res.status(500).json({ message: "Error while submitting grade" });
   }
 });
 
-router.get("/getUserByID/:userID", (req, res) =>{
+router.get("/getUserByID/:userID", (req, res) => {
   const userID = req.params.userID;
-  pool.query(`SELECT * FROM users WHERE usrid = $1`, [userID]).then(result =>{
-    return res.status(200).json(result.rows[0]);
-  }).catch(error => {
-    console.error("Error querying database", error);
-    return res.status(500).json({ error: "Failed to fetch quiz data" });
-  });
+  pool
+    .query(`SELECT * FROM users WHERE usrid = $1`, [userID])
+    .then((result) => {
+      return res.status(200).json(result.rows[0]);
+    })
+    .catch((error) => {
+      console.error("Error querying database", error);
+      return res.status(500).json({ error: "Failed to fetch quiz data" });
+    });
 });
 
-router.post("/addComment", async(req, res) =>{
-  const {submitID: id, comment: words} = req.body;
-  try{
+router.post("/addComment", async (req, res) => {
+  const { submitID: id, comment: words } = req.body;
+  try {
     await pool.query(
       "UPDATE submissions SET comment = $1 WHERE submitid = $2",
-      [words, id]
+      [words, id],
     );
-    return res.status(200).json({ message: "Comment was submitted successfully"});
-  }catch (error) {
+    return res
+      .status(200)
+      .json({ message: "Comment was submitted successfully" });
+  } catch (error) {
     console.log("Error while submitting grade:", error);
     return res.status(500).json({ message: "Error while submitting grade" });
   }

@@ -1,18 +1,20 @@
 const url = new URLSearchParams(window.location.search);
-const quizID = url.get('quizID');
+const quizID = url.get("quizID");
 let studentId;
 
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+    const userCookie = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("user="));
     if (userCookie) {
-      const decodedCookie = decodeURIComponent(userCookie.split('=')[1]);
+      const decodedCookie = decodeURIComponent(userCookie.split("=")[1]);
       studentId = JSON.parse(decodedCookie).userid;
     } else {
-      console.log("Not logged in – could not extract user id from cookie")
+      console.log("Not logged in – could not extract user id from cookie");
     }
   } catch (error) {
-    console.log("Error while extracting user id from cookie", error)
+    console.log("Error while extracting user id from cookie", error);
     return;
   }
 
@@ -93,12 +95,12 @@ function generateQuizForm(quiz, quizQuestions) {
   const quizSubmitButton = document.createElement("button");
   quizSubmitButton.innerText = "Submit Quiz";
   quizSubmitButton.setAttribute("id", "submitQuizButton");
-  quizSubmitButton.className = "button"
+  quizSubmitButton.className = "button";
   quizForm.appendChild(quizSubmitButton);
 
-  quizSubmitButton.addEventListener("click", function(event) {
+  quizSubmitButton.addEventListener("click", function (event) {
     event.preventDefault();
-    endQuiz()
+    endQuiz();
   });
 }
 
@@ -109,9 +111,9 @@ function tickClock() {
   timerElement.textContent = convertSeconds(timer);
 
   if (timer <= 60) {
-    timerElement.classList.add('timer-red');
+    timerElement.classList.add("timer-red");
   } else {
-    timerElement.classList.remove('timer-red');
+    timerElement.classList.remove("timer-red");
   }
 
   const warningDiv = document.getElementById("timer-warning");
@@ -124,7 +126,7 @@ function tickClock() {
   } else if (timer === 60 && warningDisplayed !== 60) {
     displayWarning("1 minute remaining!");
     warningDisplayed = 60;
-  } 
+  }
 
   if (timer <= 0) {
     clearInterval(timerId);
@@ -135,12 +137,12 @@ function tickClock() {
 function displayWarning(message) {
   const warningDiv = document.getElementById("timer-warning");
   warningDiv.textContent = message;
-  warningDiv.style.display = 'block';
+  warningDiv.style.display = "block";
 
   warningDiv.classList.add("blink");
 
   setTimeout(() => {
-    warningDiv.classList.remove('blink');
+    warningDiv.classList.remove("blink");
   }, 5000);
 }
 
@@ -176,8 +178,7 @@ async function endQuiz() {
   }
 
   const warningDiv = document.getElementById("timer-warning");
-  warningDiv.style.display = 'none';
-
+  warningDiv.style.display = "none";
 
   const modal = document.getElementById("grade-modal");
   const modalText = document.getElementById("modal-text");
@@ -192,22 +193,26 @@ async function endQuiz() {
     window.location.href = "../html/grades.html";
   });
 
-  modalText.innerHTML =`<h1>Quiz Submitted!</h1>`;
+  modalText.innerHTML = `<h1>Quiz Submitted!</h1>`;
   modalText.innerHTML += `<p>Your quiz has been submitted!</p><br>`;
-  modal.style.display= "block";
+  modal.style.display = "block";
 }
 
 function convertSeconds(seconds) {
-  const hours = Math.floor(seconds/3600);
+  const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
   const remainingSeconds = seconds % 60;
 
-  const hourText = hours > 0 ? `${hours} hour${hours > 1 ? 's' : ''}` : '';
-  const minuteText = minutes > 0 ? `${minutes} minute${minutes > 1 ? 's' : ''}` : '';
-  const secondText = remainingSeconds > 0 ? `${remainingSeconds} second${remainingSeconds > 1 ? 's' : ''}` : '';
+  const hourText = hours > 0 ? `${hours} hour${hours > 1 ? "s" : ""}` : "";
+  const minuteText =
+    minutes > 0 ? `${minutes} minute${minutes > 1 ? "s" : ""}` : "";
+  const secondText =
+    remainingSeconds > 0
+      ? `${remainingSeconds} second${remainingSeconds > 1 ? "s" : ""}`
+      : "";
 
   if (hours > 0) {
-    return `${hourText} ${minuteText || '0 minutes'} ${secondText}`;
+    return `${hourText} ${minuteText || "0 minutes"} ${secondText}`;
   } else if (!hours && minutes > 0) {
     return `${minuteText} ${secondText}`;
   }

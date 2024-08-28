@@ -8,14 +8,16 @@
     <link href="../styles/views.css" rel="stylesheet" type="text/css" />
     <link href="../styles/quiz.css" rel="stylesheet" type="text/css" />
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
-          // Check if the user is logged in by looking for a specific cookie
-          const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+      document.addEventListener("DOMContentLoaded", function () {
+        // Check if the user is logged in by looking for a specific cookie
+        const userCookie = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("user="));
 
-          // If the cookie is not found, redirect to the home page
-          if (!userCookie) {
-              window.location.href = "/";
-          }
+        // If the cookie is not found, redirect to the home page
+        if (!userCookie) {
+          window.location.href = "/";
+        }
       });
     </script>
   </head>
@@ -39,12 +41,12 @@
             </b>
           </li>
           <li>
-            <button id="logout-button" style="display: none;">Logout</button>
+            <button id="logout-button" style="display: none">Logout</button>
           </li>
         </ul>
       </nav>
     </header>
-    
+
     <div id="quizFormContainer">
       <form id="quizForm"></form>
     </div>
@@ -54,7 +56,9 @@
     <div id="grade-modal" class="modal">
       <div class="modal-content">
         <span id="modal-text"></span>
-        <button class="close-button" id="return-button">Return to Quizzes</button>
+        <button class="close-button" id="return-button">
+          Return to Quizzes
+        </button>
         <button class="close-button" id="view-button">View My Grades</button>
       </div>
     </div>

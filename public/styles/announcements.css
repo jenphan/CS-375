@@ -1,44 +1,44 @@
 /* Page container styles */
 .page-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    margin-top: 5%;
-    align-items: center;
-  }
-  
-  /* Announcement section styles */
-  .announcement-section {
-    width: 100%;
-    background-color: rgba(255, 255, 255, 0.5);
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .announcement-section h2 {
-    margin-bottom: 20px;
-    font-size: 28px;
-    font-weight: bold;
-    text-align: center;
-  }
-  
-  /* Announcement list styles */
-  #announcementList {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  #announcementList li {
-    margin-bottom: 15px;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-    font-size: 18px;
-  }
-  
-  #announcementList li:last-child {
-    border-bottom: none;
-  }
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 5%;
+  align-items: center;
+}
+
+/* Announcement section styles */
+.announcement-section {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.5);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.announcement-section h2 {
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Announcement list styles */
+#announcementList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#announcementList li {
+  margin-bottom: 15px;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  font-size: 18px;
+}
+
+#announcementList li:last-child {
+  border-bottom: none;
+}

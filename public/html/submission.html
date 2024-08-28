@@ -7,14 +7,16 @@
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
     <link href="../styles/views.css" rel="stylesheet" type="text/css" />
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
-          // Check if the user is logged in by looking for a specific cookie
-          const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+      document.addEventListener("DOMContentLoaded", function () {
+        // Check if the user is logged in by looking for a specific cookie
+        const userCookie = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("user="));
 
-          // If the cookie is not found, redirect to the home page
-          if (!userCookie) {
-              window.location.href = "/";
-          }
+        // If the cookie is not found, redirect to the home page
+        if (!userCookie) {
+          window.location.href = "/";
+        }
       });
     </script>
   </head>
@@ -38,12 +40,12 @@
             </b>
           </li>
           <li>
-            <button id="logout-button" style="display: none;">Logout</button>
+            <button id="logout-button" style="display: none">Logout</button>
           </li>
         </ul>
       </nav>
     </header>
-    
+
     <div class="main-content">
       <div class="banner">
         <h1>Submissions</h1>

@@ -7,35 +7,39 @@
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
     <link href="../styles/views.css" rel="stylesheet" type="text/css" />
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
-          // Check if the user is logged in by looking for a specific cookie
-          const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+      document.addEventListener("DOMContentLoaded", function () {
+        // Check if the user is logged in by looking for a specific cookie
+        const userCookie = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("user="));
 
-          // If the cookie is not found, redirect to the home page
-          if (!userCookie) {
-              window.location.href = "/";
-          }
+        // If the cookie is not found, redirect to the home page
+        if (!userCookie) {
+          window.location.href = "/";
+        }
       });
     </script>
   </head>
   <body>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Retrieve and log the cookie via js
-            console.log(document.cookie);
-            const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
-            console.log('User Cookie:', userCookie);
+      document.addEventListener("DOMContentLoaded", function () {
+        // Retrieve and log the cookie via js
+        console.log(document.cookie);
+        const userCookie = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("user="));
+        console.log("User Cookie:", userCookie);
 
-            if (userCookie) {
-              const user = JSON.parse(decodeURIComponent(userCookie.split('=')[1]));
-              if (user.role !== 'student') {
-                window.location.href = "/";
-              }
-            // If user cookie is missing, redirect to the home page
-            } else {
-              window.location.href = "/"; // Redirect to login page if not logged in
-            }
-        });
+        if (userCookie) {
+          const user = JSON.parse(decodeURIComponent(userCookie.split("=")[1]));
+          if (user.role !== "student") {
+            window.location.href = "/";
+          }
+          // If user cookie is missing, redirect to the home page
+        } else {
+          window.location.href = "/"; // Redirect to login page if not logged in
+        }
+      });
     </script>
     <header>
       <a href="/auth/home" class="logo">Blueboard</a>
@@ -56,14 +60,16 @@
             </b>
           </li>
           <li>
-            <button id="logout-button" style="display: none;">Logout</button>
+            <button id="logout-button" style="display: none">Logout</button>
           </li>
         </ul>
       </nav>
     </header>
-    
+
     <div class="button-container">
-      <button class="button" id="add-course-btn" onclick="showInputBox()">Add New Course</button>
+      <button class="button" id="add-course-btn" onclick="showInputBox()">
+        Add New Course
+      </button>
       <a href="./scheduleAppointment.html">
         <button type="button" class="button">Schedule Appointment</button>
       </a>
@@ -74,8 +80,14 @@
       <div id="courseList">
         <!-- Courses will be listed here -->
       </div>
-      <div id="addCourse" class="input-container" style="display: none;">
-        <input type="text" id="courseCode" class="input-box" placeholder="Enter Course Code" required />
+      <div id="addCourse" class="input-container" style="display: none">
+        <input
+          type="text"
+          id="courseCode"
+          class="input-box"
+          placeholder="Enter Course Code"
+          required
+        />
         <button type="submit" id="enrollSubmit" class="button">Submit</button>
       </div>
     </div>

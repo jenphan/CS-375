@@ -7,14 +7,16 @@
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
     <link href="../styles/quiz.css" rel="stylesheet" type="text/css" />
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
-          // Check if the user is logged in by looking for a specific cookie
-          const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+      document.addEventListener("DOMContentLoaded", function () {
+        // Check if the user is logged in by looking for a specific cookie
+        const userCookie = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("user="));
 
-          // If the cookie is not found, redirect to the home page
-          if (!userCookie) {
-              window.location.href = "/";
-          }
+        // If the cookie is not found, redirect to the home page
+        if (!userCookie) {
+          window.location.href = "/";
+        }
       });
     </script>
     <script>
@@ -42,7 +44,7 @@
             </b>
           </li>
           <li>
-            <button id="logout-button" style="display: none;">Logout</button>
+            <button id="logout-button" style="display: none">Logout</button>
           </li>
         </ul>
       </nav>
@@ -90,18 +92,18 @@
       <div id="questionsContainer"></div>
       <button id="addQuestionButton" class="small-button">Add Question</button>
       <button id="updateQuizButton" class="small-button">Update Quiz</button>
-        <div id="quizLink" style="display: none">
-          <p class="edit-message">
-            Quiz edited successfully!
-            <a href="./quizzes.html">Return to Quizzes</a>
-          </p>
-        </div>
+      <div id="quizLink" style="display: none">
+        <p class="edit-message">
+          Quiz edited successfully!
+          <a href="./quizzes.html">Return to Quizzes</a>
+        </p>
       </div>
+    </div>
     <script src="../script/app.js"></script>
     <script src="../script/createQuiz.js"></script>
     <script src="../script/editQuiz.js"></script>
     <script src="../script/dark-mode.js"></script>
     <script src="../script/logout.js"></script>
-    <script src="../script/navbar.js"></script> 
+    <script src="../script/navbar.js"></script>
   </body>
 </html>

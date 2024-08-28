@@ -14,14 +14,16 @@ CRN: 12345
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
     <link href="../styles/register.css" rel="stylesheet" type="text/css" />
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
-          // Check if the user is logged in by looking for a specific cookie
-          const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+      document.addEventListener("DOMContentLoaded", function () {
+        // Check if the user is logged in by looking for a specific cookie
+        const userCookie = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("user="));
 
-          // If the cookie is not found, redirect to the home page
-          if (!userCookie) {
-              window.location.href = "/";
-          }
+        // If the cookie is not found, redirect to the home page
+        if (!userCookie) {
+          window.location.href = "/";
+        }
       });
     </script>
   </head>
@@ -45,7 +47,7 @@ CRN: 12345
             </b>
           </li>
           <li>
-            <button id="logout-button" style="display: none;">Logout</button>
+            <button id="logout-button" style="display: none">Logout</button>
           </li>
         </ul>
       </nav>
@@ -62,7 +64,8 @@ CRN: 12345
               id="course-name"
               name="course-name"
               placeholder="ex: Web Development"
-              required />
+              required
+            />
           </div>
           <div class="input-group">
             <label for="subject-code">Subject Code (1 - 6 characters)</label>
@@ -91,11 +94,10 @@ CRN: 12345
               id="crn"
               name="crn"
               placeholder="ex: 11111, 12345"
-              required />
+              required
+            />
           </div>
-          <button type="submit" class="login-button">
-            Create Course
-          </button>
+          <button type="submit" class="login-button">Create Course</button>
         </form>
       </div>
     </center>

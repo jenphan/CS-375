@@ -8,14 +8,16 @@
     <link href="../styles/views.css" rel="stylesheet" type="text/css" />
     <link href="../styles/cards.css" rel="stylesheet" type="text/css" />
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
-          // Check if the user is logged in by looking for a specific cookie
-          const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+      document.addEventListener("DOMContentLoaded", function () {
+        // Check if the user is logged in by looking for a specific cookie
+        const userCookie = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("user="));
 
-          // If the cookie is not found, redirect to the home page
-          if (!userCookie) {
-              window.location.href = "/";
-          }
+        // If the cookie is not found, redirect to the home page
+        if (!userCookie) {
+          window.location.href = "/";
+        }
       });
     </script>
   </head>
@@ -39,7 +41,7 @@
             </b>
           </li>
           <li>
-            <button id="logout-button" style="display: none;">Logout</button>
+            <button id="logout-button" style="display: none">Logout</button>
           </li>
         </ul>
       </nav>
@@ -47,10 +49,14 @@
 
     <div class="button-container">
       <a href="./createQuiz.html">
-        <button id="add-new-post" type="button" class="button">Create New Quiz</button>
+        <button id="add-new-post" type="button" class="button">
+          Create New Quiz
+        </button>
       </a>
       <a href="./submission.html">
-        <button id="see-submissions" type="button" class="button">See Submissions</button>
+        <button id="see-submissions" type="button" class="button">
+          See Submissions
+        </button>
       </a>
     </div>
 

@@ -24,7 +24,7 @@ document
       },
       body: JSON.stringify(data),
     })
-      .then(response => {
+      .then((response) => {
         if (response.redirected) {
           // If the server redirects, follow the redirect
           window.location.href = response.url;
@@ -36,9 +36,9 @@ document
         if (data.message === "Login successful") {
           alert("Login successful");
           console.log("Success:", data);
-          
+
           const role = data.user.role;
-        
+
           if (role === "professor") {
             window.location.href = "../html/professor.html";
           } else if (role === "student") {

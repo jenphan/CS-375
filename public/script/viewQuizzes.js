@@ -15,19 +15,20 @@ let userRole;
 
 // Creates and appends quiz cards to the quiz container
 function displayQuizzes(quizzes, submissions) {
-  
   try {
-    const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+    const userCookie = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("user="));
     if (userCookie) {
-      const decodedCookie = decodeURIComponent(userCookie.split('=')[1]);
-      const userData = JSON.parse(decodedCookie)
+      const decodedCookie = decodeURIComponent(userCookie.split("=")[1]);
+      const userData = JSON.parse(decodedCookie);
       userRole = userData.role;
       userId = userData.userid;
     } else {
-      console.log("Not logged in – could not extract role from cookie")
+      console.log("Not logged in – could not extract role from cookie");
     }
   } catch (error) {
-    console.log("Error while extracting role from cookie", error)
+    console.log("Error while extracting role from cookie", error);
     return;
   }
 
@@ -35,11 +36,14 @@ function displayQuizzes(quizzes, submissions) {
   const now = new Date();
   let upcomingQuizzes;
 
-  if (userRole === 'student') {
-    
-    const submittedQuizIds = submissions.filter(sub => sub.student === userId).map(sub => sub.quizID);
-    upcomingQuizzes = quizzes.filter(quiz => 
-      new Date(quiz.deadline) > now && !submittedQuizIds.includes(quiz.quizid)
+  if (userRole === "student") {
+    const submittedQuizIds = submissions
+      .filter((sub) => sub.student === userId)
+      .map((sub) => sub.quizID);
+    upcomingQuizzes = quizzes.filter(
+      (quiz) =>
+        new Date(quiz.deadline) > now &&
+        !submittedQuizIds.includes(quiz.quizid),
     );
   } else {
     upcomingQuizzes = quizzes;
@@ -73,7 +77,9 @@ function displayQuizzes(quizzes, submissions) {
     card.appendChild(deadline);
 
     // Only show Edit and Submissions buttons if the user is not a student
-    const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+    const userCookie = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("user="));
     if (userCookie.includes("professor")) {
       const editButton = document.createElement("button");
       editButton.textContent = "Edit";
@@ -101,12 +107,12 @@ function displayQuizzes(quizzes, submissions) {
 
   if (upcomingQuizzes.length === 0) {
     const emptyText = document.createElement("p");
-    if (userRole === 'student') {
+    if (userRole === "student") {
       emptyText.innerText = "You have no upcoming quizzes at the moment!";
-    } else if (userRole === 'professor') {
+    } else if (userRole === "professor") {
       emptyText.innerText = "You have not created any quizzes for this course!";
     }
-    
+
     container.appendChild(emptyText);
   }
 }

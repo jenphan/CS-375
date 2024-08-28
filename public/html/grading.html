@@ -8,14 +8,16 @@
     <link href="../styles/views.css" rel="stylesheet" type="text/css" />
     <link href="../styles/grade.css" rel="stylesheet" type="text/css" />
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
-          // Check if the user is logged in by looking for a specific cookie
-          const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+      document.addEventListener("DOMContentLoaded", function () {
+        // Check if the user is logged in by looking for a specific cookie
+        const userCookie = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("user="));
 
-          // If the cookie is not found, redirect to the home page
-          if (!userCookie) {
-              window.location.href = "/";
-          }
+        // If the cookie is not found, redirect to the home page
+        if (!userCookie) {
+          window.location.href = "/";
+        }
       });
     </script>
   </head>
@@ -39,20 +41,18 @@
             </b>
           </li>
           <li>
-            <button id="logout-button" style="display: none;">Logout</button>
+            <button id="logout-button" style="display: none">Logout</button>
           </li>
         </ul>
       </nav>
     </header>
-    
+
     <div class="button-container">
-      <button type="button" id="grade" class="button">
-        AutoGrade
-      </button>
+      <button type="button" id="grade" class="button">AutoGrade</button>
     </div>
-    <br>
-    <br>
-    <br>
+    <br />
+    <br />
+    <br />
     <form id="gradingForm">
       <!-- Questions will be dynamically inserted here -->
     </form>

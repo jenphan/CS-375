@@ -39,6 +39,9 @@ function checkUserLoggedIn() {
 }
 
 // Only run the session check on protected pages (like professor.html or student.html)
-if (window.location.pathname.includes("professor.html") || window.location.pathname.includes("student.html")) {
+if (
+  window.location.pathname.includes("professor.html") ||
+  window.location.pathname.includes("student.html")
+) {
   checkUserLoggedIn();
 }

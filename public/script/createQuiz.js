@@ -1,15 +1,17 @@
 let professorId;
 document.addEventListener("DOMContentLoaded", async () => {
   try {
-    const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+    const userCookie = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("user="));
     if (userCookie) {
-      const decodedCookie = decodeURIComponent(userCookie.split('=')[1]);
+      const decodedCookie = decodeURIComponent(userCookie.split("=")[1]);
       professorId = JSON.parse(decodedCookie).userid;
     } else {
-      console.log("Not logged in – could not extract user id from cookie")
+      console.log("Not logged in – could not extract user id from cookie");
     }
   } catch (error) {
-    console.log("Error while extracting user id from cookie", error)
+    console.log("Error while extracting user id from cookie", error);
   }
 
   const questionContainer = document.getElementById("questionsContainer");
@@ -43,8 +45,8 @@ const validation = {
   "short-answer": validateShortAnswer,
   "multiple-choice": validateMultipleChoice,
   "true-false": validateTrueFalse,
-  "checkboxes": validateCheckboxes,
-  "dropdown": validateDropdown,
+  checkboxes: validateCheckboxes,
+  dropdown: validateDropdown,
 };
 
 // store dragged element's reference and index to set up drag-and-drop
@@ -169,8 +171,9 @@ function renumberQuestions() {
   questions.forEach((question) => {
     question.dataset.index = newIndex;
     const label = question.querySelector("label");
-    if (label) label.innerHTML = `Question ${newIndex}<span style='color: red;'>*</span>`;
-    
+    if (label)
+      label.innerHTML = `Question ${newIndex}<span style='color: red;'>*</span>`;
+
     updateNames(question, newIndex);
     newIndex++;
   });
@@ -195,8 +198,8 @@ function handleQuestionTypeChange(selectedElement) {
     "long-answer": ".long-answer-validation",
     "true-false": ".true-false-options",
     "multiple-choice": ".options-input",
-    "checkboxes": ".options-input",
-    "dropdown": ".options-input",
+    checkboxes: ".options-input",
+    dropdown: ".options-input",
     "file-upload": ".answer-input",
   };
 
@@ -302,7 +305,9 @@ function updateQuizOptions(input) {
     const optionElement = document.createElement("option");
     optionElement.value = i + 1;
     optionElement.text = `Option ${i + 1}`;
-    questionElement.querySelector(".answer-dropdown select").appendChild(optionElement);
+    questionElement
+      .querySelector(".answer-dropdown select")
+      .appendChild(optionElement);
   }
 }
 

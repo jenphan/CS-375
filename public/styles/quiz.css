@@ -1,13 +1,13 @@
 :root {
   --text-color: #765742;
   --primary-color: #c6926e;
-  --secondary-color: #c6926e; 
+  --secondary-color: #c6926e;
 }
 
 .dark-mode {
   --text-color: #ffffff;
   --primary-color: #093384;
-  --secondary-color: #000056; 
+  --secondary-color: #000056;
 }
 
 #quizForm {
@@ -74,9 +74,8 @@ h1 {
 }
 
 #deleteQuestionButton:hover {
-  background-color: #7F0707;
+  background-color: #7f0707;
 }
-
 
 .question {
   margin-bottom: 20px;
@@ -118,9 +117,15 @@ h1 {
 }
 
 @keyframes blink {
-  0% { opacity: 1; }
-  50% { opacity: 0; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 .blink {

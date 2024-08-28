@@ -3,7 +3,7 @@ const router = express.Router();
 const { Pool } = require("pg");
 const fs = require("fs");
 
-let {pool} = require("../app/query");
+let { pool } = require("../app/query");
 
 router.post("/appointments", async (req, res) => {
   try {

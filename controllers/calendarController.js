@@ -2,7 +2,7 @@ const { Pool } = require("pg");
 const fs = require("fs");
 
 // Load environment configuration
-let {pool} = require("../app/query");
+let { pool } = require("../app/query");
 
 const addAppointment = async (title, date) => {
   const query = "INSERT INTO appointments (title, date) VALUES ($1, $2)";

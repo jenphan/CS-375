@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const { pool } = require('../app/query');
+const { pool } = require("../app/query");
 
 router.get("/", async (req, res) => {
   try {
     // Ensure the user is logged in and is a student
-    if (!req.session.user || req.session.user.role !== 'student') {
+    if (!req.session.user || req.session.user.role !== "student") {
       return res.status(403).json({ message: "Unauthorized access" });
     }
 
@@ -13,7 +13,8 @@ router.get("/", async (req, res) => {
     const studentId = req.session.user.userid;
 
     // Query to get the grades and total score for each course, sorted by course title and submission date
-    const result = await pool.query(`
+    const result = await pool.query(
+      `
         SELECT 
             c.title AS "courseTitle", 
             q.title AS "quizTitle", 
@@ -29,7 +30,9 @@ router.get("/", async (req, res) => {
         WHERE 
             s.student = $1
         ORDER BY c.title, s.submissionDate DESC
-        `, [studentId]);
+        `,
+      [studentId],
+    );
     // If no grades found
     if (result.rows.length === 0) {
       return res.status(404).json({ message: "No grades found" });

@@ -7,14 +7,16 @@
     <link href="../styles/style.css" rel="stylesheet" type="text/css" />
     <link href="../styles/views.css" rel="stylesheet" type="text/css" />
     <script>
-      document.addEventListener("DOMContentLoaded", function() {
-          // Check if the user is logged in by looking for a specific cookie
-          const userCookie = document.cookie.split('; ').find(row => row.startsWith('user='));
+      document.addEventListener("DOMContentLoaded", function () {
+        // Check if the user is logged in by looking for a specific cookie
+        const userCookie = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("user="));
 
-          // If the cookie is not found, redirect to the home page
-          if (!userCookie) {
-              window.location.href = "/";
-          }
+        // If the cookie is not found, redirect to the home page
+        if (!userCookie) {
+          window.location.href = "/";
+        }
       });
     </script>
   </head>
@@ -38,47 +40,47 @@
             </b>
           </li>
           <li>
-            <button id="logout-button" style="display: none;">Logout</button>
+            <button id="logout-button" style="display: none">Logout</button>
           </li>
         </ul>
       </nav>
     </header>
 
     <div class="main-content">
-        <div class="banner">
-            <h1>Grades</h1>
-            <p>Track your performance</p>
-        </div>
+      <div class="banner">
+        <h1>Grades</h1>
+        <p>Track your performance</p>
+      </div>
 
-        <div class="grades-container">
-            <table>
-                <thead>
-                  <tr>
-                    <th>Course Title</th>
-                    <th>Quiz Title</th>
-                    <th>Grade</th>
-                    <th>Submission Date</th>
-                    <th>Total Score</th>
-                  </tr>
-                </thead>
-                <tbody id="grades-body">
-                  <!-- Rows for grades -->
-                </tbody>
-              </table>                       
-        </div>
+      <div class="grades-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Course Title</th>
+              <th>Quiz Title</th>
+              <th>Grade</th>
+              <th>Submission Date</th>
+              <th>Total Score</th>
+            </tr>
+          </thead>
+          <tbody id="grades-body">
+            <!-- Rows for grades -->
+          </tbody>
+        </table>
+      </div>
 
-        <div id="grade-modal" class="modal">
-          <div class="modal-content">
-            <span id="modal-text"></span>
-            <button class="close-button" id="close-button">Close</button>
-          </div>
+      <div id="grade-modal" class="modal">
+        <div class="modal-content">
+          <span id="modal-text"></span>
+          <button class="close-button" id="close-button">Close</button>
         </div>
+      </div>
     </div>
 
     <script src="../script/app.js"></script>
     <script src="../script/dark-mode.js"></script>
     <script src="../script/logout.js"></script>
     <script src="../script/grades.js"></script>
-    <script src="../script/navbar.js"></script> 
+    <script src="../script/navbar.js"></script>
   </body>
 </html>

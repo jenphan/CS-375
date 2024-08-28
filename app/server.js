@@ -12,8 +12,7 @@ const createCourse = require("../routes/course");
 const calendarRoutes = require("../routes/calendar");
 const gradeRoutes = require("../routes/grades");
 
-const ensureAuthenticated = require('../middleware/authMiddleware'); // Import the auth middleware
-
+const ensureAuthenticated = require("../middleware/authMiddleware"); // Import the auth middleware
 
 let app = express();
 let port = 3000;
@@ -21,11 +20,10 @@ let hostname;
 
 // fly.io sets NODE_ENV to production automatically, otherwise it's unset when running locally
 if (process.env.NODE_ENV == "production") {
-	hostname = "0.0.0.0";
+  hostname = "0.0.0.0";
 } else {
-	hostname = "localhost";
+  hostname = "localhost";
 }
-
 
 // Generate a random secret key
 const secretKey = crypto.randomBytes(64).toString("hex");
@@ -49,7 +47,7 @@ app.get("/", (req, res) => {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, "../public")));
 
 // Routes
 app.use("/auth", authRoutes);

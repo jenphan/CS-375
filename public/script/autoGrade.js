@@ -1,8 +1,8 @@
 let button = document.getElementById("grade");
 let submit = document.getElementById("submitGrades");
-let totalGradeDisplay = document.getElementById("autoGrade"); 
-let finalGradeDisplay = document.getElementById("finalGrade"); 
-let commentInput = document.getElementById("comment"); 
+let totalGradeDisplay = document.getElementById("autoGrade");
+let finalGradeDisplay = document.getElementById("finalGrade");
+let commentInput = document.getElementById("comment");
 
 const url = new URLSearchParams(window.location.search);
 const quizID = url.get("quizID");
@@ -18,11 +18,17 @@ window.addEventListener("load", async () => {
     const quizResponse = await fetch(`/quiz/getquiz/${quizID}`);
     const quiz = await quizResponse.json();
 
-    const submissionResponse = await fetch(`/quiz/getSubmissionByID/${submitID}`);
+    const submissionResponse = await fetch(
+      `/quiz/getSubmissionByID/${submitID}`,
+    );
     const submission = await submissionResponse.json();
 
     quiz[0].quiz.forEach((question, index) => {
-      createGradingForm(question, submission[0].submission[`question-${index}`], index);
+      createGradingForm(
+        question,
+        submission[0].submission[`question-${index}`],
+        index,
+      );
     });
   } catch (error) {
     console.error("Error fetching quiz or submission data:", error);
@@ -85,33 +91,34 @@ submit.addEventListener("click", () => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ submitID: submitID, finalScore: finalScore })
+    body: JSON.stringify({ submitID: submitID, finalScore: finalScore }),
   })
-  .then(result => {
-    return result.json();
-  })
-  .then(data => {
-    console.log(data);
-  })
-  .catch(error => {
-    console.log(error);
-  });
+    .then((result) => {
+      return result.json();
+    })
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
   console.log(commentInput.value);
   fetch("/quiz/addComment", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({submitID: submitID, comment: commentInput.value})
-  }).then(result => {
-    return result.json();
+    body: JSON.stringify({ submitID: submitID, comment: commentInput.value }),
   })
-  .then(data => {
-    console.log(data);
-  })
-  .catch(error => {
-    console.log(error);
-  });
+    .then((result) => {
+      return result.json();
+    })
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 });
 
 function createGradingForm(question, response, index) {
