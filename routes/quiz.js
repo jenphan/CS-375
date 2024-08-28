@@ -12,7 +12,8 @@ router.get("/get-all-by-creator/:creator", quizController.getQuizzesByCreator);
 
 router.get("/take/:quizID", quizController.takeQuiz);
 
-router.route("/edit/:quizID")
+router
+  .route("/edit/:quizID")
   .get(quizController.getQuizByID)
   .post(quizController.updateQuiz);
 

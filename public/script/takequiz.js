@@ -43,7 +43,7 @@ let timerElement;
 function confirmStartQuiz(quiz, quizInfo) {
   const modal = document.getElementById("confirm-modal");
   const modalText = document.getElementById("confirm-modal-text");
-  modalText.innerHTML += `<h1>Start Quiz?</h1>`
+  modalText.innerHTML += `<h1>Start Quiz?</h1>`;
   modalText.innerHTML += `<p>You are about to start the <strong>${quiz.quiztitle}</strong> quiz.<br>You will have <strong>${convertSeconds(quiz.timer)}</strong> to complete ${quizInfo.length} question(s).</p><br>`;
   modal.style.display = "block";
 

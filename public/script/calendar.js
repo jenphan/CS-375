@@ -22,14 +22,14 @@ document.addEventListener("DOMContentLoaded", function () {
   function addEvent(container, id, title, date, type) {
     const eventElement = document.createElement("div");
     eventElement.className = "calendar-event";
-    if (type === 'Deadline') {
+    if (type === "Deadline") {
       eventElement.addEventListener("click", () => {
-        if (userRole === 'student') {
+        if (userRole === "student") {
           window.location.href = `/html/takeQuiz.html?quizID=${id}`;
-        } else if (userRole === 'professor') {
+        } else if (userRole === "professor") {
           window.location.href = `/html/editQuiz.html?quizID=${id}`;
         }
-      })
+      });
     }
     eventElement.innerHTML = `
             <h3>${title}</h3>
@@ -45,7 +45,8 @@ document.addEventListener("DOMContentLoaded", function () {
         data.sort((a, b) => new Date(a.date) - new Date(b.date));
         data.forEach((event) => {
           addEvent(
-            appointmentsContainer,'',
+            appointmentsContainer,
+            "",
             event.title,
             event.date,
             "Appointment",
@@ -65,7 +66,13 @@ document.addEventListener("DOMContentLoaded", function () {
       if (Array.isArray(data)) {
         data.sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
         data.forEach((quiz) => {
-          addEvent(deadlinesContainer, quiz.quizid, quiz.title, quiz.deadline, "Deadline");
+          addEvent(
+            deadlinesContainer,
+            quiz.quizid,
+            quiz.title,
+            quiz.deadline,
+            "Deadline",
+          );
         });
       } else {
         console.error("Invalid data format for quizzes");

@@ -105,7 +105,7 @@ function populateQuestion(questionElement, questionData) {
   ) {
     const numOfOptions = questionElement.querySelector(".num-of-options");
     numOfOptions.value = questionData.options.length;
-    
+
     updateCorrectOptions(numOfOptions);
 
     questionData.options.forEach((option, index) => {
@@ -255,7 +255,7 @@ function updateCorrectOptions(input) {
   if (answerDropdown) {
     answerDropdown.innerHTML = "";
   }
-  
+
   for (let i = 0; i < numberOfOptions; i++) {
     const option = document.createElement("div");
     option.innerHTML = `
