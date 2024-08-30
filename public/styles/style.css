@@ -41,10 +41,12 @@ body {
   transition:
     background-color 0.3s ease,
     color 0.3s ease;
-  background-repeat: repeat;
+  background-repeat: no-repeat;
   background-size: cover;
+  background-position: center center;
   margin: 0;
 }
+
 
 .logo {
   font-size: 24px;
@@ -392,7 +394,7 @@ td {
 .faq-section h2 {
   font-size: 22px;
   margin-bottom: 15px;
-  color: var(--primary-color);
+  color: var(--text-color);
   font-weight: bold;
   text-align: center;
 }
@@ -413,7 +415,7 @@ td {
 }
 
 .faq-section strong {
-  color: var(--secondary-color);
+  color: var(--text-color);
 }
 
 /* Responsive adjustments */
