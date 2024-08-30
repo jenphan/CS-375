@@ -7,9 +7,9 @@
 }
 
 .title {
-  font-size: 35px;
+  font-size: 36px;
   font-weight: bold;
-  margin-top: 30px;
+  margin-top: 35px;
   margin-bottom: 20px;
   text-align: center;
 }
@@ -26,7 +26,7 @@ textarea {
 
 /* made wider than normal container */
 .post-container {
-  margin-top: 10%;
+  margin-top: 2%;
   width: 700px;
   padding: 20px;
   background-color: rgba(255, 255, 255, 0.6);
