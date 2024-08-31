@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BlueBoard - Professor</title>
+    <link href="../styles/style.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/views.css" rel="stylesheet" type="text/css" />
+    <link href="../styles/cards.css" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Check if the user is logged in by looking for a specific cookie
+        const userCookie = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("user="));
+
+        // If the cookie is not found, redirect to the home page
+        if (!userCookie) {
+          window.location.href = "/";
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <header>
+      <a href="/auth/home" class="logo">Blueboard</a>
+      <nav class="nav-bar">
+        <ul class="nav-center">
+          <li><a href="./calendar.html">Calendar</a></li>
+          <li><a href="./quizzes.html">Quizzes</a></li>
+          <li><a id="grade-link" href="#">Grades</a></li>
+          <li><a href="./announcements.html">Announcements</a></li>
+        </ul>
+        <ul class="nav-right">
+          <li>
+            <b>
+              <label class="theme-switch">
+                <input type="checkbox" id="theme-toggle" />
+                <span class="slider"></span>
+              </label>
+            </b>
+          </li>
+          <li>
+            <button id="logout-button" style="display: none">Logout</button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="main-content">
+      <div class="title">
+        <h1 id="course-title">Course Title</h1>
+        
+      </div>
+      <div id="container">
+        <!-- Courses details will be listed here -->
+      </div>
+    </div>
+
+    <script src="../script/app.js"></script>
+    <script src="../script/dark-mode.js"></script>
+    <script src="../script/logout.js"></script>
+    <script src="../script/navbar.js"></script>
+    <script src="../script/courseDetails.js"></script>
+  </body>
+</html>

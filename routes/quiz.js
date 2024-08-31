@@ -30,4 +30,17 @@ router.get("/getUserByID/:userID", (req, res) => {
     });
 });
 
+router.get("/get-all-by-course/:courseID", async (req, res) => {
+  const courseID = req.params.courseID;
+  pool
+    .query(`SELECT * FROM quizzes WHERE course = $1`, [courseID])
+    .then((result) => {
+      return res.status(200).json(result.rows);
+    })
+    .catch((error) => {
+      console.error("Error querying database", error);
+      return res.status(500).json({ error: "Failed to fetch quiz data" });
+    });
+})
+
 module.exports = router;

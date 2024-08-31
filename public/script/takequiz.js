@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       const quiz = await response.json();
       confirmStartQuiz(quiz, quiz.quiz);
     } else if (response.status === 404) {
+      alert("You cannot access this quiz! Please contact your professor if you believe this is an error.")
       window.history.back();
     }
   } catch (error) {

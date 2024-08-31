@@ -19,10 +19,11 @@ document.addEventListener("DOMContentLoaded", function () {
     .then((data) => {
       if (data.courses.length > 0) {
         for (let i = 0; i < data.courses.length; i++) {
+          let course = data.courses[i];
           let obj = {
             title: data.courses[i].title,
             image: "../picture/dataStructures.jpg",
-            link: "../html/activeCourses/dataStructures.html",
+            link: `../html/course.html?courseID=${course.crn}`,
           };
           courses.push(obj);
         }
@@ -36,10 +37,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   //console.log("courses (outside function):" + courses);
 
-  let courseList = document.getElementById("courseList");
-
   function displayCourses() {
-    //console.log("courses (inside function):" + courses);
+    let courseList = document.getElementById("courseList");
+
     courses.forEach((course) => {
       let courseBox = document.createElement("div");
       courseBox.className = "course-box";

@@ -1,4 +1,4 @@
-let { addCourse, enroll, getCourses } = require("../app/query");
+let { addCourse, enroll, getCourses, getCourse } = require("../app/query");
 
 const generateRandomCode = () => {
   return Math.random().toString(36).substring(2, 8).toUpperCase();
@@ -42,4 +42,8 @@ const studentEnroll = async (req, res) => {
   enroll(req.session.user.userid, code, req, res);
 };
 
-module.exports = { createCourse, courseList, studentEnroll };
+const getCourseDetails = async (req, res) => {
+  getCourse(req.body.id, req, res);
+}
+
+module.exports = { createCourse, courseList, studentEnroll, getCourseDetails };

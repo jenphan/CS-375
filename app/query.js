@@ -261,15 +261,16 @@ function getUsers(role = 0) {
   return;
 }
 
-function getCourse(crn) {
+function getCourse(crn, req, res) {
   pool
     .query(`SELECT * FROM courses WHERE crn = $1`, [crn])
     .then((result) => {
-      console.log(result.rows);
-      return result.rows;
+      //console.log(result.rows);
+      return res.status(200).json({ course: result.rows[0] });
     })
     .catch((error) => {
-      console.log("course not found");
+      console.log("course retrieval error");
+      return res.status(500).json({ message: "Course retrieval error" });
     });
 }
 
