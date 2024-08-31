@@ -75,7 +75,7 @@ Blueboard is an interactive online learning platform designed for both students 
   - **Calendar**: Manage appointments and deadlines.
 
 ## Deployment
-The project is configured for deployment on Fly.io. Ensure you have the correct environment variables and PostgreSQL configuration set up before deploying.
+The project is configured for deployment on Fly.io. Please visit our website here `https://cs375blueboard.fly.dev/`.
 
 ## Contact
 We would like to extend our gratitude to Professor Galen Long and our course assistant Matt Protacio for guiding us through this project and providing valuable feedback.
