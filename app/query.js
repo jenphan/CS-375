@@ -280,7 +280,11 @@ function getCourses(userid, req, res) {
   console.log(userid);
   pool
     .query(
-      `SELECT title FROM courses JOIN enrollment ON crn = coursecrn WHERE usrid = $1`,
+      `
+      SELECT c.title, c.crn
+      FROM courses c
+      JOIN enrollment e ON c.crn = e.courseCRN
+      WHERE usrid = $1`,
       [userid],
     )
     .then((result) => {

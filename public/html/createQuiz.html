@@ -22,6 +22,26 @@
     </script>
   </head>
   <body>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Retrieve and log the cookie via js
+        //console.log(document.cookie);
+        const userCookie = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("user="));
+        //console.log("User Cookie:", userCookie);
+
+        if (userCookie) {
+          const user = JSON.parse(decodeURIComponent(userCookie.split("=")[1]));
+          if (user.role !== "professor") {
+            window.location.href = "/";
+          }
+          // If user cookie is missing, redirect to the home page
+        } else {
+          window.location.href = "/"; // Redirect to login page if not logged in
+        }
+      });
+    </script>
     <header>
       <a href="/auth/home" class="logo">Blueboard</a>
       <nav class="nav-bar">
@@ -56,7 +76,14 @@
       <div id="quizTitle">
         <label for="title">Quiz Title<span style="color: red">*</span></label>
         <input type="text" id="title" name="title" required />
+        <div id="courseSelect">
+          <label for="course">Course<span style="color: red">*</span></label>
+          <select id="course" required>
+            <option value="" disabled selected>Select a Course</option>
+          </select>
+        </div>
       </div>
+      
       <div id="quizDetails">
         <label for="deadline">Deadline<span style="color: red">*</span></label>
         <input type="datetime-local" id="deadline" name="deadline" required />

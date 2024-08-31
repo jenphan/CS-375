@@ -1,4 +1,5 @@
-let professorId;
+let userId;
+let userRole;
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     const userCookie = document.cookie
@@ -6,12 +7,34 @@ document.addEventListener("DOMContentLoaded", async () => {
       .find((row) => row.startsWith("user="));
     if (userCookie) {
       const decodedCookie = decodeURIComponent(userCookie.split("=")[1]);
-      professorId = JSON.parse(decodedCookie).userid;
+      const userData = JSON.parse(decodedCookie);
+      userRole = userData.role;
+      userId = userData.userid;
     } else {
       console.log("Not logged in – could not extract user id from cookie");
     }
   } catch (error) {
     console.log("Error while extracting user id from cookie", error);
+  }
+
+  if (userRole === "professor") {
+    try {
+      const response = await fetch("/course/current-courses", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId }),
+      });
+      if (response.ok) {
+        const courses = await response.json();
+        populateCourseDropDown(courses.courses);
+      } else {
+        console.log("Failed to fetch courses");
+      }
+    } catch (error) {
+      console.log("Error fetching courses", error);
+    }
   }
 
   const questionContainer = document.getElementById("questionsContainer");
@@ -337,6 +360,7 @@ async function createQuiz() {
 
 function createQuizData() {
   const quizTitle = document.getElementById("title").value.trim();
+  const selectedCourse = document.getElementById("course").value.trim();
   const quizDeadline = document.getElementById("deadline").value.trim();
   const timerHours = document.getElementById("timer-hours").value.trim();
   const timerMinutes = document.getElementById("timer-minutes").value.trim();
@@ -440,8 +464,8 @@ function createQuizData() {
 
   return {
     title: quizTitle,
-    professorId: professorId,
-    course: 11111,
+    professorId: userId,
+    course: selectedCourse,
     deadline: quizDeadline || null,
     timer: totalSeconds || null,
     questions: JSON.stringify(quiz),
@@ -535,4 +559,14 @@ function validateDropdown(question) {
   }
 
   return numberOfOptions > 0 && valid;
+}
+
+function populateCourseDropDown(courses) {
+  const courseSelect = document.getElementById("course");
+  courses.forEach(course => {
+    const option = document.createElement("option");
+    option.value = course.crn;
+    option.textContent = `${course.title}`;
+    courseSelect.appendChild(option);
+  })
 }
