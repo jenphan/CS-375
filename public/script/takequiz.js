@@ -1,7 +1,7 @@
 const url = new URLSearchParams(window.location.search);
 const quizID = url.get("quizID");
 let studentId;
-
+let imageid = null;
 document.addEventListener("DOMContentLoaded", async () => {
   try {
     const userCookie = document.cookie
@@ -105,7 +105,8 @@ function generateQuizForm(quiz, quizQuestions) {
                 </select>
             `;
     } else if (question.type === "file-upload") {
-      questionElement.innerHTML += `<input type="file" name="question-${index}">`;
+      questionElement.innerHTML += `<input type="file" name="image" required>`
+      
     }
 
     quizForm.appendChild(questionElement);
@@ -174,6 +175,27 @@ async function endQuiz() {
     if (!quizData[key]) {
       quizData[key] = [];
     }
+    if(key  == 'image'){
+      const formData = new FormData();
+      formData.append('image', value);
+      formData.append('id', quizID);
+      try {
+        const response = await fetch('/upload', {
+            method: 'POST',
+            body: formData,
+        });
+        if (response.ok) {
+          console.log('ok');
+          const result = await response.json()
+          imageid = result.imageid;
+        } else {
+            console.log('fail');
+        }
+      } catch (error) {
+          console.error('Error:', error);
+      }
+      continue;
+    }
     quizData[key].push(value);
   }
 
@@ -182,6 +204,7 @@ async function endQuiz() {
     submission: JSON.stringify(quizData),
     quizVersion: quizID,
     submissionDate: new Date(),
+    imageid: imageid
   };
 
   try {

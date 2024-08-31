@@ -27,6 +27,7 @@ window.addEventListener("load", async () => {
       createGradingForm(
         question,
         submission[0].submission[`question-${index}`],
+        submission[0].imageid,
         index,
       );
     });
@@ -121,7 +122,7 @@ submit.addEventListener("click", () => {
     });
 });
 
-function createGradingForm(question, response, index) {
+async function createGradingForm(question, response, imageid, index) {
   const form = document.getElementById("gradingForm");
   const questionDiv = document.createElement("div");
   questionDiv.className = "question";
@@ -133,13 +134,22 @@ function createGradingForm(question, response, index) {
   questionLabel.textContent = `Question ${index + 1}: ${question.content}`;
   questionDiv.appendChild(questionLabel);
 
-  const responseTextarea = document.createElement("textarea");
-  responseTextarea.value = response;
-  responseTextarea.readOnly = true;
-  questionDiv.appendChild(responseTextarea);
+  if (imageid != null) {
+      const image = document.createElement("img");
+      image.src = `../image/${imageid}`; 
+      image.alt = `Uploaded Image for Question ${index + 1}`;
+      image.style.maxWidth = "100%";
+      image.style.maxHeight = "300px"; 
+      questionDiv.appendChild(image);
+  } else {
+      const responseTextarea = document.createElement("textarea");
+      responseTextarea.value = response;
+      responseTextarea.readOnly = true;
+      questionDiv.appendChild(responseTextarea);
+  }
 
   const gradeLabel = document.createElement("label");
-  gradeLabel.textContent = "";
+  gradeLabel.textContent = "Grade:";
   questionDiv.appendChild(gradeLabel);
 
   const gradeInput = document.createElement("input");
@@ -152,3 +162,4 @@ function createGradingForm(question, response, index) {
 
   form.appendChild(questionDiv);
 }
+
