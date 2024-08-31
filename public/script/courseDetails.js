@@ -15,6 +15,13 @@ document.addEventListener("DOMContentLoaded", async () => {
       const course = courseResponse.course;
       if (course.title) {
         document.getElementById("course-title").textContent = course.title;
+
+        const userCookie = document.cookie
+          .split("; ")
+          .find((row) => row.startsWith("user="))
+        if (userCookie.includes("professor")) {
+          document.getElementById("course-code").textContent = "Code: " + course.registrationcode;
+        }
       }
       await fetchQuizzes(courseID);
     } else {

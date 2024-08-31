@@ -6,3 +6,4 @@ package.json
 questions.txt
 routes/quiz.json
 routes/submit.json
+package-lock.json
