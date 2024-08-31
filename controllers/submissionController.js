@@ -1,7 +1,8 @@
 const { pool } = require("../app/query");
 
 const submitQuiz = async (req, res) => {
-  const { studentid, submission, quizVersion, submissionDate, imageid } = req.body;
+  const { studentid, submission, quizVersion, submissionDate, imageid } =
+    req.body;
   try {
     await pool.query(
       "INSERT INTO submissions (student, submission, quizversion, submissiondate, grade, imageid) VALUES ($1, $2, $3, $4, $5, $6)",

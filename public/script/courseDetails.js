@@ -1,33 +1,33 @@
 document.addEventListener("DOMContentLoaded", async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const courseID = urlParams.get('courseID');
+  const urlParams = new URLSearchParams(window.location.search);
+  const courseID = urlParams.get("courseID");
 
-    try {
-        const response = await fetch("/course/get-course-details", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ id: courseID }),
-        });
-        if (response.ok) {
-          const courseResponse = await response.json();
-          const course = courseResponse.course;
-          if (course.title) {
-            document.getElementById('course-title').textContent = course.title;
-          }
-          await fetchQuizzes(courseID);
-        } else {
-          console.log("Failed to fetch courses");
-        }
-    } catch (error) {
-    console.log("Error fetching courses", error);
+  try {
+    const response = await fetch("/course/get-course-details", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: courseID }),
+    });
+    if (response.ok) {
+      const courseResponse = await response.json();
+      const course = courseResponse.course;
+      if (course.title) {
+        document.getElementById("course-title").textContent = course.title;
+      }
+      await fetchQuizzes(courseID);
+    } else {
+      console.log("Failed to fetch courses");
     }
-})
+  } catch (error) {
+    console.log("Error fetching courses", error);
+  }
+});
 
 async function fetchQuizzes(courseID) {
   try {
-    const response = await fetch (`/quiz/get-all-by-course/${courseID}`);
+    const response = await fetch(`/quiz/get-all-by-course/${courseID}`);
     if (response.ok) {
       const quizzes = await response.json();
       displayQuizzes(quizzes);
@@ -36,13 +36,13 @@ async function fetchQuizzes(courseID) {
     }
   } catch (error) {
     console.log("Error fetching quizzes", error);
-  } 
+  }
 }
 
 function displayQuizzes(quizzes) {
   const container = document.getElementById("container");
   console.log(quizzes);
-  quizzes.forEach(quiz => {
+  quizzes.forEach((quiz) => {
     const card = document.createElement("div");
     card.className = "card";
 
@@ -91,7 +91,7 @@ function displayQuizzes(quizzes) {
 
     // append complete card to container
     container.appendChild(card);
-  })
+  });
 
   if (quizzes.length === 0) {
     const emptyText = document.createElement("p");

@@ -563,10 +563,10 @@ function validateDropdown(question) {
 
 function populateCourseDropDown(courses) {
   const courseSelect = document.getElementById("course");
-  courses.forEach(course => {
+  courses.forEach((course) => {
     const option = document.createElement("option");
     option.value = course.crn;
     option.textContent = `${course.title}`;
     courseSelect.appendChild(option);
-  })
+  });
 }

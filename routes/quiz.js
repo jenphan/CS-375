@@ -41,6 +41,6 @@ router.get("/get-all-by-course/:courseID", async (req, res) => {
       console.error("Error querying database", error);
       return res.status(500).json({ error: "Failed to fetch quiz data" });
     });
-})
+});
 
 module.exports = router;

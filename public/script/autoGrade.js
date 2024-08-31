@@ -135,17 +135,17 @@ async function createGradingForm(question, response, imageid, index) {
   questionDiv.appendChild(questionLabel);
 
   if (imageid != null) {
-      const image = document.createElement("img");
-      image.src = `../image/${imageid}`; 
-      image.alt = `Uploaded Image for Question ${index + 1}`;
-      image.style.maxWidth = "100%";
-      image.style.maxHeight = "300px"; 
-      questionDiv.appendChild(image);
+    const image = document.createElement("img");
+    image.src = `../image/${imageid}`;
+    image.alt = `Uploaded Image for Question ${index + 1}`;
+    image.style.maxWidth = "100%";
+    image.style.maxHeight = "300px";
+    questionDiv.appendChild(image);
   } else {
-      const responseTextarea = document.createElement("textarea");
-      responseTextarea.value = response;
-      responseTextarea.readOnly = true;
-      questionDiv.appendChild(responseTextarea);
+    const responseTextarea = document.createElement("textarea");
+    responseTextarea.value = response;
+    responseTextarea.readOnly = true;
+    questionDiv.appendChild(responseTextarea);
   }
 
   const gradeLabel = document.createElement("label");
@@ -162,4 +162,3 @@ async function createGradingForm(question, response, imageid, index) {
 
   form.appendChild(questionDiv);
 }
-

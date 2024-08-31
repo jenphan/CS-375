@@ -44,6 +44,6 @@ const studentEnroll = async (req, res) => {
 
 const getCourseDetails = async (req, res) => {
   getCourse(req.body.id, req, res);
-}
+};
 
 module.exports = { createCourse, courseList, studentEnroll, getCourseDetails };
