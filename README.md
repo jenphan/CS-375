@@ -1,6 +1,6 @@
 # Blueboard
 
-Blueboard is an interactive online learning platform designed for both students and professors. It offers a variety of tools to enhance the learning experience, including quizzes, course materials, discussion forums, and more.
+Blueboard is an interactive online learning platform designed for both students and professors. It offers a variety of tools to enhance the learning experience, including quizzes, course materials, and more.
 
 ## URL to Deployed Public Site
 `https://cs375blueboard.fly.dev/`
