@@ -1,6 +1,33 @@
-let userId;
-let userRole;
+let receivedCourse = false;
 document.addEventListener("DOMContentLoaded", async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const courseID = urlParams.get("courseID");
+
+  if (courseID) {
+    fetch(`/course/get-course-details`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: courseID }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const courseSelect = document.getElementById("course");
+        if (data.course && courseSelect) {
+          const option = document.createElement("option");
+          option.value = courseID;
+          option.textContent = data.course.title;
+          courseSelect.appendChild(option);
+          courseSelect.value = courseID;
+          receivedCourse = true;
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching cousrse details:", error);
+      });
+  }
+
   try {
     const userCookie = document.cookie
       .split("; ")
@@ -61,6 +88,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   });
 });
 
+let userId;
+let userRole;
 let questionCount = 0;
 let draggedElement = null;
 
@@ -562,11 +591,13 @@ function validateDropdown(question) {
 }
 
 function populateCourseDropDown(courses) {
-  const courseSelect = document.getElementById("course");
-  courses.forEach((course) => {
-    const option = document.createElement("option");
-    option.value = course.crn;
-    option.textContent = `${course.title}`;
-    courseSelect.appendChild(option);
-  });
+  if (!receivedCourse) {
+    const courseSelect = document.getElementById("course");
+    courses.forEach((course) => {
+      const option = document.createElement("option");
+      option.value = course.crn;
+      option.textContent = `${course.title}`;
+      courseSelect.appendChild(option);
+    });
+  }
 }

@@ -47,7 +47,11 @@ function confirmStartQuiz(quiz, quizInfo) {
   const modal = document.getElementById("confirm-modal");
   const modalText = document.getElementById("confirm-modal-text");
   modalText.innerHTML += `<h1>Start Quiz?</h1>`;
-  modalText.innerHTML += `<p>You are about to start the <strong>${quiz.quiztitle}</strong> quiz.<br>You will have <strong>${convertSeconds(quiz.timer)}</strong> to complete ${quizInfo.length} question(s).</p><br>`;
+
+  modalText.innerHTML += `<p>You are about to start the <strong>${quiz.quiztitle}</strong> quiz.</p>`;
+  if (quiz.timer) {
+    modalText.innerHTML += `<br><p>You will have <strong>${convertSeconds(quiz.timer)}</strong> to complete ${quizInfo.length} question(s).</p><br>`;
+  }
   modal.style.display = "block";
 
   const returnButton = document.getElementById("confirm-return-button");
@@ -63,21 +67,25 @@ function confirmStartQuiz(quiz, quizInfo) {
 }
 
 function generateQuizForm(quiz, quizQuestions) {
-  timer = quiz.timer;
-  timerId = setInterval(tickClock, 1000);
   const quizForm = document.getElementById("quizForm");
   const quizTitle = document.createElement("h1");
   quizTitle.textContent = quiz.quiztitle;
   quizForm.appendChild(quizTitle);
 
-  const timerDiv = document.createElement("div");
-  const timerText = document.createElement("p");
-  timerText.innerHTML = `<strong>Time Left:</strong> <span id="timer">0</span>`;
-  timerDiv.appendChild(timerText);
-  quizForm.appendChild(timerDiv);
+  if (quiz.timer) {
+    timer = quiz.timer;
+    timerId = setInterval(tickClock, 1000);
 
-  timerElement = document.querySelector("#timer");
-  timerElement.textContent = convertSeconds(timer);
+    const timerDiv = document.createElement("div");
+    const timerText = document.createElement("p");
+    timerText.innerHTML = `<strong>Time Left:</strong> <span id="timer">0</span>`;
+    timerDiv.appendChild(timerText);
+
+    quizForm.appendChild(timerDiv);
+
+    timerElement = document.querySelector("#timer");
+    timerElement.textContent = convertSeconds(timer);
+  }
 
   quizQuestions.forEach((question, index) => {
     const questionElement = document.createElement("div");
@@ -138,7 +146,6 @@ function tickClock() {
     timerElement.classList.remove("timer-red");
   }
 
-  const warningDiv = document.getElementById("timer-warning");
   if (timer === 1800 && warningDisplayed !== 1800) {
     displayWarning("30 minutes remaining!");
     warningDisplayed = 1800;

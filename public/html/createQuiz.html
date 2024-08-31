@@ -19,6 +19,10 @@
           window.location.href = "/";
         }
       });
+
+      function goBack() {
+        window.history.back();
+      }
     </script>
   </head>
   <body>
@@ -71,8 +75,14 @@
       <h1>Create Quiz</h1>
       <p>Prepare a quiz for your students</p>
     </div>
+    <div class="button-container">
+      <a href="#">
+        <button type="button" class="button" onClick="goBack()">
+          Return to Previous
+        </button>
+      </a>
+    </div>
     <div id="quizForm">
-      <h1>Quiz Creator</h1>
       <div id="quizTitle">
         <label for="title">Quiz Title<span style="color: red">*</span></label>
         <input type="text" id="title" name="title" required />

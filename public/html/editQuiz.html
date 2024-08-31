@@ -70,11 +70,19 @@
         </ul>
       </nav>
     </header>
-    <div id="quizForm">
+    <div class="banner">
       <h1>Quiz Editor</h1>
+    </div>
+    <div id="quizForm">
       <div id="quizTitle">
         <label for="title">Quiz Title<span style="color: red">*</span></label>
         <input type="text" id="title" name="title" required />
+        <div id="courseSelect" style="display: none">
+          <label for="course">Course<span style="color: red">*</span></label>
+          <select id="course" required>
+            <option value="" disabled selected>Select a Course</option>
+          </select>
+        </div>
       </div>
       <div id="quizDetails">
         <label for="deadline">Deadline<span style="color: red">*</span></label>

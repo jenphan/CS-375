@@ -80,25 +80,21 @@ function displayQuizzes(quizzes, submissions) {
     const userCookie = document.cookie
       .split("; ")
       .find((row) => row.startsWith("user="));
-    if (userCookie.includes("professor")) {
-      const editButton = document.createElement("button");
-      editButton.textContent = "Edit";
-      editButton.className = "small-button";
-      editButton.addEventListener("click", (event) => {
-        event.stopPropagation();
+    if (userCookie) {
+      const decodedCookie = decodeURIComponent(userCookie.split("=")[1]);
+      const userData = JSON.parse(decodedCookie);
+      userRole = userData.role;
+      userId = userData.userid;
+    }
+
+    if (userRole == "professor") {
+      card.addEventListener("click", () => {
         window.location.href = `editQuiz.html?quizID=${quiz.quizid}`;
       });
-      card.appendChild(editButton);
-
-      // create and append view submissions button
-      const viewSubmissionsButton = document.createElement("button");
-      viewSubmissionsButton.textContent = "Submissions";
-      viewSubmissionsButton.className = "small-button";
-      viewSubmissionsButton.addEventListener("click", (event) => {
-        event.stopPropagation();
-        window.location.href = `submissions.html?quizID=${quiz.quizid}`;
+    } else if (userRole == "student") {
+      card.addEventListener("click", () => {
+        window.location.href = `/html/takeQuiz.html?quizID=${quiz.quizid}`;
       });
-      card.append(viewSubmissionsButton);
     }
 
     // append complete card to container
