@@ -13,7 +13,14 @@ const createCourse = require("../routes/course");
 const calendarRoutes = require("../routes/calendar");
 const gradeRoutes = require("../routes/grades");
 
+const multer = require('multer');
+
+// Configure multer for file uploads
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
 const ensureAuthenticated = require("../middleware/authMiddleware"); // Import the auth middleware
+const { pool } = require("./query");
 
 let app = express();
 let port = 3000;
@@ -57,6 +64,48 @@ app.use("/submission", ensureAuthenticated, submissionRoutes); // Protecting sub
 app.use("/course", ensureAuthenticated, createCourse); // Protecting course routes
 app.use("/calendar", ensureAuthenticated, calendarRoutes); // Protecting calendar routes
 app.use("/grades", ensureAuthenticated, gradeRoutes);
+
+app.post('/upload', upload.single('image'), async (req, res) => {
+  const imageName = req.file.originalname;
+  const imageData = req.file.buffer;
+
+
+  try {
+      const result = await pool.query(
+          'INSERT INTO images (name, image) VALUES ($1, $2) RETURNING id',
+          [imageName, imageData]
+      );
+      const id = await pool.query(
+        'SELECT COUNT(id) FROM images'
+      )
+      res.status(200).json({imageid: id.rows[0].count});
+  } catch (err) {
+      console.error(err);
+      res.status(500).json();
+  }
+});
+
+app.get('/image/:id', async (req, res) => {
+  const imageId = req.params.id;
+  try {
+      const result = await pool.query('SELECT image FROM images WHERE id = $1', [imageId]);
+
+      if (result.rows.length > 0) {
+          const image = result.rows[0].image;
+          res.writeHead(200, {
+              'Content-Type': 'image/png',
+              'Content-Length': image.length,
+          });
+          res.end(image);
+      } else {
+          res.status(404).json();
+      }
+  } catch (err) {
+      console.error(err);
+      res.status(500).json();
+  }
+});
+
 
 app.use((err, req, res, next) => {
   console.error(err.stack);

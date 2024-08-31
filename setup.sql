@@ -52,7 +52,8 @@ CREATE TABLE submissions (
     quizVersion INT REFERENCES quizzes(quizID),
     submissionDate TIMESTAMPTZ,
     grade INT,
-    comment VARCHAR(255)
+    comment VARCHAR(255),
+    imageID INT
 
 );
 
@@ -60,4 +61,10 @@ CREATE TABLE appointments (
     id SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     date TIMESTAMPTZ NOT NULL
+);
+
+CREATE TABLE images (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    image BYTEA NOT NULL
 );
